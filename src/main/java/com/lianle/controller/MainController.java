@@ -4,7 +4,9 @@ import com.lianle.entity.User;
 import com.lianle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -21,6 +23,12 @@ public class MainController {
 
     @Autowired
     private UserService userService;
+
+    @RequestMapping(method = RequestMethod.GET, value = "index")
+    public String home(ModelMap model) {
+        model.addAttribute("message", "Hello world!aa");
+        return "index";
+    }
 
     @RequestMapping("")
     public String home(){
