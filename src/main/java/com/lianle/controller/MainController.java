@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lianle on 2/13 0013.
@@ -27,7 +25,7 @@ public class MainController {
     @RequestMapping(method = RequestMethod.GET, value = "index")
     public String home(ModelMap model) {
         model.addAttribute("message", "Hello world!aa");
-        return "index";
+        return "home";
     }
 
     @RequestMapping("")
@@ -40,7 +38,7 @@ public class MainController {
         u.setUserName("Fawofolo");
         us.add(u);
         userService.saveUsers(us);
-        return "index";
+        return "home";
     }
 
     @RequestMapping("save")
@@ -49,7 +47,7 @@ public class MainController {
         user.setId(2);
         user.setUserName("haha");
         userService.save(user);
-        return "index";
+        return "home";
     }
 
     @RequestMapping("json")
