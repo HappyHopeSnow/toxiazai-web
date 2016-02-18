@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" name="middlewareLogConfig" package="">
+    <Properties>
+        <Property name="LOG_HOME">${log.path}</Property>
+        <Property name="patternlayout">
+            %-d{yyyy-MM-dd HH:mm:ss}[ %t:%r ] - [%-5p] %c-%M:%L - %m%n%throwable{full}
+        </Property>
+        <Property name="webfilename">${LOG_HOME}/web_info.log</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="trace">
+            <PatternLayout pattern="${patternlayout}" />
+        </Console>
+        <RollingFile name="WebMessage" fileName="${webfilename}" filePattern="${LOG_HOME}/$${date:yyyyMMddHHmm}/web_info-%d{yyyyMMddHHmm}-%i.log.gz">
+            <PatternLayout pattern="${patternlayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <root level="debug">
+            <appender-ref ref="Console"/>
+        </root>
+        <AsyncLogger name="org.springframework" level="info">
+            <AppenderRef ref="Console" />
+        </AsyncLogger>
+
+        <AsyncLogger name="com.toxiazai" level="debug">
+            <AppenderRef ref="WebMessage" />
+        </AsyncLogger>
+    </Loggers>
+</Configuration>

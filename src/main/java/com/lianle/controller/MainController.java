@@ -25,7 +25,7 @@ public class MainController {
     @RequestMapping(method = RequestMethod.GET, value = "index")
     public String home(ModelMap model) {
         model.addAttribute("message", "Hello world!aa");
-        return "home";
+        return "index";
     }
 
     @RequestMapping("")
@@ -38,7 +38,7 @@ public class MainController {
         u.setUserName("Fawofolo");
         us.add(u);
         userService.saveUsers(us);
-        return "home";
+        return "index";
     }
 
     @RequestMapping("save")
@@ -54,5 +54,42 @@ public class MainController {
     @ResponseBody
     public List<User> json(){
         return userService.getAllUsernames();
+    }
+
+    /******************************************以下尚未启用*****************************************/
+
+    @RequestMapping(method = RequestMethod.GET, value = "archives")
+    public String archives(ModelMap model) {
+        return "archives";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "cinema")
+    public String cinema(ModelMap model) {
+        model.addAttribute("message", "Hello world!aa");
+        return "cinema";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "contact")
+    public String contact(ModelMap model) {
+        model.addAttribute("message", "Hello world!aa");
+        return "contact";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "magazine")
+    public String magazine(ModelMap model) {
+        model.addAttribute("message", "Hello world!aa");
+        return "magazine";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "single")
+    public String single(ModelMap model) {
+        model.addAttribute("message", "Hello world!aa");
+        return "single";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "singlepage")
+    public String singlepage(ModelMap model) {
+        model.addAttribute("message", "Hello world!aa");
+        return "singlepage";
     }
 }
