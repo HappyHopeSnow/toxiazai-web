@@ -1,5 +1,6 @@
 package com.lianle.controller;
 
+import com.lianle.entity.Film;
 import com.lianle.entity.User;
 import com.lianle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,14 @@ public class MainController {
 
     @RequestMapping("")
     public String home(){
-        List<User> us = new ArrayList<User>();
-        User u = new User();
-        u.setUserName("MarK");
-        us.add(u);
-        u = new User();
-        u.setUserName("Fawofolo");
-        us.add(u);
-        userService.saveUsers(us);
+//        List<User> us = new ArrayList<User>();
+//        User u = new User();
+//        u.setUserName("MarK");
+//        us.add(u);
+//        u = new User();
+//        u.setUserName("Fawofolo");
+//        us.add(u);
+//        userService.saveUsers(us);
         return "index";
     }
 
@@ -55,6 +56,16 @@ public class MainController {
     public List<User> json(){
         return userService.getAllUsernames();
     }
+
+    /************************************抓取测试start*************************************************/
+    @RequestMapping("curl")
+    @ResponseBody
+    public Film curl(){
+        Film film = new Film();
+
+        return film;
+    }
+    /************************************抓取测试end*************************************************/
 
     /******************************************以下尚未启用*****************************************/
 
