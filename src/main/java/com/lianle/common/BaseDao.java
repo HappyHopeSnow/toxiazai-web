@@ -32,8 +32,8 @@ import org.springframework.jdbc.core.RowMapper;
 public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
 
     @Autowired
-    private SessionFactory sessionFactory;
-    protected Class<T> entityClass;
+    SessionFactory sessionFactory;
+    public Class<T> entityClass;
 
     public BaseDao() {
 

@@ -62,6 +62,8 @@ public class MainController {
     @ResponseBody
     public Film curl(){
         Film film = new Film();
+        film.setName("lianle");
+        film.setFormat("ff");
 
         return film;
     }

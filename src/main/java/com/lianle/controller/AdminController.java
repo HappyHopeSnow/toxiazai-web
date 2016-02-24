@@ -1,9 +1,12 @@
 package com.lianle.controller;
 
+import com.lianle.entity.Film;
+import com.lianle.service.FilmService;
 import com.lianle.utils.JUtils.base.RegexUtils;
 import com.lianle.utils.JUtils.file.FileUtils;
 import com.lianle.utils.http.exception.HttpProcessException;
 import com.lianle.utils.http.httpclient.HttpClientUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,11 +31,45 @@ public class AdminController {
 
     private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 
+    @Autowired
+    FilmService filmService;
+
     @RequestMapping(method = RequestMethod.GET, value = "")
     public void doWork(){
+        Film film = new Film();
+        /*
+        * id BIGINT NOT NULL AUTO_INCREMENT,
+        uid BIGINT NOT NULL default 0, -- 上传者
+        vname varchar(128) not null default '', -- 名称
+        key_word varchar(512) not null default '', -- 关键字 名字+导演+演员+类型+简介
+        format_id BIGINT NOT NULL default 0, -- 电影格式id【BD-720-MKV】 -- sub
+        format varchar(32) not null default '', -- 电影格式【BD-720-MKV】 -- sub
+        captions_type varchar(64) not null default '', -- 电影字幕【国粤双语中字】
+        score float not null default 0, -- 评价分数【6.1】
+        size varchar(16) not null default '', -- 大小【1.3G】
+        screen_year_id BIGINT NOT NULL default 0, -- 上映年份id【2015】 -- sub
+        screen_year varchar(16) not null default '', -- 上映年份【2015】
+        down_model varchar(32) not null default '', -- 下载方式【BT下载】
+        cover_id BIGINT NOT NULL default 0, -- 封面id【BT下载】 -- sub
+        cover_name varchar(128) not null default '', -- 封面名称【BT下载】
+        class_id BIGINT not null default 0, -- 类型id【BT下载】
+        class_name varchar(128) not null default '', -- 类型名称【动作片】
+        director varchar(32) not null default '', -- 导演【】
+        writer varchar(32) not null default '', -- 编剧【】
+        performer varchar(128) not null default '', -- 主演【】
+        country varchar(16) not null default '', -- 制片国家/地区【】
+        language varchar(16) not null default '', -- 语言【】
+        screen_date varchar(16) not null default '', -- 上映日期【】
+        length varchar(16) not null default '', -- 片长【BT下载】
+        other_name varchar(16) not null default '', -- 其他名字【BT下载】
+        description varchar(16) not null default '', -- 简介【BT下载】
+        seed varchar(16) not null default '', -- 链接种子名字
+        createTime DATETIME NOT NULL,
+        modifyTime DATETIME NOT NULL,*/
         System.out.println("--------简单方式调用（默认post）--------");
         //调用链接，保存文件
         String url = "http://5280bt.com/3761.html";
+        LOGGER.info("The URL is [" + url + "]");
         //访问url
         String result = postUrl(url);
 
@@ -43,6 +80,11 @@ public class AdminController {
         /**进行存储操作**/
         //正则匹配,并保存电影基本信息
         String filmName = mathFilmName(result);
+        LOGGER.info("After Save The Film Name is[" + fileName + "]");
+        film.setName(filmName);
+        film.setCaptions_type("test");
+        filmService.save(film);
+        System.out.println("After Save the Film, filmName is[" + fileName + "]");
 
         //5.&&&&根据名称进行分类
         //todo
