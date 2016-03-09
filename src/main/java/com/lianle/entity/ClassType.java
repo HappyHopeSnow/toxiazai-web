@@ -13,12 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 @Entity
-@Table(name = "class")
-public class Class implements Serializable {
+@Table(name = "class_type")
+public class ClassType implements Serializable {
 
 
     private Long id;
-    private String cover_name;
+    private String class_name;
 
 
     @Id
@@ -32,13 +32,13 @@ public class Class implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "cover_name")
-    public String getCover_name() {
-        return cover_name;
+    @Column(name = "class_name")
+    public String getClass_name() {
+        return class_name;
     }
 
-    public void setCover_name(String cover_name) {
-        this.cover_name = cover_name;
+    public void setClass_name(String class_name) {
+        this.class_name = class_name;
     }
 
 }

@@ -9,6 +9,13 @@ import java.util.List;
  */
 public interface UserService {
     void save(User user);
-    public void saveUsers(List<User> us);
-    public List<User> getAllUsernames();
+    void saveUsers(List<User> us);
+    List<User> getAllUsernames();
+
+    /**
+     * 得到管理员
+     * @return
+     */
+    User getAdmin();
+
 }

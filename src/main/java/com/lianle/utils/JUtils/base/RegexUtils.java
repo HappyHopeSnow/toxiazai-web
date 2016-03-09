@@ -1,5 +1,7 @@
 package com.lianle.utils.JUtils.base;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -101,7 +103,7 @@ public class RegexUtils {
 	}
 
 	/**
-	 * 简单匹配
+	 * 简单匹配(单个返回)
 	 *
 	 * @param regex 匹配的正则
 	 * @param content 被匹配的内容
@@ -115,6 +117,25 @@ public class RegexUtils {
 		}
 		return null;
 	}
+
+	/**
+	 * 简单匹配(多个返回)
+	 *
+	 * @param regex 匹配的正则
+	 * @param content 被匹配的内容
+	 * @return
+	 */
+	public static List<String> getMore(String regex, String content) {
+		Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
+		Matcher matcher = pattern.matcher(content);
+		List<String> result = new ArrayList<String>();
+		while (matcher.find()) {
+			result.add(matcher.group());
+		}
+		return result;
+	}
+
+
 
 	public static void main(String[] args) {
 		String value = "http://5280bt.com/3761.html";

@@ -45,7 +45,7 @@ public class MainController {
     @RequestMapping("save")
     public String saveUser(){
         User user = new User();
-        user.setId(2);
+        user.setId(2L);
         user.setUserName("haha");
         userService.save(user);
         return "home";

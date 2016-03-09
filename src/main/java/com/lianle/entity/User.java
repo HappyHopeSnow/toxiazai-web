@@ -10,17 +10,17 @@ import java.io.Serializable;
 @Table(name="user")
 public class User implements Serializable {
 
-    private int id;
+    private Long id;
 
     private String userName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

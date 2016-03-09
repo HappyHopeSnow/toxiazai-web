@@ -1532,7 +1532,9 @@ public class HttpClientUtil{
 				logger.debug(body);
 			}
 			EntityUtils.consume(entity);
-		} catch (ParseException | IOException e) {
+		} catch (ParseException e) {
+			throw new HttpProcessException(e);
+		} catch (IOException e){
 			throw new HttpProcessException(e);
 		} finally {
 			close(response);

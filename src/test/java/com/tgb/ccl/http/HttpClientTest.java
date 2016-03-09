@@ -170,7 +170,7 @@ public class HttpClientTest {
 	}
 
 	private static void testTwo() throws Exception {
-		System.out.println("--------简单方式调用（默认post）--------");
+		/*System.out.println("--------简单方式调用（默认post）--------");
 
 		//1.&&&&down下文件
 
@@ -189,7 +189,7 @@ public class HttpClientTest {
 		fileName = "d:\\\\" + fileName + ".html";
 		//保存字符串到文件中
 		FileUtils.createNewFile(fileName, resp);
-		System.out.println("After save file to D:");
+		System.out.println("After save file to D:");*/
 
 //3.&&&&读取文件
 		System.out.println("start to read file !");
@@ -234,6 +234,34 @@ public class HttpClientTest {
 
 		pList = middleResult.split("<p>");
 		System.out.println("plist is \n" + pList);
+
+		String[] bodyResult = pList[1].split("<br />");
+
+		//0-时间
+		String time = bodyResult[0].substring(3, bodyResult[0].length());
+//		film.set
+
+		//1-国别
+		String country =  bodyResult[1].substring(3, bodyResult[1].length());
+
+		//2-分类
+
+		//3-语言
+
+		//4-字幕
+
+		//5-片长
+
+		//6-视频尺寸
+
+		//7-导演
+
+		//8-主演
+
+		//9,10,11,...18主演
+
+		//19-剧情介绍
+
 
 		//获取时间相关属性
 		String paramString = pList[1];

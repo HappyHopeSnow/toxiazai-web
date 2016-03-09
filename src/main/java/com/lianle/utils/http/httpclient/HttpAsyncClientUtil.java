@@ -853,7 +853,9 @@ public class HttpAsyncClientUtil{
 							EntityUtils.consume(entity);
 						}
 					}
-				} catch (ParseException | IOException e) {
+				} catch (ParseException e) {
+					logger.error(e);
+				} catch (IOException e) {
 					logger.error(e);
 				}
 				handler.completed(body);

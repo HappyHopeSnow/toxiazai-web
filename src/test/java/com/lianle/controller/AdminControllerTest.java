@@ -1,3 +1,4 @@
+/*
 package com.lianle.controller;
 
 import com.lianle.entity.Film;
@@ -23,4 +24,4 @@ public class AdminControllerTest extends TestCase {
         filmService.save(film);
         System.out.println("end");
     }
-}
+}*/
