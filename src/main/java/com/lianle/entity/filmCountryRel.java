@@ -14,7 +14,7 @@ import javax.persistence.GenerationType;
 
 @Entity
 @Table(name = "film_country_rel")
-public class filmCountryRel implements Serializable {
+public class FilmCountryRel implements Serializable {
 
 
     private Long id;
