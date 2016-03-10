@@ -77,9 +77,55 @@ public class MainController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "single")
-    public String single(ModelMap model) {
-        model.addAttribute("message", "Hello world!aa");
+    public String single(@RequestParam(value = "id", required = true) long id,
+                         ModelMap model) {
+
+        Film film = filmService.queryById(id);
+        model.addAttribute("film", film);
+
+        PageResults<Film> resultList = filmService.queryByPage(1, 8);
+
+        //排行榜v
+        List<Film> arrayFilms = resultList.getResults();
+
+        //最新上映v
+        List<Film> newFilms = resultList.getResults();
+
+        //最热电影v
+        List<Film> hotFilms =resultList.getResults();
+
+        //猜你喜欢v
+        List<Film> loveFilms = resultList.getResults();
+
+        model.addAttribute("arrayFilms", arrayFilms);
+        model.addAttribute("newFilms", newFilms);
+        model.addAttribute("hotFilms", hotFilms);
+        model.addAttribute("loveFilms", loveFilms);
         return "single";
+    }
+
+    /**
+     * 进入下载页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "singlepage")
+    public String singlepage(@RequestParam(value = "id", required = true) long id,
+                             ModelMap model) {
+        Film film = filmService.queryById(id);
+        model.addAttribute("film", film);
+        return "singlepage";
+    }
+
+    /**
+     * 关于
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "contact")
+    public String contact(ModelMap model) {
+        model.addAttribute("message", "Hello world!");
+        return "contact";
     }
 
     @RequestMapping("")
@@ -122,22 +168,10 @@ public class MainController {
         return "cinema";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "contact")
-    public String contact(ModelMap model) {
-        model.addAttribute("message", "Hello world!aa");
-        return "contact";
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "magazine")
     public String magazine(ModelMap model) {
         model.addAttribute("message", "Hello world!aa");
         return "magazine";
     }
 
-
-    @RequestMapping(method = RequestMethod.GET, value = "singlepage")
-    public String singlepage(ModelMap model) {
-        model.addAttribute("message", "Hello world!aa");
-        return "singlepage";
-    }
 }

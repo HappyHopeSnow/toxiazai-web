@@ -57,6 +57,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>	   
 </head>
 <body>
+#set($URL="http://localhost")
 <!--header-->
 <div class="back">
 	<img src="images/back.png" alt="">
@@ -117,10 +118,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="content">
 	<div class=" content-top">
 		<div class="number ">
-				<img class="img-responsive" src="images/sin.jpg" alt="">
-			<h3 class="page-in">Lorem Ipsum is simply dummy text of the printing </h3>					
-				<p class="page-top">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry.				</p>
+				<img class="img-responsive" style="margin: 0 auto" src="$URL/${film.cover_name}" alt="">
+				<img class="img-responsive" style="margin: 0 auto" src="$URL/${film.pic_1}" alt="">
+				<img class="img-responsive" style="margin: 0 auto" src="$URL/${film.pic_2}" alt="">
+			<h3 class="page-in">[${film.name}][$film.class_name]</h3>
+				<p class="page-top">${film.description}</p>
 		
 		<div class="simply">
 			<div class="story">

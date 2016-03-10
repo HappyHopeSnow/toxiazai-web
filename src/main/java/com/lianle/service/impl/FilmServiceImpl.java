@@ -35,6 +35,15 @@ public class FilmServiceImpl implements FilmService {
         return filmPageResults;
     }
 
+    public Film queryById(long id) {
+        String hql = "FROM Film WHERE id = ?";
+        List<Film> list = dao.getListByHQL(hql, new Object[]{id});
+        if ((list == null) || (list.size() == 0)) {
+            return null;
+        }
+        return list.get(0);
+    }
+
     public List<Film> getAllFilms() {
         String hql = "FROM Film";
         List<Film> list = dao.getListByHQL(hql);

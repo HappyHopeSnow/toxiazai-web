@@ -130,8 +130,8 @@ public class AdminController {
             downLoadTorrent(picUrlList.get(i), picName);
         }
 
-        film.setPic_1(setPicName.get(0));
-        film.setPic_2(setPicName.get(1));
+        film.setPic_1(setPicName.get(1));
+        film.setPic_2(setPicName.get(2));
 
         //获取中间部分,并进行配置相关属性;返回对应演员
         List<Performer> performatsList = processMiddleContent(film, result);

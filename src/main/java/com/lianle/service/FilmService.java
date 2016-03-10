@@ -18,4 +18,11 @@ public interface FilmService {
      * @return
      */
     PageResults<Film> queryByPage(int start, int size);
+
+    /**
+     * 通过主键查询
+     * @param id
+     * @return
+     */
+    Film queryById(long id);
 }

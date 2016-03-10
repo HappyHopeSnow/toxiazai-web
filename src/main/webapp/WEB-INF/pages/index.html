@@ -59,6 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 </head>
 <body>
+#set($URL="http://localhost")
 <!--header-->
 <div class="back">
 	<img src="images/back.png" alt="">
@@ -99,23 +100,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  <input id="mobile_menu" type="checkbox">
 					<ul class="nav">
 						<li><a class="color1" href="index.html">首页</a></li>
-						<li><a href="cinema.html" class="color2">科幻</a></li>
-						<li><a href="magazine.html" class="color3">动作</a></li>
-						<li><a href="archives.html" class="color2">恐怖</a></li>
-						<li><a href="archives.html" class="color3">战争</a></li>
-						<li><a href="archives.html" class="color4">爱情</a></li>
-						<li><a href="archives.html" class="color2">奇幻</a></li>
-						<li><a href="archives.html" class="color3">喜剧</a></li>
-						<li><a href="archives.html" class="color4">爱情</a></li>
-						<li><a href="archives.html" class="color2">动画</a></li>
-						<li><a href="archives.html" class="color3">悬疑</a></li>
-						<li><a href="contact.html" class="color4">关于</a></li>
-						<li class="dropdown"><a href="#" class="color4">关于<span> </span></a>
+						<li><a href="cinema.html" class="color2">最新列表</a></li>
+						<li><a href="magazine.html" class="color3">最热列表</a></li>
+						<li class="dropdown"><a href="#" class="color4">查看<span> </span></a>
 							<ul>
-								<li><a href="cinema.html">喜剧</a></li>
-								<li><a href="magazine.html">爱情</a></li>
+								<li><a href="cinema.html">最新列表</a></li>
+								<li><a href="magazine.html">最热列表</a></li>
 							</ul>
 						</li>
+						<li><a href="archives.html" class="color5">所有分类</a></li>
+						<li><a href="contact.html" class="color6">关于</a></li>
 						<div class="clearfix"></div>
 					</ul>
 				</div>
@@ -145,10 +139,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div id="owl-demo" class="owl-carousel ">
 			#foreach( $recommendFilm in $recommendFilms)
 			<div class="item g1">
-				<a href="single.html"><img class="lazyOwl " data-src="images/pi.jpg" alt="name"></a>
+				<a href="single.html?id=${recommendFilm.id}">
+					<img class="lazyOwl " data-src="$URL/${recommendFilm.cover_name}" alt="name">
+				</a>
 				<div class="caption">
-					<h3 class="cinema"><a href="single.html">$recommendFilm.name</a></h3>
-					<p>$recommendFilm.performer</p>
+					<h3 class="cinema"><a href="single.html?id=${recommendFilm.id}">$recommendFilm.name</a></h3>
+					<p>[$recommendFilm.screen_year][$recommendFilm.down_model][$recommendFilm.captions_type][$recommendFilm.size][$recommendFilm.language][$recommendFilm.format]</p>
 				</div>
 			</div>
 			#end
@@ -165,7 +161,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <b>28</b>
                 <label>FEB</label>
             </div>
-			<h3><a href="single.html">$film.name</a></h3>
+			<h3><a href="single.html?id=$film.id">$film.name</a></h3>
 			<p>$film.description<p>
 			<!---->
     		<div class="span_8">
@@ -176,34 +172,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							    <h2 class="resp-accordion " role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span></h2>
 								<div class="tab-1 resp-tab-content " aria-labelledby="tab_item-0">
 									<div class="facts">
-									    <img src="images/pc.jpg" class="img-responsive" alt="">
+									    <img src="$URL/${film.cover_name}" class="img-responsive" alt="">
 							        </div>
 							     </div>
 							      <h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span></h2>
 								  <div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-1" >
 									<div class="facts">
-									    <img src="images/pc1.jpg" class="img-responsive" alt="">
+									    <img src="$URL/${film.cover_name}" class="img-responsive" alt="">
 							        </div>
 							     </div>
 							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span></h2>
 								  <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
 									<div class="facts">
-									    <img src="images/pc2.jpg" class="img-responsive" alt="">
+									    <img src="$URL/${film.cover_name}" class="img-responsive" alt="">
 							        </div>
 							     </div>
-								<h2 class="resp-accordion" role="tab" aria-controls="tab_item-3"><span class="resp-arrow"></span></h2>
-								<div class="tab-1 resp-tab-content" aria-labelledby="tab_item-3">
-									<div class="facts">
-									    <img src="images/pc3.jpg" class="img-responsive" alt="">
-
-							        </div>
-							    </div>
 							</div>
 							  <ul class="resp-tabs-list">
-						  	    <li class="resp-tab-item resp-tab-active" aria-controls="tab_item-0" role="tab"><span><img src="images/pic.jpg" class="img-responsive" alt=""></span></li>
-							    <li class="resp-tab-item " aria-controls="tab_item-1" role="tab"><span><img src="images/pic1.jpg" class="img-responsive" alt=""></span></li>
-							    <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span><img src="images/pic2.jpg" class="img-responsive" alt=""></span></li>
-								<li class="resp-tab-item" aria-controls="tab_item-3" role="tab"><span><img src="images/pic3.jpg" class="img-responsive" alt=""></span></li>
+							    <li class="resp-tab-item " aria-controls="tab_item-1" role="tab">
+									<span><img src="$URL/${film.pic_1}" class="img-responsive" alt=""></span></li>
+							    <li class="resp-tab-item" aria-controls="tab_item-2" role="tab">
+									<span><img src="$URL/${film.pic_2}" class="img-responsive" alt=""></span></li>
 							    <div class="clearfix"> </div>
 							</ul>
 						</div>
@@ -217,7 +206,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li><span>分类 : <a href="single.html">$film.class_name</a> </span></li>
 					<li><a href="#"><i> </i>5 评论  </a></li>
 				</ul>
-				<a href="single.html" class="more">详情介绍</a>
+				<a href="single.html?id=${film.id}" class="more">详情介绍</a>
 			<div class="clearfix"> </div>
 			</div>
 		</div>
@@ -238,7 +227,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="cd-tabs">
 			<nav>
 				<ul class="cd-tabs-navigation">
-					<li><a data-content="fashion"  href="#0">排行榜 <i> </i></a></li>
+					<li><a data-content="fashion"  href="#0">排行榜<i> </i></a></li>
 					<li><a data-content="cinema" href="#0" class="selected fashion1">最新上映<i> </i></a></li>
 					<li><a data-content="television" href="#0" class="fashion2">最热电影<i> </i></a></li>
 
@@ -251,11 +240,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			#foreach( $arrayFilm in $arrayFilms)
 			<div class="men">
 				<div class="grid-men">
-					<a href="single.html"><img src="images/pp1.jpg" class="img-responsive" alt=""> </a>
+					<a href="single.html?id=${arrayFilm.id}">
+						<img src="$URL/${arrayFilm.cover_name}" class="img-responsive" alt="">
+					</a>
 				</div>
 				<div class="men-grid">
 					<h5><a href="single.html">$arrayFilm.name</a> </h5>
-					<p>$arrayFilm.performer</p>
+					<p>[$arrayFilm.screen_year][$arrayFilm.down_model][$arrayFilm.captions_type][$arrayFilm.size][$arrayFilm.language][$arrayFilm.format]</p>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -269,11 +260,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			#foreach( $newFilm in $newFilms)
 			<div class="men">
 				<div class="grid-men">
-					<a href="single.html"><img src="images/pp.jpg" class="img-responsive" alt=""> </a>
+					<a href="single.html"><img src="$URL/${newFilm.cover_name}" class="img-responsive" alt=""> </a>
 				</div>
 				<div class="men-grid">
-					<h5><a href="single.html">$newFilm.name</a></h5>
-					<p>$newFilm.class_name</p>
+					<h5><a href="single.html?id={newFilm.id}">$newFilm.name</a></h5>
+					<p>[$newFilm.screen_year][$newFilm.down_model][$newFilm.captions_type][$newFilm.size][$newFilm.language][$newFilm.format][$newFilm.class_name]</p>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -287,11 +278,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		#foreach( $hotFilm in $hotFilms)
 			<div class="men">
 				<div class="grid-men">
-					<a href="single.html"><img src="images/pp2.jpg" class="img-responsive" alt=""> </a>
+					<a href="single.html"><img src="$URL/${hotFilm.cover_name}" class="img-responsive" alt=""> </a>
 				</div>
 				<div class="men-grid">
-					<h5><a href="single.html">$hotFilm.name</a></h5>
-					<p>$hotFilm.class_name</p>
+					<h5><a href="single.html?id={$hotFilm.id}">$hotFilm.name</a></h5>
+					<p>[$hotFilm.screen_year][$hotFilm.down_model][$hotFilm.captions_type][$hotFilm.size][$hotFilm.language][$hotFilm.format][$hotFilm.class_name]</p>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -301,17 +292,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="clearfix"></div>
 	</ul>
 </div>
-<!--推荐列表-->
+<!--猜你喜欢-->
 			<div class="might">
 				<h4>猜你喜欢</h4>
 				#foreach( $loveFilm in $loveFilms)
 				<div class="might-grid">
 					<div class="grid-might">
-						<a href="single.html"><img src="images/mi.jpg" class="img-responsive" alt=""> </a>
+						<a href="single.html"><img src="$URL/${loveFilm.cover_name}" class="img-responsive" alt=""> </a>
 					</div>
 					<div class="might-top">
-						<p>$loveFilm.performer</p>
-						<a href="single.html">$loveFilm.name<i> </i></a>
+						<p>[$loveFilm.screen_year][$loveFilm.down_model][$loveFilm.captions_type][$loveFilm.size][$loveFilm.language][$loveFilm.format][$loveFilm.class_name]</p>
+						<a href="single.html?id={loveFilm.id}">$loveFilm.name<i> </i></a>
 					</div>
 				<div class="clearfix"></div>
 				</div>
@@ -381,7 +372,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<i class="line-in line-in1"> </i>
 	<i class="line-in line-in2"> </i>
 	</div>
-	<p class="footer-class">Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://www.toxiazai.com/">www.toxiazai.com</a></p>
+	<p class="footer-class">Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="$URL">$URL</a></p>
 <script type="text/javascript">
 						$(document).ready(function() {
 							/*
