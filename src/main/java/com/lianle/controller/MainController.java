@@ -29,15 +29,57 @@ public class MainController {
     @Autowired
     FilmService filmService;
 
+    /**
+     * 首页
+     * @param start
+     * @param size
+     * @param model
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "index")
     public String home(@RequestParam(value = "start", required = false, defaultValue = "1") int start,
                        @RequestParam(value = "size", required = false, defaultValue = "10") int size,
                        ModelMap model) {
 
+        //首页分页数据(8个)
         PageResults<Film> resultList = filmService.queryByPage(start, size);
         List<Film> filmList = resultList.getResults();
+
+        //推荐列表横幅(10个)
+        List<Film> recommendFilms = resultList.getResults();
+
+        //排行榜v
+        List<Film> arrayFilms = resultList.getResults();
+
+        //最新上映v
+        List<Film> newFilms = resultList.getResults();
+
+        //最热电影v
+        List<Film> hotFilms = resultList.getResults();
+
+        //猜你喜欢v
+        List<Film> loveFilms = resultList.getResults();
+
+        //归档分类-暂时不做
+
         model.addAttribute("filmList", filmList);
+        model.addAttribute("recommendFilms", recommendFilms);
+        model.addAttribute("arrayFilms", arrayFilms);
+        model.addAttribute("newFilms", newFilms);
+        model.addAttribute("hotFilms", hotFilms);
+        model.addAttribute("loveFilms", loveFilms);
         return "index";
+    }
+
+    /**
+     * 详情页
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "single")
+    public String single(ModelMap model) {
+        model.addAttribute("message", "Hello world!aa");
+        return "single";
     }
 
     @RequestMapping("")
@@ -67,18 +109,6 @@ public class MainController {
         return userService.getAllUsernames();
     }
 
-    /************************************抓取测试start*************************************************/
-    @RequestMapping("curl")
-    @ResponseBody
-    public Film curl(){
-        Film film = new Film();
-        film.setName("lianle");
-        film.setFormat("ff");
-
-        return film;
-    }
-    /************************************抓取测试end*************************************************/
-
     /******************************************以下尚未启用*****************************************/
 
     @RequestMapping(method = RequestMethod.GET, value = "archives")
@@ -104,11 +134,6 @@ public class MainController {
         return "magazine";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "single")
-    public String single(ModelMap model) {
-        model.addAttribute("message", "Hello world!aa");
-        return "single";
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "singlepage")
     public String singlepage(ModelMap model) {

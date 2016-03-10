@@ -29,7 +29,7 @@ public class FilmServiceImpl implements FilmService {
             return null;
         }
         return list;*/
-        String hql = "FROM Film ";
+        String hql = "FROM Film ORDER BY createTime DESC ";
         String countHql = "SELECT COUNT(*) FROM Film ";
         PageResults<Film> filmPageResults = dao.findPageByFetchedHql(hql, countHql, pageNo, pageSize, new Object[]{});
         return filmPageResults;

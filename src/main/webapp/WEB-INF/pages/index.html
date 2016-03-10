@@ -75,7 +75,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="search">
 						<form>
 							<input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
-							<input type="submit" value="SEARCH">
+							<input type="submit" value="搜索">
 						</form>
 					</div>
 					<div class="clearfix"> </div>
@@ -101,18 +101,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a class="color1" href="index.html">首页</a></li>
 						<li><a href="cinema.html" class="color2">科幻</a></li>
 						<li><a href="magazine.html" class="color3">动作</a></li>
-						<li class="dropdown"><a href="#" class="color4">剧情<span> </span></a>
-						<ul>
-						  <li><a href="cinema.html">喜剧</a></li>
-						  <li><a href="magazine.html">爱情</a></li>
-						</ul>
+						<li><a href="archives.html" class="color2">恐怖</a></li>
+						<li><a href="archives.html" class="color3">战争</a></li>
+						<li><a href="archives.html" class="color4">爱情</a></li>
+						<li><a href="archives.html" class="color2">奇幻</a></li>
+						<li><a href="archives.html" class="color3">喜剧</a></li>
+						<li><a href="archives.html" class="color4">爱情</a></li>
+						<li><a href="archives.html" class="color2">动画</a></li>
+						<li><a href="archives.html" class="color3">悬疑</a></li>
+						<li><a href="contact.html" class="color4">关于</a></li>
+						<li class="dropdown"><a href="#" class="color4">关于<span> </span></a>
+							<ul>
+								<li><a href="cinema.html">喜剧</a></li>
+								<li><a href="magazine.html">爱情</a></li>
+							</ul>
 						</li>
-						<li><a href="archives.html" class="color5">恐怖</a></li>
-						<li><a href="archives.html" class="color5">战争</a></li>
-						<li><a href="archives.html" class="color5">爱情</a></li>
-						<li><a href="archives.html" class="color5">犯罪</a></li>
-						<li><a href="archives.html" class="color5">动画</a></li>
-						<li><a href="contact.html" class="color6">关于</a></li>
 						<div class="clearfix"></div>
 					</ul>
 				</div>
@@ -121,7 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 		<!---->
 		<div class="gallery">
-			<h1>Top Stories</h1>
+			<h1>热门推荐</h1>
 		<!-- requried-jsfiles-for owl -->
 		<link href="css/owl.carousel.css" rel="stylesheet">
 		<script src="js/owl.carousel.js"></script>
@@ -140,41 +143,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!-- //requried-jsfiles-for owl -->
 			<!-- start content_slider -->
 		<div id="owl-demo" class="owl-carousel ">
+			#foreach( $recommendFilm in $recommendFilms)
 			<div class="item g1">
 				<a href="single.html"><img class="lazyOwl " data-src="images/pi.jpg" alt="name"></a>
 				<div class="caption">
-					<h3 class="cinema"><a href="single.html">CINEMA</a></h3>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
+					<h3 class="cinema"><a href="single.html">$recommendFilm.name</a></h3>
+					<p>$recommendFilm.performer</p>
 				</div>
 			</div>
-			<div class="item g1">
-				<a href="single.html"><img class="lazyOwl" data-src="images/pi2.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema travel"><a href="single.html">Travel</a></h3>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
-				</div>
-			</div>
-			<div class="item g1">
-				<a href="single.html"><img class="lazyOwl" data-src="images/pi1.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema tele"><a href="single.html">television</a></h3>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
-				</div>
-			</div>
-			<div class="item g1">
-				<a href="single.html"><img class="lazyOwl" data-src="images/pi.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema"><a href="single.html">CINEMA</a></h3>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
-				</div>
-			</div>
-			<div class="item g1">
-				<a href="single.html"><img class="lazyOwl" data-src="images/pi2.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema travel"><a href="single.html">Travel</a></h3>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
-				</div>
-			</div>
+			#end
 		</div>
 		<!--//sreen-gallery-cursual---->
 		</div>
@@ -248,178 +225,100 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <!--分页链接-->
         <div class="older-top">
-            <a href="#" class="older"><i> </i>older posts</a>
-            <a href="#" class="older top-old"><i > </i>newer posts</a>
+            <a href="#" class="older"><i> </i>上一页</a>
+            <a href="#" class="older top-old"><i > </i>下一页</a>
             <div class="clearfix"> </div>
         </div>
         <!---->
 	</div>
 	<!---->
 		<div class="col-md-4 content-bottom">
-			<div class="story"><h4  class="stories"><span>Top Stories</span></h4></div>
+			<div class="story"><h4  class="stories"><span>TOP</span></h4></div>
 			<!---->
 			<div class="cd-tabs">
 			<nav>
 				<ul class="cd-tabs-navigation">
-					<li><a data-content="fashion"  href="#0">fashion <i> </i></a></li>
-					<li><a data-content="cinema" href="#0" class="selected fashion1">cinema<i> </i></a></li>
-					<li><a data-content="television" href="#0" class="fashion2">television<i> </i></a></li>
+					<li><a data-content="fashion"  href="#0">排行榜 <i> </i></a></li>
+					<li><a data-content="cinema" href="#0" class="selected fashion1">最新上映<i> </i></a></li>
+					<li><a data-content="television" href="#0" class="fashion2">最热电影<i> </i></a></li>
 
 				</ul>
 			</nav>
 	<ul class="cd-tabs-content">
+		<!--排行榜-->
 		<li data-content="fashion" >
 		<div class="top-men">
+			#foreach( $arrayFilm in $arrayFilms)
 			<div class="men">
 				<div class="grid-men">
 					<a href="single.html"><img src="images/pp1.jpg" class="img-responsive" alt=""> </a>
 				</div>
 				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing</a> </h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+					<h5><a href="single.html">$arrayFilm.name</a> </h5>
+					<p>$arrayFilm.performer</p>
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="men">
-				<div class="grid-men">
-					<a href="single.html"><img src="images/pp11.jpg" class="img-responsive" alt=""> </a>
-				</div>
-				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing </a></h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="men">
-				<div class="grid-men">
-					<a href="single.html"><img src="images/pp12.jpg" class="img-responsive" alt=""> </a>
-				</div>
-				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing </a></h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
-				</div>
-			<div class="clearfix"></div>
-			</div>
+			#end
 		</div>
-</li>
-<li data-content="cinema" class="selected">
+	</li>
+
+		<!--最新-->
+	<li data-content="cinema" class="selected">
 		<div class="top-men">
+			#foreach( $newFilm in $newFilms)
 			<div class="men">
 				<div class="grid-men">
 					<a href="single.html"><img src="images/pp.jpg" class="img-responsive" alt=""> </a>
 				</div>
 				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing </a></h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+					<h5><a href="single.html">$newFilm.name</a></h5>
+					<p>$newFilm.class_name</p>
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="men">
-				<div class="grid-men">
-					<a href="single.html"><img src="images/pp0.jpg" class="img-responsive" alt=""> </a>
-				</div>
-				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing</a> </h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="men">
-				<div class="grid-men">
-					<a href="single.html"><img src="images/pp01.jpg" class="img-responsive" alt=""> </a>
-				</div>
-				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing </a></h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
-				</div>
-				<div class="clearfix"></div>
-			</div>
+			#end
 
 		</div>
-</li>
-<li data-content="television" >
+	</li>
+		<!--最热-->
+	<li data-content="television" >
 	<div class="top-men">
+		#foreach( $hotFilm in $hotFilms)
 			<div class="men">
 				<div class="grid-men">
 					<a href="single.html"><img src="images/pp2.jpg" class="img-responsive" alt=""> </a>
 				</div>
 				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing </a></h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+					<h5><a href="single.html">$hotFilm.name</a></h5>
+					<p>$hotFilm.class_name</p>
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="men">
-				<div class="grid-men">
-					<a href="single.html"><img src="images/pp21.jpg" class="img-responsive" alt=""> </a>
-				</div>
-				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing </a></h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="men">
-				<div class="grid-men">
-					<a href="single.html"><img src="images/pp22.jpg" class="img-responsive" alt=""> </a>
-				</div>
-				<div class="men-grid">
-					<h5><a href="single.html">Lorem Ipsum is simply dummy text of the printing</a> </h5>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
-				</div>
-			<div class="clearfix"></div>
-			</div>
+		#end
 		</div>
 </li>
 <div class="clearfix"></div>
 	</ul>
 </div>
-<!---->
+<!--推荐列表-->
 			<div class="might">
-				<h4>YOU MIGHT ALSO LIKE</h4>
+				<h4>猜你喜欢</h4>
+				#foreach( $loveFilm in $loveFilms)
 				<div class="might-grid">
 					<div class="grid-might">
 						<a href="single.html"><img src="images/mi.jpg" class="img-responsive" alt=""> </a>
 					</div>
 					<div class="might-top">
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-						<a href="single.html">Medication <i> </i></a>
+						<p>$loveFilm.performer</p>
+						<a href="single.html">$loveFilm.name<i> </i></a>
 					</div>
 				<div class="clearfix"></div>
 				</div>
-				<div class="might-grid">
-					<div class="grid-might">
-						<a href="single.html"><img src="images/mi1.jpg" class="img-responsive" alt=""> </a>
-					</div>
-					<div class="might-top">
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-						<a href="single.html">Medication <i> </i></a>
-					</div>
-				<div class="clearfix"></div>
-				</div>
-				<div class="might-grid">
-					<div class="grid-might">
-						<a href="single.html"><img src="images/mi2.jpg" class="img-responsive" alt=""> </a>
-					</div>
-					<div class="might-top">
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-						<a href="single.html">Medication <i> </i></a>
-					</div>
-				<div class="clearfix"></div>
-				</div>
-				<div class="might-grid">
-					<div class="grid-might">
-						<a href="single.html"><img src="images/mi3.jpg" class="img-responsive" alt=""> </a>
-					</div>
-					<div class="might-top">
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-						<a href="single.html">Medication <i> </i></a>
-					</div>
-				<div class="clearfix"></div>
-				</div>
+				#end
 			</div>
-			<!---->
-				<div class="grid-top">
+			<!--归档分类-->
+				<!--<div class="grid-top">
 				<h4>Archives</h4>
 				<ul>
 					<li><a href="single.html">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </a></li>
@@ -430,23 +329,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li><a href="single.html">Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing </a> </li>
 					<li><a href="single.html">Software like Aldus PageMaker including versionsof Lorem Ipsum.</a> </li>
 				</ul>
-				</div>
+				</div>-->
 				<!---->
 				<div class="grid-top-in">
-					<h4>Tag cloud</h4>
-					<p><a href="#" class="jol">Angelina Jolie</a>
-					<a href="#" class="lop"> Cssauthor</a>
-					<a href="#" class="bun">Aristokrasi Beyonce Blake</a>
-					<a href="#" class="live">Lively Brad Pitt Cameron</a>
-					<a href="#" class="dan">Diaz Daniel</a>
-					<a href="#" class="jol"> Radcliffe David</a>
-					<a href="#" class="live">Beckham Demi Moore Emma </a>
-					<a href="#" class="eva">Watson Eva</a>
-					<a href="#" class="live">Longoria Gisele </a>
-					<a href="#" class="bun">Bundchen Gwyneth Paltrow</a>
-					<a href="#" class="live">Halle Berry </a>
-					<a href="#" class="jol">Harry Potter</a>
-					<a href="#" class="live">Heidi Klum </a>
+					<h4>分类标签</h4>
+					<p><a href="#" class="jol">科幻</a>
+					<a href="#" class="lop">悬疑</a>
+					<a href="#" class="bun">故事</a>
+					<a href="#" class="live">剧情</a>
+					<a href="#" class="dan">爱情</a>
+					<a href="#" class="jol">恐怖</a>
+					<a href="#" class="live">战争</a>
+					<a href="#" class="eva">动画</a>
+					<a href="#" class="live">美国</a>
+					<a href="#" class="bun">中国</a>
+					<a href="#" class="live">科幻</a>
+					<a href="#" class="jol">最新</a>
+					<!--<a href="#" class="live">Heidi Klum </a>
 					<a href="#" class="bun">James Franco</a>
 					<a href="#" class="live">Jennifer </a>
 					<a href="#" class="lop"> Lopez Jessica</a>
@@ -464,14 +363,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<a href="#" class="bun">Portman</a>
 					<a href="#" class="live">Nicole </a>
 					<a href="#" class="eva">Kidman Penelope</a>
-					<!---
 					<a href="#" class="live">Cruz Reese Witherspoon Reklam</a>
 					<a href="#" class="lop"> Rihanna</a>
 					<a href="#" class="live">Robert Pattin </a>
 					<a href="#" class="bun">Son Sarah</a>
 					<a href="#" class="live">Jessica </a>
-					<a href="#" class="jol">Parker Scar </a>
-					-->
+					<a href="#" class="jol">Parker Scar </a>-->
 					 </p>
 				</div>
 				<!---->
@@ -484,7 +381,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<i class="line-in line-in1"> </i>
 	<i class="line-in line-in2"> </i>
 	</div>
-	<p class="footer-class">Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://www.freemoban.com/">www.freemoban.com</a></p>
+	<p class="footer-class">Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://www.toxiazai.com/">www.toxiazai.com</a></p>
 <script type="text/javascript">
 						$(document).ready(function() {
 							/*
