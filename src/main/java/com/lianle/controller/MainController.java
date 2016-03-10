@@ -1,13 +1,16 @@
 package com.lianle.controller;
 
+import com.lianle.common.PageResults;
 import com.lianle.entity.Film;
 import com.lianle.entity.User;
+import com.lianle.service.FilmService;
 import com.lianle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -23,9 +26,17 @@ public class MainController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    FilmService filmService;
+
     @RequestMapping(method = RequestMethod.GET, value = "index")
-    public String home(ModelMap model) {
-        model.addAttribute("message", "Hello world!aa");
+    public String home(@RequestParam(value = "start", required = false, defaultValue = "1") int start,
+                       @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+                       ModelMap model) {
+
+        PageResults<Film> resultList = filmService.queryByPage(start, size);
+        List<Film> filmList = resultList.getResults();
+        model.addAttribute("filmList", filmList);
         return "index";
     }
 
@@ -42,13 +53,12 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping("save")
-    public String saveUser(){
-        User user = new User();
-        user.setId(2L);
-        user.setUserName("haha");
-        userService.save(user);
-        return "home";
+    @RequestMapping("get")
+    @ResponseBody
+    public User saveUser(@RequestParam("id") Long id, ModelMap model){
+        User user = userService.queryById(id);
+
+        return user;
     }
 
     @RequestMapping("json")

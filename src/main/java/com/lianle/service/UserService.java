@@ -18,4 +18,5 @@ public interface UserService {
      */
     User getAdmin();
 
+    User queryById(Long id);
 }

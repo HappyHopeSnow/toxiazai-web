@@ -48,4 +48,13 @@ public class UserServiceImpl implements UserService {
         }
         return list.get(0);
     }
+
+    public User queryById(Long id) {
+        String hql = "FROM User WHERE id = ?";
+        List<User> list = userDao.getListByHQL(hql, new Object[]{id});
+        if ((list == null) || (list.size() == 0)) {
+            return null;
+        }
+        return list.get(0);
+    }
 }

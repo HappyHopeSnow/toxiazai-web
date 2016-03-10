@@ -8,11 +8,13 @@ import com.lianle.utils.http.exception.HttpProcessException;
 import com.lianle.utils.http.httpclient.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -57,30 +59,43 @@ public class AdminController {
     @Autowired
     PerformerService performerService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "")
+    @Autowired
+    FilmClassRelService filmClassRelService;
+
+    @Autowired
+    FilmCountryRelService filmCountryRelService;
+
+    @Autowired
+    FilmLanguageRelService filmLanguageRelService;
+
+    @Autowired
+    FilmPerformerRelService filmPerformerRelService;
+
+    @RequestMapping(method = RequestMethod.GET, value = "curl")
     @ResponseBody
-    public Film doWork(){
+    public Film curl(@RequestParam("id") String parentId){
+
         Film film = new Film();
 
         //上传者
         User user = userService.getAdmin();
         film.setUid(user.getId());
 
-        System.out.println("--------简单方式调用（默认post）--------");
         //调用链接，保存文件
-        String url = "http://5280bt.com/3761.html";
+        String url = "http://5280bt.com/" + parentId + ".html";
         LOGGER.info("The URL is [" + url + "]");
+
         //访问url
         String result = postUrl(url);
 
         //保存成文件
-        String fileName = "3761";
-//todo open        saveFile(result, fileName);
+        film.setParent_id(parentId);
+        saveFile(result, parentId);
 
         /**进行存储操作**/
         //正则匹配,并保存电影基本信息
         String filmName = mathFilmName(result);
-        LOGGER.info("********* Film title is[" + fileName + "]");
+        LOGGER.info("********* Film title is[" + parentId + "]");
         filmName = filmName.split(" ")[8];
         String[] filmResult = filmName.split("]");
 
@@ -90,8 +105,6 @@ public class AdminController {
         String size = filmResult[2].substring(1, filmResult[2].length());
         String downModel = filmResult[3].substring(1, filmResult[3].length());
         String captionsType = filmResult[4].substring(1, filmResult[4].length());
-
-        //cover_id
 
         //format_id
         processFormat(film, formatName);
@@ -105,10 +118,23 @@ public class AdminController {
         //正则匹配三张图片的url
         List<String> picUrlList = matchPic(result);
         //下载这三张图片并保存
-        //todo
+        String[] coverList = picUrlList.get(0).split("/");
+        film.setCover_name(coverList[coverList.length - 1]);
+        film.setCover_id(1l);
+        String picName;
+        List<String> setPicName = new ArrayList<String>();
+        for(int i = 0; i < picUrlList.size(); i++) {
+            String[] torrentUrlStr = picUrlList.get(i).split("/");
+            picName = torrentUrlStr[torrentUrlStr.length - 1];
+            setPicName.add(picName);
+            downLoadTorrent(picUrlList.get(i), picName);
+        }
 
-        //获取中间部分,并进行配置相关属性
-        processMiddleContent(film, result);
+        film.setPic_1(setPicName.get(0));
+        film.setPic_2(setPicName.get(1));
+
+        //获取中间部分,并进行配置相关属性;返回对应演员
+        List<Performer> performatsList = processMiddleContent(film, result);
 
         Date now = new Date();
         film.setCreateTime(now);
@@ -117,16 +143,58 @@ public class AdminController {
         //关键字=名字+导演+演员+类型+简介
         buildKeyWrod(film);
 
-        filmService.save(film);
-
         //获取种子链接
         String torrentUrl = getTorrentUrl(result);
 
         //下载种子文件
-        String torrentName = "TODO";
+        //获取种子名字
+        String[] torrentUrlStr = torrentUrl.split("/");
+        String torrentName = torrentUrlStr[torrentUrlStr.length - 1];
+
         downLoadTorrent(torrentUrl, torrentName);
 
+        film.setSeed(torrentName);
+        filmService.save(film);
+
+        //保存关联关系表，方便查询
+        saveRelation(film, performatsList);
+
         return film;
+
+    }
+
+    private void saveRelation(Film film, List<Performer> performerList) {
+        //保存类型和电影
+        FilmClassRel filmClassRel = new FilmClassRel();
+        filmClassRel.setFilm_id(film.getId());
+        filmClassRel.setClass_id(film.getClass_id());
+        filmClassRel.setScore(film.getScore());
+
+        filmClassRelService.save(filmClassRel);
+
+        //保存演员和电影
+        FilmPerformerRel filmPerformerRel;
+        for(int i = 0; i < performerList.size(); i++) {
+            filmPerformerRel = new FilmPerformerRel();
+            filmPerformerRel.setFilm_id(film.getId());
+            filmPerformerRel.setPerformer_id(performerList.get(i).getId());
+            filmPerformerRel.setScreen_year(film.getScreen_year());
+            filmPerformerRelService.save(filmPerformerRel);
+        }
+
+        //保存国家和电影
+        FilmCountryRel filmCountryRel = new FilmCountryRel();
+        filmCountryRel.setFilm_id(film.getId());
+        filmCountryRel.setCountry_id(film.getCountry_id());
+        filmCountryRel.setScreen_year(film.getScreen_year());
+        filmCountryRelService.save(filmCountryRel);
+
+        //保存语言和电影
+        FilmLanguageRel filmLanguageRel = new FilmLanguageRel();
+        filmLanguageRel.setFilm_id(film.getId());
+        filmLanguageRel.setLanguage_id(film.getLanguage_id());
+        filmLanguageRel.setScreen_year(film.getScreen_year());
+        filmLanguageRelService.save(filmLanguageRel);
 
     }
 
@@ -175,7 +243,7 @@ public class AdminController {
         return torrentUrl;
     }
 
-    private void processMiddleContent(Film film, String result) {
+    private List<Performer> processMiddleContent(Film film, String result) {
         //7.&&&&获取中间部分
         String middleReg = "<p>时间.*。</p>";
         String middleResult = RegexUtils.get(middleReg, result);
@@ -220,7 +288,7 @@ public class AdminController {
 
         //8-主演
         List<String> performerList = getAllPerfomer(bodyResult);
-        processPerformer(performerList);
+        List<Performer> afterSavedPerformers = processPerformer(performerList);
 
         //添加主演字段
         StringBuilder performerBuilder = new StringBuilder();
@@ -236,9 +304,12 @@ public class AdminController {
         content = content.substring(0, content.length() - 4);
         film.setDescription(content);
 
+        return afterSavedPerformers;
+
     }
 
-    private void processPerformer(List<String> performerList) {
+    private List<Performer> processPerformer(List<String> performerList) {
+        List<Performer> performerResultList = new ArrayList<Performer>();
         Performer performer;
         for (int i = 0; i < performerList.size(); i++) {
             performer = performerService.queryByName(performerList.get(i));
@@ -247,8 +318,10 @@ public class AdminController {
                 performer = new Performer();
                 performer.setName(performerList.get(i));
                 performerService.save(performer);
+                performerResultList.add(performer);
             }
         }
+        return performerResultList;
     }
 
     private List<String> getAllPerfomer(String[] bodyResult) {
@@ -379,98 +452,4 @@ public class AdminController {
         return resp;
     }
 
-    public void process() {
-
-        System.out.println("--------简单方式调用（默认post）--------");
-
-       /* //1.&&&&down下文件
-
-        String url = "http://5280bt.com/3761.html";
-        //简单调用
-        String resp = null;
-        try {
-            resp = HttpClientUtil.send(url);
-        } catch (HttpProcessException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("\n#################################\n");*/
-/*
-        //正则表达式，获取编号
-        String idRegex = "[1-9]\\d*\\.+";
-        String fileName = RegexUtils.get(idRegex, url);
-        fileName = fileName.substring(0, fileName.length() - 1);*/
-
-//2.&&&&保存文件，包括名称
-     /*   fileName = "d:\\\\" + fileName + ".html";
-        //保存字符串到文件中
-        FileUtils.createNewFile(fileName, resp);
-        System.out.println("After save file to D:");*/
-
-//3.&&&&读取文件
-        System.out.println("start to read file !");
-        String path = "d:\\\\3761.html";
-        String result = FileUtils.readFileByLines(path);
-        System.out.println("result is\n" +result);
-
-
-        //4.&&&&匹配电影名字
-	/*	String filmNameRegex = "<h1>.*</h1>";
-		String fileName = RegexUtils.get(filmNameRegex, result);
-		System.out.println("fileName is \n" + fileName);*/
-
-        //5.&&&&根据名称进行分类
-        //todo
-
-        //6.&&&&匹配三个展示图
-		/*Matcher m = Pattern.compile("src=\"http://.*?\"").matcher(result);
-		int pCount = 0;
-		List<String> pList = new ArrayList<String>(3);
-		while(m.find()){
-			String match=m.group();
-			//Pattern.CASE_INSENSITIVE忽略'jpg'的大小写
-			Matcher k= Pattern.compile("src=\"http://.*?.jpg", Pattern.CASE_INSENSITIVE).matcher(match);
-			if(k.find()){
-				pList.add(match.substring(5, match.length() -1));
-				pCount ++;
-				if (pCount == 3) {
-					break;
-				}
-			}
-		}
-		System.out.println("plist is \n" + pList);*/
-
-        //7.&&&&获取中间部分
-        String middleReg = "<p>时间.*。</p>";
-        String middleResult = RegexUtils.get(middleReg, result);
-        System.out.println("middle is \n" + middleResult);
-
-        //<p>分割
-        String[] pList;
-
-        pList = middleResult.split("<p>");
-        System.out.println("plist is \n" + pList);
-
-        //获取时间相关属性
-        String paramString = pList[1];
-        //<br>分割
-        String[] brList = paramString.split("<br />");
-        System.out.println("br is + \n" + brList);
-
-        //获取简介
-        String content = pList[2];
-        content = content.substring(0, content.length() - 4);
-        System.out.println("content is\n" + content);
-
-        //8.&&&&获取种子链接
-        String torrentRegex = "[a-zA-z]+://[^\\s]*\\.torrent";
-        String torrentUrl = RegexUtils.get(torrentRegex, result);
-        System.out.println("the torrent url is \n" + torrentUrl);
-
-        //获取种子名字
-        String[] torrentUrlStr = torrentUrl.split("/");
-        String torrentName = torrentUrlStr[torrentUrlStr.length - 1];
-        //9.&&&&下载链接种子
-        FileUtils.downloadFile(torrentUrl, "d:\\\\" + torrentName);
-    }
 }

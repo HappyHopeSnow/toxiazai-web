@@ -16,6 +16,7 @@ public class Film implements Serializable {
 
     private Long id;
     private Long uid;
+    private String parent_id;
     private String name;
     private String key_word;
     private Long format_id;
@@ -42,6 +43,8 @@ public class Film implements Serializable {
     private String movie_size;
     private String description;
     private String seed;
+    private String pic_1;
+    private String pic_2;
     private Date createTime;
     private Date modifyTime;
 
@@ -62,6 +65,14 @@ public class Film implements Serializable {
     }
     public void setUid(Long uid) {
         this.uid = uid;
+    }
+
+    @Column(name="parent_id")
+    public String getParent_id() {
+        return parent_id;
+    }
+    public void setParent_id(String parent_id) {
+        this.parent_id = parent_id;
     }
 
     @Column(name="name")
@@ -270,6 +281,22 @@ public class Film implements Serializable {
     }
     public void setSeed(String seed) {
         this.seed = seed;
+    }
+
+    @Column(name="pic_1")
+    public String getPic_1() {
+        return pic_1;
+    }
+    public void setPic_1(String pic_1) {
+        this.pic_1 = pic_1;
+    }
+
+    @Column(name="pic_2")
+    public String getPic_2() {
+        return pic_2;
+    }
+    public void setPic_2(String pic_2) {
+        this.pic_2 = pic_2;
     }
 
     @Column(name="createtime")
