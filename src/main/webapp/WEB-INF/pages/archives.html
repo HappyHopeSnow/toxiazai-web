@@ -47,7 +47,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="search">
 						<form>
 							<input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
-							<input type="submit" value="SEARCH">
+							<input type="submit" value="搜索">
 						</form>
 					</div>
 					<div class="clearfix"> </div>
@@ -70,17 +70,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  </label>
 				  <input id="mobile_menu" type="checkbox">
 					<ul class="nav">
-						<li><a class="color1" href="index.html">Home</a></li>                  
-						<li><a href="cinema.html" class="color2">cinema</a></li>            
-						<li><a href="magazine.html" class="color3">Magazine</a></li>						  
-						<li class="dropdown"><a href="#" class="color4">Topmenu<span> </span></a>
-						<ul>
-						  <li><a href="cinema.html">cinema</a></li>
-						  <li><a href="magazine.html">Magazine</a></li>
-						</ul>
-						</li>  
-						<li><a href="archives.html" class="color5">Archives</a></li>
-						<li><a href="contact.html" class="color6">Contact us</a></li>
+						<li><a class="color1" href="index.html">首页</a></li>
+						<li><a href="cinema.html" class="color2">下载排行</a></li>
+						<!--<li><a href="magazine.html" class="color3">最热列表</a></li>-->
+						<!--<li class="dropdown"><a href="#" class="color4">查看<span> </span></a>
+							<ul>
+								<li><a href="cinema.html">最新列表</a></li>
+								<li><a href="magazine.html">最热列表</a></li>
+							</ul>
+						</li>-->
+						<li><a href="archives.html" class="color5">所有分类</a></li>
+						<li><a href="contact.html" class="color6">关于</a></li>
 						<div class="clearfix"></div>
 					</ul>
 				</div>			
@@ -89,88 +89,64 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 		<!---->
 		<div class="archives">		
-		  <h2>ARCHIVES</h2>
+		  <h2>全部分类</h2>
+			<div class="archives-top">
+				<div class="col-md-3 top-archives">
+					<h3>上映年份</h3>
+				</div>
+
+				#foreach($screen in $screens)
+				<div class="col-md-3 top-archives">
+					<ul>
+						<li><a href="magazine.html?screen_year=$screen.id">$screen.screen_year</a></li>
+					</ul>
+				</div>
+				#end
+				<div class="clearfix"></div>
+			</div>
+
 		  <div class="archives-top">
 				<div class="col-md-3 top-archives">
-					<h3>BY MONTH:</h3>
+					<h3>电影类型</h3>
 				</div>
+			  #foreach($classType in $classTypes)
 				<div class="col-md-3 top-archives">
 					<ul>
-					<li><a href="magazine.html">January 2015(1)</a></li>
-					<li><a href="magazine.html">February 2015(2)</a></li>
-					<li><a href="magazine.html">November 2014(1)</a></li>
-					<li><a href="magazine.html">September 2014(1)</a></li>
+						<li><a href="magazine.html?class_type=${classType.id}">$classType.class_name</a></li>
+					</ul>
 				</div>
-				<div class="col-md-3 top-archives">
-					<ul>
-					<li><a href="magazine.html">July 2014(3)</a></li>
-					<li><a href="magazine.html">June 2014(2)</a></li>
-					<li><a href="magazine.html">May 2014(1)</a></li>
-					<li><a href="magazine.html">April 2014(1)</a></li>
-				</div>
-				<div class="col-md-3 top-archives">
-					<ul>
-					<li><a href="magazine.html">January 2014(2)</a></li>
-					<li><a href="magazine.html">December 2013(1)</a></li>
-					<li><a href="magazine.html">November 2013(1)</a></li>
-					
-				</div>
+			  #end
 				<div class="clearfix"></div>
 		  </div>
+
 		  <div class="archives-top">
 				<div class="col-md-3 top-archives">
-					<h3>BY CATEGORIES:</h3>
+					<h3>国家</h3>
 				</div>
+			  #foreach($country in $countries)
 				<div class="col-md-3 top-archives">
 					<ul>
-					<li><a href="magazine.html">Untrammelled(4)</a></li>
-					<li><a href="magazine.html">Indignation(1)</a></li>
-					<li><a href="magazine.html">Demoralized(5)</a></li>
-					<li><a href="magazine.html"> Weakness(2)</a></li>
+						<li><a href="magazine.html?country=${country.id}">$country.name</a></li>
+					</ul>
 				</div>
-				<div class="col-md-3 top-archives">
-					<ul>
-					<li><a href="magazine.html">Indignation(3)</a></li>
-					<li><a href="magazine.html">Demoralized(6)</a></li>
-					<li><a href="magazine.html">Weakness(1)</a></li>
-					<li><a href="magazine.html">Untrammelled(5)</a></li>
-				</div>
-				<div class="col-md-3 top-archives">
-					<ul>
-					<li><a href="magazine.html">Demoralized(1)</a></li>
-					<li><a href="magazine.html">Weakness(4)</a></li>
-					<li><a href="magazine.html">Indignation(5)</a></li>
-					
-				</div>
-				<div class="clearfix"></div>
+			  #end
+			  <div class="clearfix"></div>
 		  </div>
+			<br/>
 		  <div class="archives-top">
 				<div class="col-md-3 top-archives">
-					<h3>BY TAGS:</h3>
+					<h3>语言</h3>
 				</div>
+			  	#foreach($language in $languages)
 				<div class="col-md-3 top-archives">
 					<ul>
-					<li><a href="single.html"> Omnis</a></li>
-					<li><a href="single.html">Unde </a></li>
-					<li><a href="single.html">Odio</a></li>
-					<li><a href="single.html">Ratione</a></li>
+						<li><a href="single.html?language=${language.id}">${language.language}</a></li>
+					</ul>
 				</div>
-				<div class="col-md-3 top-archives">
-					<ul>
-					<li><a href="single.html">Ratione</a></li>
-					<li><a href="single.html"> Mistaken</a></li>
-					<li><a href="single.html">Except</a></li>
-					<li><a href="single.html">Omnis</a></li>
-				</div>
-				<div class="col-md-3 top-archives">
-					<ul>
-					<li><a href="single.html">Mistaken</a></li>
-					<li><a href="single.html">Omnis</a></li>
-					<li><a href="single.html">Except</a></li>
-					
-				</div>
+			  	#end
 				<div class="clearfix"></div>
 		  </div>
+
 		</div>
 		<!---->
 	</div>

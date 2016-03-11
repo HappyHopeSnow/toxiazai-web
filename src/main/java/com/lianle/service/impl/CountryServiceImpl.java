@@ -7,6 +7,7 @@ import com.lianle.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,24 @@ public class CountryServiceImpl implements CountryService {
     public Country queryByName(String name) {
         String hql = "FROM Country WHERE name = ?";
         List<Country> list = dao.getListByHQL(hql, new Object[]{name});
+        if ((list == null) || (list.size() == 0)) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public List<Country> queryList() {
+        String hql = "FROM Country ";
+        List<Country> list = dao.getListByHQL(hql);
+        if ((list == null) || (list.size() == 0)) {
+            return new ArrayList<Country>();
+        }
+        return list;
+    }
+
+    public Country queryById(long classTypeId) {
+        String hql = "FROM Country WHERE id = ?";
+        List<Country> list = dao.getListByHQL(hql, new Object[]{classTypeId});
         if ((list == null) || (list.size() == 0)) {
             return null;
         }

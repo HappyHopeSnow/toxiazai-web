@@ -31,6 +31,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/nav.css" rel="stylesheet" type="text/css" media="all"/>   
 </head>
 <body>
+#set($URL="http://localhost")
 <!--header-->	
 <div class="back">
 	<img src="images/back.png" alt="">
@@ -47,7 +48,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="search">
 						<form>
 							<input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
-							<input type="submit" value="SEARCH">
+							<input type="submit" value="搜索">
 						</form>
 					</div>
 					<div class="clearfix"> </div>
@@ -70,17 +71,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  </label>
 				  <input id="mobile_menu" type="checkbox">
 					<ul class="nav">
-						<li><a class="color1" href="index.html">Home</a></li>                  
-						<li><a href="cinema.html" class="color2">cinema</a></li>            
-						<li><a href="magazine.html" class="color3">Magazine</a></li>						  
-						<li class="dropdown"><a href="#" class="color4">Topmenu<span> </span></a>
-						<ul>
-						  <li><a href="cinema.html">cinema</a></li>
-						  <li><a href="magazine.html">Magazine</a></li>
-						</ul>
-						</li>  
-						<li><a href="archives.html" class="color5">Archives</a></li>
-						<li><a href="contact.html" class="color6">Contact us</a></li>
+						<li><a class="color1" href="index.html">首页</a></li>
+						<li><a href="cinema.html" class="color2">下载排行</a></li>
+						<!--<li><a href="magazine.html" class="color3">最热列表</a></li>-->
+						<!--<li class="dropdown"><a href="#" class="color4">查看<span> </span></a>
+							<ul>
+								<li><a href="cinema.html">最新列表</a></li>
+								<li><a href="magazine.html">最热列表</a></li>
+							</ul>
+						</li>-->
+						<li><a href="archives.html" class="color5">所有分类</a></li>
+						<li><a href="contact.html" class="color6">关于</a></li>
 						<div class="clearfix"></div>
 					</ul>
 				</div>			
@@ -89,77 +90,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 		<!---->
 		<div class="cinema">
-			<h1>Top Stories</h1>
+			<h1>下载排行榜</h1>
 		<div class="cinema-top">
+			#foreach( $film in $filmList)
 			<div class="col-md-4 top-cinema">
-					<a href="singlepage.html"><img class="img-responsive" src="images/pi.jpg" alt="name"></a>
+					<a href="singlepage.html">
+						<img class="img-responsive" src="$URL/${film.cover_name}" alt="name">
+					</a>
 				<div class="caption">
-					<h3 class="cinema"><a href="singlepage.html">Contrary </a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
+					<h3 class="cinema"><a href="singlepage.html?id=${film.id}">${film.name}</a> </h3>
+					<p>${film.class_name}</p>
 				</div>
 			</div>
-			<div class="col-md-4 top-cinema">
-				<a href="singlepage.html"><img class="img-responsive" src="images/ci.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema travel"><a href="singlepage.html">Random</a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
-				</div>
-			</div>
-			<div class="col-md-4 top-cinema">
-				<a href="singlepage.html"><img class="img-responsive" src="images/ci1.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema tele"><a href="singlepage.html">Bonorum</a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
-				</div>
-			</div>
-			<div class="clearfix"></div>
-			</div>
-			<div class="cinema-top">
-			<div class="col-md-4 top-cinema">
-				<a href="singlepage.html"><img class="img-responsive" src="images/ci2.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema tele"><a href="singlepage.html">Bonorum</a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
-				</div>
-			</div>
-			<div class="col-md-4 top-cinema">
-				<a href="singlepage.html"><img class="img-responsive" src="images/ci3.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema"><a href="singlepage.html">Contrary </a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
-				</div>
-			</div>
-			<div class="col-md-4 top-cinema">
-				<a href="singlepage.html"><img class="img-responsive" src="images/ci5.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema travel"><a href="singlepage.html">Random</a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
-				</div>
-			</div>
-			<div class="clearfix"></div>
-			</div>
-			<div class="cinema-top">
-			<div class="col-md-4 top-cinema">
-				<a href="singlepage.html"><img class="img-responsive" src="images/ci5.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema travel"><a href="singlepage.html">Random</a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
-				</div>
-			</div>
-			<div class="col-md-4 top-cinema">
-				<a href="singlepage.html"><img class="img-responsive" src="images/ci6.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema tele"><a href="singlepage.html">Bonorum</a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
-				</div>
-			</div>
-			<div class="col-md-4 top-cinema">
-				<a href="singlepage.html"><img class="img-responsive" src="images/ci7.jpg" alt="name"></a>
-				<div class="caption">
-					<h3 class="cinema"><a href="singlepage.html">Contrary</a> </h3>	
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>					
-				</div>
-			</div>
+			#end
 			<div class="clearfix"></div>
 			</div>
 		</div>

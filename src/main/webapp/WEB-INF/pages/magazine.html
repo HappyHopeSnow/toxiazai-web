@@ -31,6 +31,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/nav.css" rel="stylesheet" type="text/css" media="all"/>   
 </head>
 <body>
+#set($URL="http://localhost")
 <!--header-->	
 <div class="back">
 	<img src="images/back.png" alt="">
@@ -47,7 +48,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="search">
 						<form>
 							<input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
-							<input type="submit" value="SEARCH">
+							<input type="submit" value="搜索">
 						</form>
 					</div>
 					<div class="clearfix"> </div>
@@ -70,108 +71,56 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  </label>
 				  <input id="mobile_menu" type="checkbox">
 					<ul class="nav">
-						<li><a class="color1" href="index.html">Home</a></li>                  
-						<li><a href="cinema.html" class="color2">cinema</a></li>            
-						<li><a href="magazine.html" class="color3">Magazine</a></li>						  
-						<li class="dropdown"><a href="#" class="color4">Topmenu<span> </span></a>
-						<ul>
-						  <li><a href="cinema.html">cinema</a></li>
-						  <li><a href="magazine.html">Magazine</a></li>
-						</ul>
-						</li>  
-						<li><a href="archives.html" class="color5">Archives</a></li>
-						<li><a href="contact.html" class="color6">Contact us</a></li>
+						<li><a class="color1" href="index.html">首页</a></li>
+						<li><a href="cinema.html" class="color2">下载排行</a></li>
+						<!--<li><a href="magazine.html" class="color3">最热列表</a></li>-->
+						<!--<li class="dropdown"><a href="#" class="color4">查看<span> </span></a>
+							<ul>
+								<li><a href="cinema.html">最新列表</a></li>
+								<li><a href="magazine.html">最热列表</a></li>
+							</ul>
+						</li>-->
+						<li><a href="archives.html" class="color5">所有分类</a></li>
+						<li><a href="contact.html" class="color6">关于</a></li>
 						<div class="clearfix"></div>
 					</ul>
 				</div>			
 			</div>
 		</div>
 	</div>
+
 		<!---->
 		<div class="magazine">
-			<h1>Contrary to popular belief, Lorem Ipsum is not simply random text.</h1>
-			<h6>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis</h6>
+			<h1>这里是查询[${key}]的结果!</h1>
+			<h6>${message}</h6>
 		<div class="magazine-top">
+			#foreach($film in $filmList)
 			<div class="col-md-4 top-magazine">
-				<a href="single.html" ><img class="img-responsive chain" src="images/ci6.jpg" alt="name">
+				<a href="single.html?id=${film.id}" >
+					<img class="img-responsive chain" src="$URL/${film.cover_name}" alt="name">
 					<div class="rotate">
-						<i> </i>	
+						<i> </i>
 					</div>	
 				</a>
 				<div class=" magazine-grid">
-					<h3><a href="single.html">At vero eos et accusamus et iusto odio dignissimos </a></h3>
-					<p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to </p>
-					<p> These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided.</p>
+					<h3><a href="single.html?id=${film.id}">${film.name}</a></h3>
+					<p>${film.screen_year}</p>
+					<p>${film.class_name}</p>
+					<p>${film.country}</p>
+					<p>${film.language}</p>
+					<p>${film.description}</p>
 				</div>
 			</div>
-			<div class="col-md-4 top-magazine">
-				<a href="single.html"><img class="img-responsive chain" src="images/ci.jpg" alt="name">
-				<div class="rotate">
-						<i> </i>	
-					</div>	</a>
-				<div class=" magazine-grid">
-					<h3><a href="single.html">Contrary to popular belief, Lorem Ipsum is not simply </a></h3>
-					<p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to </p>
-					<p> These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided.</p>
-				</div>
-			</div>
-			<div class="col-md-4 top-magazine">
-				<a href="single.html"><img class="img-responsive chain" src="images/ci5.jpg" alt="name">
-				<div class="rotate">
-						<i> </i>	
-					</div>	</a>
-				<div class=" magazine-grid">
-					<h3><a href="single.html">There are many variations of passages of Lorem</a>  </h3>
-					<p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to </p>
-					<p> These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided.</p>
-				</div>
-			</div>
+			#end
 			<div class="clearfix"></div>
 		</div>
-		<div class="magazine-top">
-			<div class="col-md-4 top-magazine">
-				<a href="single.html"><img class="img-responsive chain" src="images/ci2.jpg" alt="name">
-				<div class="rotate">
-						<i> </i>	
-					</div>	</a>
-				<div class=" magazine-grid">
-					<h3><a href="single.html">There are many variations of passages of Lorem </a>  </h3>
-					<p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to </p>
-					<p> These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided.</p>
-				</div>
-			</div>
-			<div class="col-md-4 top-magazine">
-				<a href="single.html"><img class="img-responsive chain" src="images/ci7.jpg" alt="name">
-				<div class="rotate">
-						<i> </i>	
-					</div>	</a>
-				<div class=" magazine-grid">
-										<h3><a href="single.html">Contrary to popular belief, Lorem Ipsum is not simply </a></h3>
-					<p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to </p>
-					<p> These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided.</p>
-				</div>
-			</div>
-			<div class="col-md-4 top-magazine">
-				<a href="single.html"><img class="img-responsive chain" src="images/ci.jpg" alt="name">
-				<div class="rotate">
-						<i> </i>	
-					</div>	</a>
-				<div class=" magazine-grid">
-					<h3><a href="single.html">At vero eos et accusamus et iusto odio dignissimos </a></h3>
-					<p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to </p>
-					<p> These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided.</p>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-			
 		</div>
 		</div>	
 	<i class="line"> </i>
 	<i class="line-in"> </i>
 	<i class="line-in  line-at"> </i>
 	</div>
-	<p class="footer-class">Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://www.freemoban.com/">www.freemoban.com</a></p>
+	<p class="footer-class">Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://www.toxiazai.com/">www.toxiazai.com</a></p>
 <script type="text/javascript">
 						$(document).ready(function() {
 							/*

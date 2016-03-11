@@ -8,6 +8,7 @@ import com.lianle.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,12 +24,6 @@ public class FilmServiceImpl implements FilmService {
     }
 
     public PageResults<Film> queryByPage(int pageNo, int pageSize) {
-        /*String hql = "FROM Film LIMIT ?, ? ORDER BY CREATE_TIME DESC ";
-        List<Film> list = dao.getListByHQL(hql, new Object[]{start, size});
-        if ((list == null) || (list.size() == 0)) {
-            return null;
-        }
-        return list;*/
         String hql = "FROM Film ORDER BY createTime DESC ";
         String countHql = "SELECT COUNT(*) FROM Film ";
         PageResults<Film> filmPageResults = dao.findPageByFetchedHql(hql, countHql, pageNo, pageSize, new Object[]{});
@@ -42,6 +37,49 @@ public class FilmServiceImpl implements FilmService {
             return null;
         }
         return list.get(0);
+    }
+
+    public List<Film> queryByScreenId(long screenYearId) {
+        String hql = "FROM Film WHERE screen_year_id = ? ORDER BY createTime DESC ";
+        List<Film> list = dao.getListByHQL(hql, new Object[]{screenYearId});
+        if ((list == null) || (list.size() == 0)) {
+            return new ArrayList<Film>();
+        }
+        return list;
+    }
+
+    public List<Film> queryByClassTypeId(long classTypeId) {
+        String hql = "FROM Film WHERE class_id = ? ORDER BY createTime DESC ";
+        List<Film> list = dao.getListByHQL(hql, new Object[]{classTypeId});
+        if ((list == null) || (list.size() == 0)) {
+            return new ArrayList<Film>();
+        }
+        return list;
+    }
+
+    public List<Film> queryByCountryId(long countryId) {
+        String hql = "FROM Film WHERE country_id = ? ORDER BY createTime DESC ";
+        List<Film> list = dao.getListByHQL(hql, new Object[]{countryId});
+        if ((list == null) || (list.size() == 0)) {
+            return new ArrayList<Film>();
+        }
+        return list;
+    }
+
+    public List<Film> queryByLanguageId(long languageId) {
+        String hql = "FROM Film WHERE language_id = ? ORDER BY createTime DESC ";
+        List<Film> list = dao.getListByHQL(hql, new Object[]{languageId});
+        if ((list == null) || (list.size() == 0)) {
+            return new ArrayList<Film>();
+        }
+        return list;
+    }
+
+    public PageResults<Film> queryByDownCount(int pageNo, int pageSize) {
+        String hql = "FROM Film ORDER BY createTime DESC ";
+        String countHql = "SELECT COUNT(*) FROM Film ";
+        PageResults<Film> filmPageResults = dao.findPageByFetchedHql(hql, countHql, pageNo, pageSize, new Object[]{});
+        return filmPageResults;
     }
 
     public List<Film> getAllFilms() {

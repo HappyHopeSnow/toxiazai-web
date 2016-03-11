@@ -1,0 +1,49 @@
+<div class="header">
+    <div class="header-top">
+        <div class="header-in">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo.png" alt="" ></a>
+            </div>
+            <div class="search">
+                <form>
+                    <input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
+                    <input type="submit" value="SEARCH">
+                </form>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="header-top-on">
+            <ul class="social-in">
+                <li><a href="#"><i> </i></a></li>
+                <li><a href="#"><i class="facebook"> </i></a></li>
+                <li><a href="#"><i class="tin"> </i></a></li>
+            </ul>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <!---->
+    <div class="header-bottom">
+        <div class="navigation">
+            <div>
+                <label class="mobile_menu" for="mobile_menu">
+                    <span>Menu</span>
+                </label>
+                <input id="mobile_menu" type="checkbox">
+                <ul class="nav">
+                    <li><a class="color1" href="index.html">首页</a></li>
+                    <li><a href="cinema.html" class="color2">下载排行</a></li>
+                    <!--<li><a href="magazine.html" class="color3">最热列表</a></li>-->
+                    <!--<li class="dropdown"><a href="#" class="color4">查看<span> </span></a>
+                        <ul>
+                            <li><a href="cinema.html">最新列表</a></li>
+                            <li><a href="magazine.html">最热列表</a></li>
+                        </ul>
+                    </li>-->
+                    <li><a href="archives.html" class="color5">所有分类</a></li>
+                    <li><a href="contact.html" class="color6">关于</a></li>
+                    <div class="clearfix"></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

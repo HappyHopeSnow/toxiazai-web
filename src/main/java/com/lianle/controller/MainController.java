@@ -1,10 +1,8 @@
 package com.lianle.controller;
 
 import com.lianle.common.PageResults;
-import com.lianle.entity.Film;
-import com.lianle.entity.User;
-import com.lianle.service.FilmService;
-import com.lianle.service.UserService;
+import com.lianle.entity.*;
+import com.lianle.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,20 +27,41 @@ public class MainController {
     @Autowired
     FilmService filmService;
 
+    @Autowired
+    ScreenService screenService;
+
+    @Autowired
+    LanguageService languageService;
+
+    @Autowired
+    CountryService countryService;
+
+    @Autowired
+    ClassTypeService classTypeService;
+
+    /**
+     * 默认首页
+     * @return
+     */
+    @RequestMapping("")
+    public String home(){
+        return "index";
+    }
+
     /**
      * 首页
-     * @param start
-     * @param size
+     * @param pageSize
+     * @param pageNo
      * @param model
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "index")
-    public String home(@RequestParam(value = "start", required = false, defaultValue = "1") int start,
-                       @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+    public String home(@RequestParam(value = "size", required = false, defaultValue = "10") int pageSize,
+                       @RequestParam(value = "num", required = false, defaultValue = "1") int pageNo,
                        ModelMap model) {
 
         //首页分页数据(8个)
-        PageResults<Film> resultList = filmService.queryByPage(start, size);
+        PageResults<Film> resultList = filmService.queryByPage(pageNo, pageSize);
         List<Film> filmList = resultList.getResults();
 
         //推荐列表横幅(10个)
@@ -128,50 +147,117 @@ public class MainController {
         return "contact";
     }
 
-    @RequestMapping("")
-    public String home(){
-//        List<User> us = new ArrayList<User>();
-//        User u = new User();
-//        u.setUserName("MarK");
-//        us.add(u);
-//        u = new User();
-//        u.setUserName("Fawofolo");
-//        us.add(u);
-//        userService.saveUsers(us);
-        return "index";
+    /**
+     * 跳转到分类列表
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "archives")
+    public String archives(ModelMap model) {
+
+        //上映年份
+        List<Screen> screens = screenService.queryList();
+
+        //语言
+        List<Language> languages = languageService.queryList();
+
+        //国家
+        List<Country> countries = countryService.queryList();
+
+        //类型
+        List<ClassType> classTypes = classTypeService.queryList();
+
+        model.addAttribute("screens", screens);
+        model.addAttribute("languages", languages);
+        model.addAttribute("countries", countries);
+        model.addAttribute("classTypes", classTypes);
+
+        return "archives";
     }
 
-    @RequestMapping("get")
-    @ResponseBody
-    public User saveUser(@RequestParam("id") Long id, ModelMap model){
-        User user = userService.queryById(id);
+    /**
+     * 分类展示的详情列表
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "magazine")
+    public String magazine(@RequestParam(value = "screen_year", required = false, defaultValue = "0") long screenYearId,
+                           @RequestParam(value = "class_type", required = false, defaultValue = "0") long classTypeId,
+                           @RequestParam(value = "country", required = false, defaultValue = "0") long countryId,
+                           @RequestParam(value = "language", required = false, defaultValue = "0") long languageId,
+                           ModelMap model) {
 
-        return user;
+        final List<Film> filmList;
+
+        //上映年份
+        if(screenYearId != 0 && !"".equals(screenYearId)) {
+            filmList = filmService.queryByScreenId(screenYearId);
+
+            Screen screen = screenService.queryById(screenYearId);
+            model.addAttribute("key", screen.getScreen_year());
+            model.addAttribute("message", "这里是一些简介!");
+
+            model.addAttribute("filmList", filmList);
+            return "magazine";
+        }
+
+        //所属类型
+        if(classTypeId != 0 && !"".equals(classTypeId)) {
+            filmList = filmService.queryByClassTypeId(classTypeId);
+
+            ClassType classType = classTypeService.queryById(classTypeId);
+            model.addAttribute("key", classType.getClass_name());
+            model.addAttribute("message", "这里是一些简介!");
+
+            model.addAttribute("filmList", filmList);
+            return "magazine";
+        }
+
+        //所属国家
+        if(countryId != 0 && !"".equals(countryId)) {
+            filmList = filmService.queryByCountryId(countryId);
+            Country country = countryService.queryById(countryId);
+            model.addAttribute("key", country.getName());
+            model.addAttribute("message", "这里是一些简介!");
+            model.addAttribute("filmList", filmList);
+            return "magazine";
+        }
+
+        //所属语言
+        if(languageId != 0 && !"".equals(languageId)) {
+            filmList = filmService.queryByLanguageId(languageId);
+            Language language = languageService.queryById(languageId);
+            model.addAttribute("key", language.getLanguage());
+            model.addAttribute("message", "这里是一些简介!");
+            model.addAttribute("filmList", filmList);
+            return "magazine";
+        }
+
+        filmList = new ArrayList<Film>();
+        model.addAttribute("filmList", filmList);
+        return "magazine";
     }
+
+    /**
+     * 下载排行列表
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "cinema")
+    public String cinema(@RequestParam(value = "size", required = false, defaultValue = "10") int pageSize,
+                         @RequestParam(value = "num", required = false, defaultValue = "1") int pageNo,
+                         ModelMap model) {
+        PageResults<Film> filmList = filmService.queryByDownCount(pageNo, pageSize);
+
+        model.addAttribute("filmList", filmList.getResults());
+        return "cinema";
+    }
+
 
     @RequestMapping("json")
     @ResponseBody
     public List<User> json(){
         return userService.getAllUsernames();
-    }
-
-    /******************************************以下尚未启用*****************************************/
-
-    @RequestMapping(method = RequestMethod.GET, value = "archives")
-    public String archives(ModelMap model) {
-        return "archives";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "cinema")
-    public String cinema(ModelMap model) {
-        model.addAttribute("message", "Hello world!aa");
-        return "cinema";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "magazine")
-    public String magazine(ModelMap model) {
-        model.addAttribute("message", "Hello world!aa");
-        return "magazine";
     }
 
 }

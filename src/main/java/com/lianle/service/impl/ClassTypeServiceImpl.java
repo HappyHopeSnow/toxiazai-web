@@ -7,6 +7,7 @@ import com.lianle.service.ClassTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,24 @@ public class ClassTypeServiceImpl implements ClassTypeService {
     public ClassType queryByName(String name) {
         String hql = "FROM ClassType WHERE class_name = ?";
         List<ClassType> list = dao.getListByHQL(hql, new Object[]{name});
+        if ((list == null) || (list.size() == 0)) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public List<ClassType> queryList() {
+        String hql = "FROM ClassType ";
+        List<ClassType> list = dao.getListByHQL(hql);
+        if ((list == null) || (list.size() == 0)) {
+            return new ArrayList<ClassType>();
+        }
+        return list;
+    }
+
+    public ClassType queryById(long classTypeId) {
+        String hql = "FROM ClassType WHERE id = ?";
+        List<ClassType> list = dao.getListByHQL(hql, new Object[]{classTypeId});
         if ((list == null) || (list.size() == 0)) {
             return null;
         }
