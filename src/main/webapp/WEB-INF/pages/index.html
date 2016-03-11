@@ -60,6 +60,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 #set($URL="http://localhost")
+#set($nextPageNo=$current+1);
+
+#if($current == 1) {
+	#set($lastPageNo=1);
+}#else {
+	#set($lastPageNo=$pageNo - 1);
+}
+#end
 <!--header-->
 <div class="back">
 	<img src="images/back.png" alt="">
@@ -144,7 +152,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</a>
 				<div class="caption">
 					<h3 class="cinema"><a href="single.html?id=${recommendFilm.id}">$recommendFilm.name</a></h3>
-					<p>[$recommendFilm.screen_year][$recommendFilm.down_model][$recommendFilm.captions_type][$recommendFilm.size][$recommendFilm.language][$recommendFilm.format]</p>
+					<p>【${recommendFilm.name}】【$recommendFilm.format】【$recommendFilm.size】【$recommendFilm.down_model】【$recommendFilm.captions_type】</p>
 				</div>
 			</div>
 			#end
@@ -204,9 +212,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="movie">
 				<ul class="comment">
 					<li><span>分类 : <a href="single.html">$film.class_name</a> </span></li>
-					<li><a href="#"><i> </i>5 评论  </a></li>
+					<li><span>国家: <a href="single.html">$film.country</a> </span></li>
+					<li><span>字幕 : <a href="single.html">$film.captions_type </a> </span></li>
+					<li><a href="single.html?id={film.id}"><i> </i>最新评论  </a></li>
 				</ul>
-				<a href="single.html?id=${film.id}" class="more">详情介绍</a>
+				<a href="single.html?id=${film.id}" class="more">查看详情</a>
 			<div class="clearfix"> </div>
 			</div>
 		</div>
@@ -214,8 +224,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <!--分页链接-->
         <div class="older-top">
-            <a href="#" class="older"><i> </i>上一页</a>
-            <a href="#" class="older top-old"><i > </i>下一页</a>
+            <a href="index.html?size=${pageSize}&no=${lastPageNo}" class="older"><i> </i>上一页</a>
+            <a href="index.html?size=${pageSize}&no=${nextPageNo}" class="older top-old"><i > </i>下一页</a>
             <div class="clearfix"> </div>
         </div>
         <!---->

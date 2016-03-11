@@ -121,104 +121,66 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<img class="img-responsive" style="margin: 0 auto" src="$URL/${film.cover_name}" alt="">
 				<img class="img-responsive" style="margin: 0 auto" src="$URL/${film.pic_1}" alt="">
 				<img class="img-responsive" style="margin: 0 auto" src="$URL/${film.pic_2}" alt="">
-			<h3 class="page-in">[${film.name}][$film.class_name]</h3>
-				<p class="page-top">${film.description}</p>
-		
+			<h3 class="page-in">【${film.name}】【$film.format】【$film.size】【$film.down_model】【$film.captions_type】</h3>
+			<p class="page-top">${film.description}</p>
+			<h3 class="page-in"><a href="$URL/${film.seed}">点击下载种子【www.toxiazai.com】【${film.name}】</a></h3>
+			<div class="clearfix"></div>
 		<div class="simply">
 			<div class="story">
-				<h4 class="stories stories-in"><span>Related Articles</span></h4>
+				<h4 class="stories stories-in"><span>相关电影</span></h4>
 			</div>
-				<ul class="in-left">
-					<li><a href="#">Lorem Ipsum is simply dummy text </a></li>					
-					<li><a href="#">printing and typesetting industry</a></li>
-					<li><a href="#">Lorem Ipsum has been the industry's  </a> </li>
-					<li><a href="#">standard dummy text ever since </a> </li>
-					<li><a href="#">Lorem Ipsum has been the industry's  </a> </li>
+			#foreach( $likeFilm in $likeFilms)
+			<ul class="in-left">
+					<li><a href="single.html?id=${likeFilm.id}">${likeFilm.name}</a> </li>
 				</ul>
-				<ul class="in-left">
-					<li><a href="#">Lorem Ipsum is simply dummy text </a></li>					
-					<li><a href="#">printing and typesetting industry</a></li>
-					<li><a href="#">Lorem Ipsum has been the industry's  </a> </li>
-					<li><a href="#">standard dummy text ever since </a> </li>
-				</ul>
+			#end
 				<div class="clearfix"></div>
 			</div>
 			<div class="comment-top">
 				<div class="story">
-					<h4 class="stories "><span>comments (3)</span></h4>
+					<h4 class="stories "><span>最新评论($commentsCount)</span></h4>
 				</div>
-				<!---->
+				<!--评论区-->
+				#foreach( $comment in $comments)
 				<div class="comments-top-top page-top-in">
 					<div class="top-comment-left">
 						<img class="img-responsive" src="images/co.png" alt="">
 					</div>
 					<div class="top-comment-right">
 						<div class="right-comment">
-							<h5>Bitch on the broom</h5>
+							<h5>[${comment.name}][${comment.title}]</h5>
 							<span>05/03/2012 at 13:58</span>
 							<div class="clearfix"> </div>
 						</div>
-						<p>Remaining essentially unchanged. It was popularised in the 1960s with the release of  Letraset sheets containing </p>
+						<p>${comment.content}</p>
 						<a href="#" class="reply">Reply</a>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
-				<div class="comments-top-top page-top-in">
-					<div class="top-comment-left">
-						<img class="img-responsive" src="images/co.png" alt="">
-					</div>
-					<div class="top-comment-right">
-						<div class="right-comment">
-							<h5>Bitch on the broom</h5>
-							<span>05/03/2012 at 13:58</span>
-							<div class="clearfix"> </div>
-						</div>
-						<p>Remaining essentially unchanged. It was popularised in the 1960s with the release of  Letraset sheets containing </p>
-						<a href="#" class="reply">Reply</a>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="comments-top-top page-top-in">
-					<div class="top-comment-left">
-						<img class="img-responsive" src="images/co.png" alt="">
-					</div>
-					<div class="top-comment-right">
-						<div class="right-comment">
-							<h5>Bitch on the broom</h5>
-							<span>05/03/2012 at 13:58</span>
-							<div class="clearfix"> </div>
-						</div>
-						<p>Remaining essentially unchanged. It was popularised in the 1960s with the release of  Letraset sheets containing </p>
-						<a href="#" class="reply">Reply</a>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
+				#end
 			<!---->
 			</div>
 			<!---->
 			<div class="simply">
 				<div class="story">
-					<h4 class="stories stories-in"><span>Write comment</span></h4>
+					<h4 class="stories stories-in"><span>您的评论</span></h4>
 				</div>
 				<div class="page-bottom">
-				<form>
-					<div class="name">
-						<span class="sit-in">Name:</span>
-						<input type="text" value="" >
-					</div>
-					<div class="name name-at">
-						<span class="sit-in">Email:</span>
-						<input type="text" value="" >
+				<form action="/singlepage_save_comment">
+					<input type="hidden" name="film_id" value="${film.id}"/>
+					<div class="name name-on">
+						<span class="sit-in">姓名:</span>
+						<input type="text" name = "name" value="" >
 					</div>
 					<div class="name name-on">
-						<span class="sit-in">Website:</span>
-						<input type="text" value="" >
+						<span class="sit-in">标题:</span>
+						<input type="text" name="title" value="" >
 					</div>
 					<div class="name name-in">
-						<span class="sit-in">Comment:</span>
-						<textarea> </textarea>
+						<span class="sit-in">内 容:</span>
+						<textarea name="content"> </textarea>
 					</div>
-					<input type="submit" value="Post Comment">
+					<input type="submit" value="提交评论">
 				</form>
 				</div>
 				<div class="clearfix"> </div>

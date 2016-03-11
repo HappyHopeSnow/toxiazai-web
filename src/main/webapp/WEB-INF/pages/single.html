@@ -54,7 +54,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   			$('#carbonads-container').hide();
   		});
   	});
-</script>	   
+</script>
 </head>
 <body>
 #set($URL="http://localhost")
@@ -175,38 +175,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="story">
 					<h4 class="stories stories-in"><span>相关电影</span></h4>
 				</div>
+				#foreach( $likeFilm in $likeFilms)
 				<ul class="in-left">
-					<li><a href="#">第一个相关电影</a></li>
-					<li><a href="#">第2个相关电影</a></li>
-					<li><a href="#">第3个相关电影</a> </li>
-					<li><a href="#">第4个相关电影</a> </li>
-					<li><a href="#">第5个相关电影</a> </li>
+					<li><a href="single.html?id=${likeFilm.id}">${likeFilm.name}</a></li>
 				</ul>
-				<ul class="in-left">
-					<li><a href="#">第6个相关电影</a></li>
-					<li><a href="#">第7个相关电影</a></li>
-					<li><a href="#">第8个相关电影</a> </li>
-					<li><a href="#">第9个相关电影</a> </li>
-				</ul>
+				#end
 				<div class="clearfix"></div>
 			</div>
 			<!---->
 			<div class="simply">
 				<div class="story">
-					<h4 class="stories stories-in"><span>*评论*</span></h4>
+					<h4 class="stories stories-in"><span>您的评论</span></h4>
 				</div>
-				<form>
+				<form action="/single_save_comment">
+					<input type="hidden" name="film_id" value="${film.id}"/>
 					<div class="name name-on">
 						<span class="sit-in">姓名:</span>
-						<input type="text" value="" >
+						<input type="text" name = "name" value="" >
 					</div>
 					<div class="name name-on">
 						<span class="sit-in">标题:</span>
-						<input type="text" value="" >
+						<input type="text" name="title" value="" >
 					</div>
 					<div class="name name-in">
 						<span class="sit-in">内 容:</span>
-						<textarea> </textarea>
+						<textarea name="content"> </textarea>
 					</div>
 					<input type="submit" value="提交评论">
 				</form>
@@ -215,54 +208,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!---->
 			<div class="comment-top">
 				<div class="story">
-					<h4 class="stories "><span>评论 (3)</span></h4>
+					<h4 class="stories "><span>最新评论 (${commentsCount})</span></h4>
 				</div>
-				<!---->
+				<!--评论区-->
+				#foreach( $comment in $comments)
 				<div class="comments-top-top">
 					<div class="top-comment-left">
 						<img class="img-responsive" src="images/co.png" alt="">
 					</div>
 					<div class="top-comment-right">
 						<div class="right-comment">
-							<h5>张三</h5>
+							<h5>[${comment.name}][${comment.title}]</h5>
 							<span>05/03/2012 at 13:58</span>
 							<div class="clearfix"> </div>
 						</div>
-						<p>这个电影我喜欢！</p>
-						<a href="#" class="reply">Reply</a>
+						<p>${comment.content}</p>
+						<!--<a href="#" class="reply">Reply</a>-->
 					</div>
 					<div class="clearfix"> </div>
 				</div>
-				<div class="comments-top-top">
-					<div class="top-comment-left">
-						<img class="img-responsive" src="images/co.png" alt="">
-					</div>
-					<div class="top-comment-right">
-						<div class="right-comment">
-							<h5>李四</h5>
-							<span>05/03/2012 at 13:58</span>
-							<div class="clearfix"> </div>
-						</div>
-						<p>非常好的电影</p>
-						<a href="#" class="reply">Reply</a>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="comments-top-top">
-					<div class="top-comment-left">
-						<img class="img-responsive" src="images/co.png" alt="">
-					</div>
-					<div class="top-comment-right">
-						<div class="right-comment">
-							<h5>王五</h5>
-							<span>05/03/2012 at 13:58</span>
-							<div class="clearfix"> </div>
-						</div>
-						<p>最爱这个网站了</p>
-						<a href="#" class="reply">Reply</a>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
+				#end
 			<!---->
 			</div>
 			<!---->

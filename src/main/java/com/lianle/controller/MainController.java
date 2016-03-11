@@ -3,6 +3,7 @@ package com.lianle.controller;
 import com.lianle.common.PageResults;
 import com.lianle.entity.*;
 import com.lianle.service.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +41,9 @@ public class MainController {
     @Autowired
     ClassTypeService classTypeService;
 
+    @Autowired
+    CommentService commentService;
+
     /**
      * 默认首页
      * @return
@@ -56,8 +61,8 @@ public class MainController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "index")
-    public String home(@RequestParam(value = "size", required = false, defaultValue = "10") int pageSize,
-                       @RequestParam(value = "num", required = false, defaultValue = "1") int pageNo,
+    public String home(@RequestParam(value = "size", required = false, defaultValue = "5") int pageSize,
+                       @RequestParam(value = "no", required = false, defaultValue = "1") int pageNo,
                        ModelMap model) {
 
         //首页分页数据(8个)
@@ -87,6 +92,12 @@ public class MainController {
         model.addAttribute("newFilms", newFilms);
         model.addAttribute("hotFilms", hotFilms);
         model.addAttribute("loveFilms", loveFilms);
+
+        //分页信息
+        model.addAttribute("current", resultList.getCurrentPage());
+        model.addAttribute("pageCount", resultList.getPageCount());
+        model.addAttribute("pageSize", resultList.getPageSize());
+        model.addAttribute("pageNo", resultList.getPageNo());
         return "index";
     }
 
@@ -116,10 +127,24 @@ public class MainController {
         //猜你喜欢v
         List<Film> loveFilms = resultList.getResults();
 
+        //相关电影
+        List<Film> likeFilms = resultList.getResults();
+
+        //查询评论
+        List<Comment> comments = commentService.queryByFilmId(id);
+        int commentsCount = 0;
+        if (comments != null && comments.size() > 0) {
+            commentsCount = comments.size();
+        }
+
         model.addAttribute("arrayFilms", arrayFilms);
         model.addAttribute("newFilms", newFilms);
         model.addAttribute("hotFilms", hotFilms);
         model.addAttribute("loveFilms", loveFilms);
+        model.addAttribute("likeFilms", likeFilms);
+
+        model.addAttribute("comments", comments);
+        model.addAttribute("commentsCount", commentsCount);
         return "single";
     }
 
@@ -132,6 +157,21 @@ public class MainController {
     public String singlepage(@RequestParam(value = "id", required = true) long id,
                              ModelMap model) {
         Film film = filmService.queryById(id);
+
+        PageResults<Film> resultList = filmService.queryByPage(1, 8);
+        //相关电影
+        List<Film> likeFilms = resultList.getResults();
+
+        //查询评论
+        List<Comment> comments = commentService.queryByFilmId(id);
+        int commentsCount = 0;
+        if (comments != null && comments.size() > 0) {
+            commentsCount = comments.size();
+        }
+
+        model.addAttribute("likeFilms", likeFilms);
+        model.addAttribute("comments", comments);
+        model.addAttribute("commentsCount", commentsCount);
         model.addAttribute("film", film);
         return "singlepage";
     }
@@ -245,7 +285,7 @@ public class MainController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "cinema")
     public String cinema(@RequestParam(value = "size", required = false, defaultValue = "10") int pageSize,
-                         @RequestParam(value = "num", required = false, defaultValue = "1") int pageNo,
+                         @RequestParam(value = "no", required = false, defaultValue = "1") int pageNo,
                          ModelMap model) {
         PageResults<Film> filmList = filmService.queryByDownCount(pageNo, pageSize);
 
@@ -253,6 +293,79 @@ public class MainController {
         return "cinema";
     }
 
+    /**
+     * single页面进入详情页
+     * @param filmId
+     * @param name
+     * @param title
+     * @param content
+     * @return
+     */
+    @RequestMapping("single_save_comment")
+    public String saveComment4Single(
+                                     @RequestParam(value = "film_id", required = true) long filmId,
+                                     @RequestParam(value = "name", required = true) String name,
+                                     @RequestParam(value = "title", required = true) String title,
+                                     @RequestParam(value = "content", required = true) String content){
+
+        UnifiedResponse unifiedResponse = new UnifiedResponse();
+
+        if(filmId == 0 || StringUtils.isBlank(name) || StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
+            unifiedResponse.setMessage("参数错误，请重试!");
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
+            return "single?id=" + filmId + "&error=参数错误";
+        }
+
+        Comment comment = new Comment();
+        comment.setFilm_id(filmId);
+        comment.setName(name);
+        comment.setTitle(title);
+        comment.setCreateTime(new Date());
+        comment.setStatus(10);
+        comment.setContent(content);
+        commentService.save(comment);
+
+        unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
+        unifiedResponse.setMessage("保存成功");
+        return "redirect:/single?id=" + filmId;
+    }
+
+    /**
+     * singlepage页面进入详情页
+     * @param filmId
+     * @param name
+     * @param title
+     * @param content
+     * @return
+     */
+    @RequestMapping("singlepage_save_comment")
+    public String saveComment4SinglePage(
+            @RequestParam(value = "film_id", required = true) long filmId,
+            @RequestParam(value = "name", required = true) String name,
+            @RequestParam(value = "title", required = true) String title,
+            @RequestParam(value = "content", required = true) String content){
+
+        UnifiedResponse unifiedResponse = new UnifiedResponse();
+
+        if(filmId == 0 || StringUtils.isBlank(name) || StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
+            unifiedResponse.setMessage("参数错误，请重试!");
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
+            return "single?id=" + filmId + "&error=参数错误";
+        }
+
+        Comment comment = new Comment();
+        comment.setFilm_id(filmId);
+        comment.setName(name);
+        comment.setTitle(title);
+        comment.setCreateTime(new Date());
+        comment.setStatus(10);
+        comment.setContent(content);
+        commentService.save(comment);
+
+        unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
+        unifiedResponse.setMessage("保存成功");
+        return "redirect:/singlepage?id=" + filmId;
+    }
 
     @RequestMapping("json")
     @ResponseBody
