@@ -45,8 +45,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<a href="index.html"><img src="images/logo.png" alt="" ></a>
 					</div>
 					<div class="search">
-						<form>
-							<input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
+						<form action="search.html">
+							<input type="text" name="key" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
 							<input type="submit" value="搜索">
 						</form>
 					</div>
@@ -71,15 +71,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  <input id="mobile_menu" type="checkbox">
 					<ul class="nav">
 						<li><a class="color1" href="index.html">首页</a></li>
-						<li><a href="cinema.html" class="color2">下载排行</a></li>
+						<!--<li><a href="search.html" class="color5">下载排行</a></li>-->
 						<!--<li><a href="magazine.html" class="color3">最热列表</a></li>-->
 						<!--<li class="dropdown"><a href="#" class="color4">查看<span> </span></a>
 							<ul>
-								<li><a href="cinema.html">最新列表</a></li>
 								<li><a href="magazine.html">最热列表</a></li>
 							</ul>
 						</li>-->
-						<li><a href="archives.html" class="color5">所有分类</a></li>
+						<li><a href="archives.html" class="color2">所有分类</a></li>
 						<li><a href="contact.html" class="color6">关于</a></li>
 						<div class="clearfix"></div>
 					</ul>
@@ -93,21 +92,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<h3>好的意见或建议，告诉我们？</h3>
 						<div>
 							<span>您的姓名:</span>
-							<input type="text" value="" >						
+							<input type="text" id="name" value="" >
 						</div>
 						<div>
 							<span>您的邮箱:</span>
-							<input type="text" value="" >						
+							<input type="text" id="email" value="" >
 						</div>
 						<div>
 							<span>标题:</span>
-							<input type="text" value="" >	
+							<input type="text" id="title" value="" >
 						</div>
 						<div>
 							<span>您的意见或建议:</span>
-							<textarea> </textarea>	
+							<textarea id="advice"></textarea>
 						</div>
-						<input type="submit" value="提交" >
+						<input type="submit" id="confirm" value="提交" >
 				</div>
 				<div class="col-md-6 contact-top">
 					<h3>关于我们</h3>
@@ -145,9 +144,55 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							
 						});
 					</script>
+	<script type="text/javascript">
+		;(function($){
+			function conmitHandler(){
+				var name = $("#name").val();
+				var email = $("#email").val();
+				var title = $("#title").val();
+				var advice = $("#advice").val();
+				if (name == "") {
+					alert("请填写您的姓名!");
+					return;
+				}
+				if (email == "") {
+					alert("请填写您的邮箱,方便后续我们联系您!");
+					return;
+				}
+				if (title == "") {
+					alert("请填写您的标题，让我们更方便查找!");
+					return;
+				}
+				if (advice == "") {
+					alert("请填写您的宝贵意见!");
+					return;
+				}
+				jQuery.ajax({
+					url: "/save_advice.json",
+					data: {
+						name: name,
+						email: email,
+						title: title,
+						advice: advice
+					},
+					dataType: 'json',
+					type:"post",
+					success: function(json) {
+						if(json.status==200){
+							alert("非常感谢你的宝贵意见！");
+							window.location.href="/index.html"
+						}else{
+							alert("提交失败，请联系管理员！");
+						}
+					}
+				});
+			}
+			$(function(){
+				$(document).on("click", "#confirm", conmitHandler);
+			})
+		})(jQuery);
+	</script>
 				<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-
-
 </div>
 </body>
 </html>

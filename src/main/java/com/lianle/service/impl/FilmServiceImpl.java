@@ -82,6 +82,14 @@ public class FilmServiceImpl implements FilmService {
         return filmPageResults;
     }
 
+    @Override
+    public PageResults<Film> search(String key, int pageNo, int pageSize) {
+        String hql = "FROM Film WHERE key_word   LIKE '%"+ key +"%' ORDER BY createTime DESC ";
+        String countHql = "SELECT COUNT(*) FROM Film WHERE key_word LIKE '%"+ key +"%'";
+        PageResults<Film> filmPageResults = dao.findPageByFetchedHql(hql, countHql, pageNo, pageSize, new Object[]{});
+        return filmPageResults;
+    }
+
     public List<Film> getAllFilms() {
         String hql = "FROM Film";
         List<Film> list = dao.getListByHQL(hql);

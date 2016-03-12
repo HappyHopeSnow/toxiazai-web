@@ -35,6 +35,18 @@ public class AdminController {
 
     private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 
+    private static final String saveResourcePath;
+    static {
+        String osName = System.getProperty("os.name");
+        LOGGER.info("System OS Name is[" + osName + "]");
+        if (osName.startsWith("Win")) {
+            //windows操作系统
+            saveResourcePath = "d:\\\\";
+        }else {
+            saveResourcePath = "/opt/resource/";
+        }
+    }
+
     @Autowired
     UserService userService;
 
@@ -73,9 +85,11 @@ public class AdminController {
 
     @RequestMapping(method = RequestMethod.GET, value = "curl")
     @ResponseBody
-    public Film curl(@RequestParam("id") String parentId){
+    public UnifiedResponse curl(@RequestParam("id") String parentId){
 
         Film film = new Film();
+
+        UnifiedResponse unifiedResponse = new UnifiedResponse();
 
         //上传者
         User user = userService.getAdmin();
@@ -87,6 +101,12 @@ public class AdminController {
 
         //访问url
         String result = postUrl(url);
+
+        if(result == null) {
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
+            unifiedResponse.setMessage("没有获取这个链接[" + url + "]的数据，请检查！");
+            return unifiedResponse;
+        }
 
         //保存成文件
         film.setParent_id(parentId);
@@ -159,7 +179,11 @@ public class AdminController {
         //保存关联关系表，方便查询
         saveRelation(film, performatsList);
 
-        return film;
+        unifiedResponse.setAttachment(film);
+        unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
+        unifiedResponse.setAttachment(url);
+        unifiedResponse.setMessage("抓取成功!");
+        return unifiedResponse;
 
     }
 
@@ -233,7 +257,7 @@ public class AdminController {
 
     private void downLoadTorrent(String torrentUrl, String torrentName) {
         //9.&&&&下载链接种子
-        FileUtils.downloadFile(torrentUrl, "d:\\\\" + torrentName);
+        FileUtils.downloadFile(torrentUrl, saveResourcePath + torrentName);
     }
 
     private String getTorrentUrl(String result) {
@@ -431,7 +455,7 @@ public class AdminController {
     }
 
     private void saveFile(String result, String fileName) {
-        fileName = "d:\\\\" + fileName + ".html";
+        fileName = saveResourcePath + fileName + ".html";
         LOGGER.debug("Begin save the url result to the file path [" + fileName + "]!");
         //保存字符串到文件中
         FileUtils.createNewFile(fileName, result);

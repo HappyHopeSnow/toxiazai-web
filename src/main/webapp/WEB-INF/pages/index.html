@@ -82,8 +82,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<a href="index.html"><img src="images/logo.png" alt="" ></a>
 					</div>
 					<div class="search">
-						<form>
-							<input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
+						<form action="search">
+							<input name="key" type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
 							<input type="submit" value="搜索">
 						</form>
 					</div>
@@ -108,15 +108,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  <input id="mobile_menu" type="checkbox">
 					<ul class="nav">
 						<li><a class="color1" href="index.html">首页</a></li>
-						<li><a href="cinema.html" class="color2">下载排行</a></li>
+						<!--<li><a href="search.html" class="color5">下载排行</a></li>-->
 						<!--<li><a href="magazine.html" class="color3">最热列表</a></li>-->
 						<!--<li class="dropdown"><a href="#" class="color4">查看<span> </span></a>
 							<ul>
-								<li><a href="cinema.html">最新列表</a></li>
 								<li><a href="magazine.html">最热列表</a></li>
 							</ul>
 						</li>-->
-						<li><a href="archives.html" class="color5">所有分类</a></li>
+						<li><a href="archives.html" class="color2">所有分类</a></li>
 						<li><a href="contact.html" class="color6">关于</a></li>
 						<div class="clearfix"></div>
 					</ul>
@@ -211,10 +210,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!---->
 			<div class="movie">
 				<ul class="comment">
-					<li><span>分类 : <a href="single.html">$film.class_name</a> </span></li>
-					<li><span>国家: <a href="single.html">$film.country</a> </span></li>
-					<li><span>字幕 : <a href="single.html">$film.captions_type </a> </span></li>
-					<li><a href="single.html?id={film.id}"><i> </i>最新评论  </a></li>
+					<li><span>分类 : <a href="magazine.html?class_type=${film.class_id}">$film.class_name</a> </span></li>
+					<li><span>国家: <a href="magazine.html?country=${film.country_id}">$film.country</a> </span></li>
+					<li><span>语言 : <a href="magazine.html?language=${film.language_id}">$film.language </a> </span></li>
+					<li><a href="single.html?id=${film.id}"><i> </i>最新评论  </a></li>
 				</ul>
 				<a href="single.html?id=${film.id}" class="more">查看详情</a>
 			<div class="clearfix"> </div>
@@ -255,7 +254,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</a>
 				</div>
 				<div class="men-grid">
-					<h5><a href="single.html">$arrayFilm.name</a> </h5>
+					<h5><a href="single.html?id=${arrayFilm.id}">$arrayFilm.name</a> </h5>
 					<p>[$arrayFilm.screen_year][$arrayFilm.down_model][$arrayFilm.captions_type][$arrayFilm.size][$arrayFilm.language][$arrayFilm.format]</p>
 				</div>
 				<div class="clearfix"></div>
@@ -270,10 +269,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			#foreach( $newFilm in $newFilms)
 			<div class="men">
 				<div class="grid-men">
-					<a href="single.html"><img src="$URL/${newFilm.cover_name}" class="img-responsive" alt=""> </a>
+					<a href="single.html?id=${newFilm.id}"><img src="$URL/${newFilm.cover_name}" class="img-responsive" alt=""> </a>
 				</div>
 				<div class="men-grid">
-					<h5><a href="single.html?id={newFilm.id}">$newFilm.name</a></h5>
+					<h5><a href="single.html?id=${newFilm.id}">$newFilm.name</a></h5>
 					<p>[$newFilm.screen_year][$newFilm.down_model][$newFilm.captions_type][$newFilm.size][$newFilm.language][$newFilm.format][$newFilm.class_name]</p>
 				</div>
 				<div class="clearfix"></div>
@@ -288,10 +287,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		#foreach( $hotFilm in $hotFilms)
 			<div class="men">
 				<div class="grid-men">
-					<a href="single.html"><img src="$URL/${hotFilm.cover_name}" class="img-responsive" alt=""> </a>
+					<a href="single.html?id=${hotFilm.id}"><img src="$URL/${hotFilm.cover_name}" class="img-responsive" alt=""> </a>
 				</div>
 				<div class="men-grid">
-					<h5><a href="single.html?id={$hotFilm.id}">$hotFilm.name</a></h5>
+					<h5><a href="single.html?id=${hotFilm.id}">$hotFilm.name</a></h5>
 					<p>[$hotFilm.screen_year][$hotFilm.down_model][$hotFilm.captions_type][$hotFilm.size][$hotFilm.language][$hotFilm.format][$hotFilm.class_name]</p>
 				</div>
 				<div class="clearfix"></div>
@@ -308,11 +307,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				#foreach( $loveFilm in $loveFilms)
 				<div class="might-grid">
 					<div class="grid-might">
-						<a href="single.html"><img src="$URL/${loveFilm.cover_name}" class="img-responsive" alt=""> </a>
+						<a href="single.html?id=${loveFilm.id}"><img src="$URL/${loveFilm.cover_name}" class="img-responsive" alt=""> </a>
 					</div>
 					<div class="might-top">
 						<p>[$loveFilm.screen_year][$loveFilm.down_model][$loveFilm.captions_type][$loveFilm.size][$loveFilm.language][$loveFilm.format][$loveFilm.class_name]</p>
-						<a href="single.html?id={loveFilm.id}">$loveFilm.name<i> </i></a>
+						<a href="single.html?id=${loveFilm.id}">$loveFilm.name<i> </i></a>
 					</div>
 				<div class="clearfix"></div>
 				</div>

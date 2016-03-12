@@ -44,6 +44,9 @@ public class MainController {
     @Autowired
     CommentService commentService;
 
+    @Autowired
+    AdviceService adviceService;
+
     /**
      * 默认首页
      * @return
@@ -188,6 +191,38 @@ public class MainController {
     }
 
     /**
+     * ajax提交意见
+     * @param name
+     * @param name
+     * @param title
+     * @param adviceContent
+     * @return
+     */
+    @RequestMapping("save_advice")
+    @ResponseBody
+    public UnifiedResponse saveAdvice(
+            @RequestParam(value = "name", required = true) String name,
+            @RequestParam(value = "email", required = true) String email,
+            @RequestParam(value = "title", required = true) String title,
+            @RequestParam(value = "advice", required = true) String adviceContent){
+
+        UnifiedResponse unifiedResponse = new UnifiedResponse();
+
+        Advice advice = new Advice();
+        advice.setName(name);
+        advice.setEmail(email);
+        advice.setTitle(title);
+        advice.setAdvice(adviceContent);
+        advice.setCreateTime(new Date());
+        advice.setStatus(10);
+        adviceService.save(advice);
+
+        unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
+        unifiedResponse.setMessage("保存成功");
+        return unifiedResponse;
+    }
+
+    /**
      * 跳转到分类列表
      * @param model
      * @return
@@ -279,18 +314,20 @@ public class MainController {
     }
 
     /**
-     * 下载排行列表
+     * 搜索结果展示页面
      * @param model
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, value = "cinema")
-    public String cinema(@RequestParam(value = "size", required = false, defaultValue = "10") int pageSize,
+    @RequestMapping(method = RequestMethod.GET, value = "search")
+    public String cinema(@RequestParam(value = "key", required = true) String key,
+                         @RequestParam(value = "size", required = false, defaultValue = "10") int pageSize,
                          @RequestParam(value = "no", required = false, defaultValue = "1") int pageNo,
                          ModelMap model) {
-        PageResults<Film> filmList = filmService.queryByDownCount(pageNo, pageSize);
+
+        PageResults<Film> filmList = filmService.search(key, pageNo, pageSize);
 
         model.addAttribute("filmList", filmList.getResults());
-        return "cinema";
+        return "search";
     }
 
     /**

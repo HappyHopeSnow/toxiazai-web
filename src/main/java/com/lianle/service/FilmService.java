@@ -60,4 +60,12 @@ public interface FilmService {
      */
     PageResults<Film> queryByDownCount(int pageNo, int pageSize);
 
+    /**
+     * 搜索
+     * @param key
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    PageResults<Film> search(String key, int pageNo, int pageSize);
 }
