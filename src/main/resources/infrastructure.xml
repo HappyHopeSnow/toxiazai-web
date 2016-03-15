@@ -41,6 +41,11 @@
               </property>
        </bean>
 
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+        <property name="checkWriteOperations" value="false"/>
+    </bean>
+
        <bean id="transactionManager"
              class="org.springframework.orm.hibernate4.HibernateTransactionManager">
               <property name="sessionFactory" ref="sessionFactory"></property>

@@ -21,6 +21,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 
 /**
  * @author yz
@@ -33,7 +34,11 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
 
     @Autowired
     SessionFactory sessionFactory;
+
     public Class<T> entityClass;
+
+    @Autowired
+    private HibernateTemplate hibernateTemplate;
 
     public BaseDao() {
 
@@ -51,22 +56,24 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * <完整保存实体>
      *
      * @param t 实体参数
-     * @see com.itv.launcher.util.IBaseDao#save(java.lang.Object)
+     * @see #save(java.lang.Object)
      */
-    @Override
+    
     public void save(T t) {
-        this.getSession().save(t);
+        hibernateTemplate.save(t);
+//        this.getSession().save(t);
     }
 
     /**
      * <保存或者更新实体>
      *
      * @param t 实体
-     * @see com.itv.launcher.util.IBaseDao#saveOrUpdate(java.lang.Object)
+     * @see #saveOrUpdate(java.lang.Object)
      */
-    @Override
+    
     public void saveOrUpdate(T t) {
-        this.getSession().saveOrUpdate(t);
+//        this.getSession().saveOrUpdate(t);
+        hibernateTemplate.saveOrUpdate(t);
     }
 
     /**
@@ -75,9 +82,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      *
      * @param id 实体的id
      * @return 查询出来的实体
-     * @see com.itv.launcher.util.IBaseDao#load(java.io.Serializable)
+     * @see #load(java.io.Serializable)
      */
-    @Override
+   
     public T load(ID id) {
         T load = (T) this.getSession().load(getEntityClass(), id);
         return load;
@@ -89,9 +96,8 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      *
      * @param id 实体的id
      * @return 查询出来的实体
-     * @see com.itv.launcher.util.IBaseDao#get(java.io.Serializable)
+     * @see #get(java.io.Serializable)
      */
-    @Override
     public T get(ID id) {
         T load = (T) this.getSession().get(getEntityClass(), id);
         return load;
@@ -102,9 +108,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      *
      * @param t 实体
      * @return 是否包含
-     * @see com.itv.launcher.util.IBaseDao#contains(java.lang.Object)
+     * @see #contains(java.lang.Object)
      */
-    @Override
+   
     public boolean contains(T t) {
         return this.getSession().contains(t);
     }
@@ -114,11 +120,12 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * <删除表中的t数据>
      *
      * @param t 实体
-     * @see com.itv.launcher.util.IBaseDao#delete(java.lang.Object)
+     * @see #delete(java.lang.Object)
      */
-    @Override
+   
     public void delete(T t) {
-        this.getSession().delete(t);
+//        this.getSession().delete(t);
+        hibernateTemplate.delete(t);
     }
 
     /**
@@ -126,9 +133,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      *
      * @param Id 实体id
      * @return 是否删除成功
-     * @see com.itv.launcher.util.IBaseDao#deleteById(java.io.Serializable)
+     * @see #deleteById(java.io.Serializable)
      */
-    @Override
+   
     public boolean deleteById(ID Id) {
         T t = get(Id);
         if (t == null) {
@@ -142,9 +149,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * <删除所有>
      *
      * @param entities 实体的Collection集合
-     * @see com.itv.launcher.util.IBaseDao#deleteAll(java.util.Collection)
+     * @see #deleteAll(java.util.Collection)
      */
-    @Override
+   
     public void deleteAll(Collection<T> entities) {
         for (Object entity : entities) {
             this.getSession().delete(entity);
@@ -156,9 +163,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      *
      * @param hqlString hql
      * @param values    不定参数数组
-     * @see com.itv.launcher.util.IBaseDao#queryHql(java.lang.String, java.lang.Object[])
+     * @see #queryHql(java.lang.String, java.lang.Object[])
      */
-    @Override
+   
     public void queryHql(String hqlString, Object... values) {
         Query query = this.getSession().createQuery(hqlString);
         if (values != null) {
@@ -174,9 +181,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      *
      * @param sqlString sql
      * @param values    不定参数数组
-     * @see com.itv.launcher.util.IBaseDao#querySql(java.lang.String, java.lang.Object[])
+     * @see #querySql(java.lang.String, java.lang.Object[])
      */
-    @Override
+   
     public void querySql(String sqlString, Object... values) {
         Query query = this.getSession().createSQLQuery(sqlString);
         if (values != null) {
@@ -193,9 +200,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param hqlString HQL语句
      * @param values    不定参数的Object数组
      * @return 查询实体
-     * @see com.itv.launcher.util.IBaseDao#getByHQL(java.lang.String, java.lang.Object[])
+     * @see #getByHQL(java.lang.String, java.lang.Object[])
      */
-    @Override
+   
     public T getByHQL(String hqlString, Object... values) {
         Query query = this.getSession().createQuery(hqlString);
         if (values != null) {
@@ -212,9 +219,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param sqlString SQL语句
      * @param values    不定参数的Object数组
      * @return 查询实体
-     * @see com.itv.launcher.util.IBaseDao#getBySQL(java.lang.String, java.lang.Object[])
+     * @see #getBySQL(java.lang.String, java.lang.Object[])
      */
-    @Override
+   
     public T getBySQL(String sqlString, Object... values) {
         Query query = this.getSession().createSQLQuery(sqlString);
         if (values != null) {
@@ -231,9 +238,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param hqlString HQL语句
      * @param values    不定参数的Object数组
      * @return 查询多个实体的List集合
-     * @see com.itv.launcher.util.IBaseDao#getListByHQL(java.lang.String, java.lang.Object[])
+     * @see #getListByHQL(java.lang.String, java.lang.Object[])
      */
-    @Override
+   
     public List<T> getListByHQL(String hqlString, Object... values) {
         Query query = this.getSession().createQuery(hqlString);
         if (values != null) {
@@ -250,9 +257,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param sqlString HQL语句
      * @param values    不定参数的Object数组
      * @return 查询多个实体的List集合
-     * @see com.itv.launcher.util.IBaseDao#getListBySQL(java.lang.String, java.lang.Object[])
+     * @see #getListBySQL(java.lang.String, java.lang.Object[])
      */
-    @Override
+   
     public List<T> getListBySQL(String sqlString, Object... values) {
         Query query = this.getSession().createSQLQuery(sqlString);
         if (values != null) {
@@ -270,9 +277,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param map
      * @param values
      * @return List
-     * @see com.itv.launcher.util.IBaseDao#findListBySql(java.lang.String, com.itv.launcher.util.RowMapper, java.lang.Object[])
+     * @see #findListBySql(java.lang.String, RowMapper, java.lang.Object[])
      */
-    @Override
+   
     public List findListBySql(final String sql, final RowMapper map, final Object... values) {
         final List list = new ArrayList();
         // 执行JDBC的数据批量保存
@@ -315,9 +322,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * <refresh>
      *
      * @param t 实体
-     * @see com.itv.launcher.util.IBaseDao#refresh(java.lang.Object)
+     * @see #refresh(java.lang.Object)
      */
-    @Override
+   
     public void refresh(T t) {
         this.getSession().refresh(t);
     }
@@ -326,11 +333,12 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * <update>
      *
      * @param t 实体
-     * @see com.itv.launcher.util.IBaseDao#update(java.lang.Object)
+     * @see #update(java.lang.Object)
      */
-    @Override
+   
     public void update(T t) {
-        this.getSession().update(t);
+//        this.getSession().update(t);
+        hibernateTemplate.merge(t);
     }
 
     /**
@@ -339,9 +347,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param hql    HQL语句
      * @param values 不定参数的Object数组
      * @return 记录总数
-     * @see com.itv.launcher.util.IBaseDao#countByHql(java.lang.String, java.lang.Object[])
+     * @see #countByHql(java.lang.String, java.lang.Object[])
      */
-    @Override
+   
     public Long countByHql(String hql, Object... values) {
         Query query = this.getSession().createQuery(hql);
         if (values != null) {
@@ -361,9 +369,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param pageSize 一页总条数
      * @param values   不定Object数组参数
      * @return PageResults的封装类，里面包含了页码的信息以及查询的数据List集合
-     * @see com.itv.launcher.util.IBaseDao#findPageByFetchedHql(java.lang.String, java.lang.String, int, int, java.lang.Object[])
+     * @see #findPageByFetchedHql(java.lang.String, java.lang.String, int, int, java.lang.Object[])
      */
-    @Override
+   
     public PageResults<T> findPageByFetchedHql(String hql, String countHql,
                                                int pageNo, int pageSize, Object... values) {
         PageResults<T> retValue = new PageResults<T>();

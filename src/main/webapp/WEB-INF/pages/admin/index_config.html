@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>首页配置</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Custom Theme files -->
+    <!--theme-style-->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Magblog Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--fonts-->
+    <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.useso.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
+    <!--//fonts-->
+    <script type="text/javascript" src="js/move-top.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event){
+                event.preventDefault();
+                $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+            });
+        });
+    </script>
+    <link href="css/nav.css" rel="stylesheet" type="text/css" media="all"/>
+</head>
+<body>
+<!--header-->
+<div class="container">
+    <div class="main-top">
+        <div class="main">
+            <div class="header">
+                <!---->
+            </div>
+            <!---->
+            <div class="contact">
+                <div class="col-md-6 contact-top">
+                    <input type="hidden" id="id" name="id" value="">
+                    <h3>配置首页信息</h3>
+                    <div>
+                        <span>排行榜Id列表</span>
+                        <input type="text" id="arrayIds" value="" >
+                    </div>
+                    <div class="clearfix"> </div>
+                    <div>
+                        <span>最新电影Id列表:</span>
+                        <input type="text" id="newIds" value="" >
+                    </div>
+                    <div class="clearfix"> </div>
+                    <div>
+                        <span>最热Id列表:</span>
+                        <input type="text" id="hotIds" value="" >
+                    </div>
+                    <div>
+                        <div class="clearfix"> </div>
+                        <span>猜你喜欢Id列表:</span>
+                        <input type="text" id="loveIds" value="" >
+                    </div>
+                    <input type="submit" id="confirm" value="提交" >
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+
+        </div>
+        <i class="line"> </i>
+        <i class="line-in"> </i>
+    </div>
+    <script type="text/javascript">
+        ;(function($){
+
+            $("#id").val("${indexConfig.id}");
+            $("#arrayIds").val("${indexConfig.array_ids}");
+            $("#newIds").val("${indexConfig.new_ids}");
+            $("#hotIds").val("${indexConfig.hot_ids}");
+            $("#loveIds").val("${indexConfig.love_ids}");
+
+            function conmitHandler(){
+                var id = $("#id").val();
+                var arrayIds = $("#arrayIds").val();
+                var newIds = $("#newIds").val();
+                var hotIds = $("#hotIds").val();
+                var loveIds = $("#loveIds").val();
+                if (arrayIds == "") {
+                    alert("请填写<<排行榜>>ID信息!");
+                    return;
+                }
+                if (newIds == "") {
+                    alert("请填写<<最新>>ID信息!");
+                    return;
+                }
+                if (hotIds == "") {
+                    alert("请填写<<最热>>ID信息!");
+                    return;
+                }
+                if (loveIds == "") {
+                    alert("请填写<<猜你喜欢>>ID信息!");
+                    return;
+                }
+                jQuery.ajax({
+                    url: "/admin/save_index_config.json",
+                    data: {
+                        id: id,
+                        arrayIds: arrayIds,
+                        newIds: newIds,
+                        hotIds: hotIds,
+                        loveIds: loveIds
+                    },
+                    dataType: 'json',
+                    type:"post",
+                    success: function(json) {
+                        if(json.status==200){
+                            alert("更新成功！");
+                            window.location.href="/admin/index_config.html"
+                        }else{
+                            alert("提交失败，请联系管理员！");
+                        }
+                    }
+                });
+            }
+            $(function(){
+                $(document).on("click", "#confirm", conmitHandler);
+            })
+        })(jQuery);
+    </script>
+    <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+</div>
+</body>
+</html>
