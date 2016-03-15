@@ -73,7 +73,6 @@ public class CurlManagerServiceImpl implements CurlManagerService {
     @Autowired
     FilmPerformerRelService filmPerformerRelService;
 
-    @Override
     public UnifiedResponse curl(String parentId) {
         Film film = new Film();
 
@@ -156,12 +155,19 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
         //下载种子文件
         //获取种子名字
+        if (torrentUrl == null) {
+            LOGGER.info("May Be this torrent Url prefix is not .torrent, continue it!!!!!");
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
+            unifiedResponse.setMessage("May Be this torrent Url prefix is not .torrent, continue it, the url is [" + url + "]！");
+            return unifiedResponse;
+        }
         String[] torrentUrlStr = torrentUrl.split("/");
         String torrentName = torrentUrlStr[torrentUrlStr.length - 1];
 
         downLoadTorrent(torrentUrl, torrentName);
 
         film.setSeed(torrentName);
+        System.out.println("name is[" + film.getName());
         filmService.save(film);
 
         //保存关联关系表，方便查询
@@ -255,7 +261,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
     private List<Performer> processMiddleContent(Film film, String result) {
         //7.&&&&获取中间部分
-        String middleReg = "<p>时间.*。</p>";
+        String middleReg = "<p>时间.*</p>";
         String middleResult = RegexUtils.get(middleReg, result);
 
         //<p>分割

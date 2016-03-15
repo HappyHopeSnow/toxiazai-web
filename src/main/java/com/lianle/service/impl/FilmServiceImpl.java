@@ -82,7 +82,6 @@ public class FilmServiceImpl implements FilmService {
         return filmPageResults;
     }
 
-    @Override
     public PageResults<Film> search(String key, int pageNo, int pageSize) {
         String hql = "FROM Film WHERE key_word   LIKE '%"+ key +"%' ORDER BY createTime DESC ";
         String countHql = "SELECT COUNT(*) FROM Film WHERE key_word LIKE '%"+ key +"%'";

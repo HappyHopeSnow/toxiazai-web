@@ -1,6 +1,8 @@
 package com.lianle.job;
 
+import com.lianle.entity.CurlLog;
 import com.lianle.entity.UnifiedResponse;
+import com.lianle.service.CurlLogService;
 import com.lianle.service.CurlManagerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +19,9 @@ import java.util.Date;
 public class TaskJob {
 
     private static final Logger LOGGER = LogManager.getLogger(TaskJob.class);
+
+    //不抓取的链接
+    private static final String notCurlParentIds = "[48]";
 
     /**
      "0 0 12 * * ?"    每天中午十二点触发
@@ -36,6 +41,9 @@ public class TaskJob {
     @Autowired
     CurlManagerService curlManagerService;
 
+    @Autowired
+    CurlLogService curlLogService;
+
     /**
      * 抓取任务
      * 每天晚上1:00
@@ -45,19 +53,36 @@ public class TaskJob {
         LOGGER.info("Start The Curl Job...,and now is [" + new Date() + "]");
         Long startTime = System.currentTimeMillis();
         //从数据库中读取上次抓取的最大的pid
-        Long lastPid = 100l;
+        CurlLog oldCurlLog = curlLogService.queryLast();
+        CurlLog newCurlLog = new CurlLog();
+
+        Long startId;
+        if (oldCurlLog == null) {
+            //系统第一次
+            startId = Long.parseLong("19");//第一个电影从id=19开始
+            newCurlLog.setStart_id(startId);
+        }else {
+            newCurlLog.setStart_id(oldCurlLog.getEnd_id());
+            startId = oldCurlLog.getEnd_id() + 1;
+        }
         //每天抓取20个
-        UnifiedResponse unifiedResponse = null;
-        for (int i = 0; i < 20; i++) {
-            lastPid = lastPid + i;
+        UnifiedResponse unifiedResponse;
+        for (int i = 0; i < 5; i++) {
+            startId++;
             //抓取并返回下次的Pid;
-            unifiedResponse = curlManagerService.curl(lastPid + "");
+            if (notCurlParentIds.contains(startId + "")) {
+                continue;
+            }
+            unifiedResponse = curlManagerService.curl(startId + "");
             if (unifiedResponse.getStatus() != 200) {
                 //抓失败，写入最大数值，等待明天抓取，跳出循环
-//                curlLogService.save();
                 break;
             }
         }
+        newCurlLog.setEnd_id(startId);
+        newCurlLog.setCreateTime(new Date());
+        curlLogService.save(newCurlLog);
+
         LOGGER.info("End The Curl Job...,and it costs [" + (System.currentTimeMillis() - startTime) + "]毫秒!");
     }
 }
