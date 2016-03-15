@@ -27,21 +27,8 @@ public class AdminController {
 
     private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 
-    private static final String saveResourcePath;
-
     //不抓取的链接
     private static final String notCurlParentIds = "[48]";
-
-    static {
-        String osName = System.getProperty("os.name");
-        LOGGER.info("System OS Name is[" + osName + "]");
-        if (osName.startsWith("Win")) {
-            //windows操作系统
-            saveResourcePath = "d:\\\\";
-        }else {
-            saveResourcePath = "/opt/resources/";
-        }
-    }
 
     @Autowired
     CurlManagerService curlManagerService;
