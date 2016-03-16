@@ -16,21 +16,21 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.ScrollableResults;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 /**
  * @author yz
- * @ClassName: BaseDao
+ * @ClassName: BaseDaoImpl
  * @Description: baseDao实现
  * @date 2014年6月16日17:09:52
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
+public class BaseDaoImpl<T, ID extends Serializable> extends HibernateDaoSupport implements IBaseDao<T, ID> {
 
     @Autowired
     SessionFactory sessionFactory;
@@ -40,8 +40,13 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
     @Autowired
     private HibernateTemplate hibernateTemplate;
 
-    public BaseDao() {
+    public BaseDaoImpl() {
 
+    }
+
+    @Autowired
+    public void setSessionFactoryOverride(SessionFactory sessionFactory) {
+        super.setSessionFactory(sessionFactory);
     }
 
     protected Class getEntityClass() {
@@ -58,10 +63,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param t 实体参数
      * @see #save(java.lang.Object)
      */
-    
+
     public void save(T t) {
         hibernateTemplate.save(t);
-//        this.getSession().save(t);
     }
 
     /**
@@ -70,9 +74,8 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param t 实体
      * @see #saveOrUpdate(java.lang.Object)
      */
-    
+
     public void saveOrUpdate(T t) {
-//        this.getSession().saveOrUpdate(t);
         hibernateTemplate.saveOrUpdate(t);
     }
 
@@ -84,9 +87,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return 查询出来的实体
      * @see #load(java.io.Serializable)
      */
-   
+
     public T load(ID id) {
-        T load = (T) this.getSession().load(getEntityClass(), id);
+        T load = (T) this.currentSession().load(getEntityClass(), id);
         return load;
     }
 
@@ -99,7 +102,7 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @see #get(java.io.Serializable)
      */
     public T get(ID id) {
-        T load = (T) this.getSession().get(getEntityClass(), id);
+        T load = (T) this.currentSession().get(getEntityClass(), id);
         return load;
     }
 
@@ -110,9 +113,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return 是否包含
      * @see #contains(java.lang.Object)
      */
-   
+
     public boolean contains(T t) {
-        return this.getSession().contains(t);
+        return this.currentSession().contains(t);
     }
 
     /**
@@ -122,10 +125,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param t 实体
      * @see #delete(java.lang.Object)
      */
-   
+
     public void delete(T t) {
-//        this.getSession().delete(t);
-        hibernateTemplate.delete(t);
+        getHibernateTemplate().delete(t);
     }
 
     /**
@@ -135,7 +137,7 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return 是否删除成功
      * @see #deleteById(java.io.Serializable)
      */
-   
+
     public boolean deleteById(ID Id) {
         T t = get(Id);
         if (t == null) {
@@ -151,10 +153,10 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param entities 实体的Collection集合
      * @see #deleteAll(java.util.Collection)
      */
-   
+
     public void deleteAll(Collection<T> entities) {
         for (Object entity : entities) {
-            this.getSession().delete(entity);
+            this.currentSession().delete(entity);
         }
     }
 
@@ -165,9 +167,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param values    不定参数数组
      * @see #queryHql(java.lang.String, java.lang.Object[])
      */
-   
+
     public void queryHql(String hqlString, Object... values) {
-        Query query = this.getSession().createQuery(hqlString);
+        Query query = this.currentSession().createQuery(hqlString);
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i, values[i]);
@@ -183,9 +185,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param values    不定参数数组
      * @see #querySql(java.lang.String, java.lang.Object[])
      */
-   
+
     public void querySql(String sqlString, Object... values) {
-        Query query = this.getSession().createSQLQuery(sqlString);
+        Query query = this.currentSession().createSQLQuery(sqlString);
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i, values[i]);
@@ -202,9 +204,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return 查询实体
      * @see #getByHQL(java.lang.String, java.lang.Object[])
      */
-   
+
     public T getByHQL(String hqlString, Object... values) {
-        Query query = this.getSession().createQuery(hqlString);
+        Query query = this.currentSession().createQuery(hqlString);
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i, values[i]);
@@ -221,9 +223,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return 查询实体
      * @see #getBySQL(java.lang.String, java.lang.Object[])
      */
-   
+
     public T getBySQL(String sqlString, Object... values) {
-        Query query = this.getSession().createSQLQuery(sqlString);
+        Query query = this.currentSession().createSQLQuery(sqlString);
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i, values[i]);
@@ -240,9 +242,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return 查询多个实体的List集合
      * @see #getListByHQL(java.lang.String, java.lang.Object[])
      */
-   
+
     public List<T> getListByHQL(String hqlString, Object... values) {
-        Query query = this.getSession().createQuery(hqlString);
+        Query query = this.currentSession().createQuery(hqlString);
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i, values[i]);
@@ -259,9 +261,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return 查询多个实体的List集合
      * @see #getListBySQL(java.lang.String, java.lang.Object[])
      */
-   
+
     public List<T> getListBySQL(String sqlString, Object... values) {
-        Query query = this.getSession().createSQLQuery(sqlString);
+        Query query = this.currentSession().createSQLQuery(sqlString);
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i, values[i]);
@@ -279,7 +281,7 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return List
      * @see #findListBySql(java.lang.String, RowMapper, java.lang.Object[])
      */
-   
+
     public List findListBySql(final String sql, final RowMapper map, final Object... values) {
         final List list = new ArrayList();
         // 执行JDBC的数据批量保存
@@ -314,7 +316,7 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
                 }
             }
         };
-        this.getSession().doWork(jdbcWork);
+        this.currentSession().doWork(jdbcWork);
         return list;
     }
 
@@ -324,9 +326,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param t 实体
      * @see #refresh(java.lang.Object)
      */
-   
+
     public void refresh(T t) {
-        this.getSession().refresh(t);
+        this.currentSession().refresh(t);
     }
 
     /**
@@ -335,10 +337,10 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @param t 实体
      * @see #update(java.lang.Object)
      */
-   
+
     public void update(T t) {
-//        this.getSession().update(t);
-        hibernateTemplate.merge(t);
+//        this.currentSession().update(t);
+        getHibernateTemplate().update(t);
     }
 
     /**
@@ -349,9 +351,9 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return 记录总数
      * @see #countByHql(java.lang.String, java.lang.Object[])
      */
-   
+
     public Long countByHql(String hql, Object... values) {
-        Query query = this.getSession().createQuery(hql);
+        Query query = this.currentSession().createQuery(hql);
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i, values[i]);
@@ -371,11 +373,11 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
      * @return PageResults的封装类，里面包含了页码的信息以及查询的数据List集合
      * @see #findPageByFetchedHql(java.lang.String, java.lang.String, int, int, java.lang.Object[])
      */
-   
+
     public PageResults<T> findPageByFetchedHql(String hql, String countHql,
                                                int pageNo, int pageSize, Object... values) {
         PageResults<T> retValue = new PageResults<T>();
-        Query query = this.getSession().createQuery(hql);
+        Query query = this.currentSession().createQuery(hql);
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i, values[i]);
@@ -405,24 +407,25 @@ public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {
     /**
      * @return the sessionFactory
      */
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
+//    @Override
+//    public SessionFactory getSessionFactory() {
+//        return sessionFactory;
+//    }
 
     /**
      * @param sessionFactory the sessionFactory to set
      */
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+//    public void setSessionFactory(SessionFactory sessionFactory) {
+//        this.sessionFactory = sessionFactory;
+//    }
 
     /**
      * @return session
      */
-    public Session getSession() {
-        //需要开启事物，才能得到CurrentSession
-        return sessionFactory.getCurrentSession();
-    }
+//    public Session getSession() {
+//        //需要开启事物，才能得到CurrentSession
+//        return sessionFactory.getCurrentSession();
+//    }
 
     /**
      * 设置每行批处理参数

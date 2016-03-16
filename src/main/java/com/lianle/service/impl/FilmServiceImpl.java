@@ -3,8 +3,8 @@ package com.lianle.service.impl;
 import com.lianle.common.PageResults;
 import com.lianle.dao.FilmDao;
 import com.lianle.entity.Film;
-import com.lianle.entity.User;
 import com.lianle.service.FilmService;
+import com.lianle.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,9 +48,11 @@ public class FilmServiceImpl implements FilmService {
         return list;
     }
 
-    public List<Film> queryByClassTypeId(long classTypeId) {
+    public List<Film> queryByClassTypeId(long classTypeId, int pageNo, int pageSize) {
         String hql = "FROM Film WHERE class_id = ? ORDER BY createTime DESC ";
-        List<Film> list = dao.getListByHQL(hql, new Object[]{classTypeId});
+        String countHql = "SELECT COUNT(*) FROM Film WHERE class_id = ?";
+        PageResults<Film> filmPageResults = dao.findPageByFetchedHql(hql, countHql, pageNo, pageSize, new Object[]{classTypeId});
+        List<Film> list = filmPageResults.getResults();
         if ((list == null) || (list.size() == 0)) {
             return new ArrayList<Film>();
         }
@@ -87,6 +89,12 @@ public class FilmServiceImpl implements FilmService {
         String countHql = "SELECT COUNT(*) FROM Film WHERE key_word LIKE '%"+ key +"%'";
         PageResults<Film> filmPageResults = dao.findPageByFetchedHql(hql, countHql, pageNo, pageSize, new Object[]{});
         return filmPageResults;
+    }
+
+    public List<Film> queryInIds(Long[] ids) {
+        String sql = "FROM Film WHERE id IN ("+ StringUtils.join(ids, ",")+")";
+        List<Film> list = dao.getListByHQL(sql);
+        return list;
     }
 
     public List<Film> getAllFilms() {

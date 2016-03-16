@@ -38,7 +38,7 @@ public interface FilmService {
      * @param classTypeId
      * @return
      */
-    List<Film> queryByClassTypeId(long classTypeId);
+    List<Film> queryByClassTypeId(long classTypeId, int pageNo, int pageSize);
 
     /**
      * 根据国家查询
@@ -68,4 +68,11 @@ public interface FilmService {
      * @return
      */
     PageResults<Film> search(String key, int pageNo, int pageSize);
+
+    /**
+     * 查询id在里面的
+     * @param ids
+     * @return
+     */
+    List<Film> queryInIds(Long[] ids);
 }

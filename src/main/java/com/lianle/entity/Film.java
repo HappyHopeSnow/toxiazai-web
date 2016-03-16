@@ -24,6 +24,8 @@ public class Film implements Serializable {
     private String captions_type;
     private float score;
     private String size;
+    private String day;
+    private String month;
     private Long screen_year_id;
     private String screen_year;
     private String down_model;
@@ -129,6 +131,22 @@ public class Film implements Serializable {
     }
     public void setSize(String size) {
         this.size = size;
+    }
+
+    @Column(name="day")
+    public String getDay() {
+        return day;
+    }
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    @Column(name="month")
+    public String getMonth() {
+        return month;
+    }
+    public void setMonth(String month) {
+        this.month = month;
     }
 
     @Column(name="screen_year_id")

@@ -3,7 +3,7 @@ package com.lianle.controller;
 import com.lianle.common.PageResults;
 import com.lianle.entity.*;
 import com.lianle.service.*;
-import org.apache.commons.lang.StringUtils;
+import com.lianle.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,6 +47,9 @@ public class MainController {
     @Autowired
     AdviceService adviceService;
 
+    @Autowired
+    IndexConfigService indexConfigService;
+
     /**
      * 默认首页
      * @return
@@ -72,29 +75,38 @@ public class MainController {
         PageResults<Film> resultList = filmService.queryByPage(pageNo, pageSize);
         List<Film> filmList = resultList.getResults();
 
-        //推荐列表横幅(10个)
-        List<Film> recommendFilms = resultList.getResults();
+        IndexConfig indexConfig = indexConfigService.queryLast();
 
-        //排行榜v
-        List<Film> arrayFilms = resultList.getResults();
+        if (indexConfig != null) {
+            //推荐列表横幅(10个)
+            Long[] recommendIds = StringUtils.stringToLong(indexConfig.getRecommend_ids());
+            List<Film> recommendFilms = filmService.queryInIds(recommendIds);
 
-        //最新上映v
-        List<Film> newFilms = resultList.getResults();
+            Long[] arrayIds = StringUtils.stringToLong(indexConfig.getArray_ids());
+            //排行榜v
+            List<Film> arrayFilms = filmService.queryInIds(arrayIds);
 
-        //最热电影v
-        List<Film> hotFilms = resultList.getResults();
+            Long[] newIds = StringUtils.stringToLong(indexConfig.getNew_ids());
+            //最新上映v
+            List<Film> newFilms = filmService.queryInIds(newIds);
 
-        //猜你喜欢v
-        List<Film> loveFilms = resultList.getResults();
+            Long[] hotIds = StringUtils.stringToLong(indexConfig.getHot_ids());
+            //最热电影v
+            List<Film> hotFilms = filmService.queryInIds(hotIds);
 
-        //归档分类-暂时不做
+            Long[] loveIds = StringUtils.stringToLong(indexConfig.getLove_ids());
+            //猜你喜欢v
+            List<Film> loveFilms = filmService.queryInIds(loveIds);
 
-        model.addAttribute("filmList", filmList);
-        model.addAttribute("recommendFilms", recommendFilms);
-        model.addAttribute("arrayFilms", arrayFilms);
-        model.addAttribute("newFilms", newFilms);
-        model.addAttribute("hotFilms", hotFilms);
-        model.addAttribute("loveFilms", loveFilms);
+            //归档分类-暂时不做
+
+            model.addAttribute("filmList", filmList);
+            model.addAttribute("recommendFilms", recommendFilms);
+            model.addAttribute("arrayFilms", arrayFilms);
+            model.addAttribute("newFilms", newFilms);
+            model.addAttribute("hotFilms", hotFilms);
+            model.addAttribute("loveFilms", loveFilms);
+        }
 
         //分页信息
         model.addAttribute("current", resultList.getCurrentPage());
@@ -116,22 +128,33 @@ public class MainController {
         Film film = filmService.queryById(id);
         model.addAttribute("film", film);
 
-        PageResults<Film> resultList = filmService.queryByPage(1, 8);
+        IndexConfig indexConfig = indexConfigService.queryLast();
 
-        //排行榜v
-        List<Film> arrayFilms = resultList.getResults();
+        if (indexConfig != null) {
 
-        //最新上映v
-        List<Film> newFilms = resultList.getResults();
+            Long[] arrayIds = StringUtils.stringToLong(indexConfig.getArray_ids());
+            //排行榜v
+            List<Film> arrayFilms = filmService.queryInIds(arrayIds);
 
-        //最热电影v
-        List<Film> hotFilms =resultList.getResults();
+            Long[] newIds = StringUtils.stringToLong(indexConfig.getNew_ids());
+            //最新上映v
+            List<Film> newFilms = filmService.queryInIds(newIds);
 
-        //猜你喜欢v
-        List<Film> loveFilms = resultList.getResults();
+            Long[] hotIds = StringUtils.stringToLong(indexConfig.getHot_ids());
+            //最热电影v
+            List<Film> hotFilms = filmService.queryInIds(hotIds);
 
-        //相关电影
-        List<Film> likeFilms = resultList.getResults();
+            Long[] loveIds = StringUtils.stringToLong(indexConfig.getLove_ids());
+            //猜你喜欢v
+            List<Film> loveFilms = filmService.queryInIds(loveIds);
+
+            //归档分类-暂时不做
+
+            model.addAttribute("arrayFilms", arrayFilms);
+            model.addAttribute("newFilms", newFilms);
+            model.addAttribute("hotFilms", hotFilms);
+            model.addAttribute("loveFilms", loveFilms);
+        }
 
         //查询评论
         List<Comment> comments = commentService.queryByFilmId(id);
@@ -140,10 +163,8 @@ public class MainController {
             commentsCount = comments.size();
         }
 
-        model.addAttribute("arrayFilms", arrayFilms);
-        model.addAttribute("newFilms", newFilms);
-        model.addAttribute("hotFilms", hotFilms);
-        model.addAttribute("loveFilms", loveFilms);
+        //查询相关电影
+        List<Film> likeFilms = filmService.queryByClassTypeId(film.getClass_id(), 1, 8);
         model.addAttribute("likeFilms", likeFilms);
 
         model.addAttribute("comments", comments);
@@ -161,9 +182,9 @@ public class MainController {
                              ModelMap model) {
         Film film = filmService.queryById(id);
 
-        PageResults<Film> resultList = filmService.queryByPage(1, 8);
-        //相关电影
-        List<Film> likeFilms = resultList.getResults();
+        //查询相关电影
+        List<Film> likeFilms = filmService.queryByClassTypeId(film.getClass_id(), 1, 8);
+        model.addAttribute("likeFilms", likeFilms);
 
         //查询评论
         List<Comment> comments = commentService.queryByFilmId(id);
@@ -278,7 +299,7 @@ public class MainController {
 
         //所属类型
         if(classTypeId != 0 && !"".equals(classTypeId)) {
-            filmList = filmService.queryByClassTypeId(classTypeId);
+            filmList = filmService.queryByClassTypeId(classTypeId, 1, 8);
 
             ClassType classType = classTypeService.queryById(classTypeId);
             model.addAttribute("key", classType.getClass_name());
@@ -320,7 +341,7 @@ public class MainController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "search")
     public String cinema(@RequestParam(value = "key", required = true) String key,
-                         @RequestParam(value = "size", required = false, defaultValue = "10") int pageSize,
+                         @RequestParam(value = "size", required = false, defaultValue = "12") int pageSize,
                          @RequestParam(value = "no", required = false, defaultValue = "1") int pageNo,
                          ModelMap model) {
 

@@ -15,6 +15,7 @@ public class IndexConfig implements Serializable {
 
 
     private Long id;
+    private String recommend_ids;
     private String array_ids;
     private String new_ids;
     private String hot_ids;
@@ -30,6 +31,14 @@ public class IndexConfig implements Serializable {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Column(name="recommend_ids")
+    public String getRecommend_ids() {
+        return recommend_ids;
+    }
+    public void setRecommend_ids(String recommend_ids) {
+        this.recommend_ids = recommend_ids;
     }
 
     @Column(name="array_ids")

@@ -2,6 +2,7 @@ package com.lianle.service.impl;
 
 import com.lianle.entity.*;
 import com.lianle.service.*;
+import com.lianle.utils.DateUtils;
 import com.lianle.utils.JUtils.base.RegexUtils;
 import com.lianle.utils.JUtils.file.FileUtils;
 import com.lianle.utils.http.exception.HttpProcessException;
@@ -78,6 +79,11 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
         UnifiedResponse unifiedResponse = new UnifiedResponse();
 
+        //获取当前的日期和月份
+        Date now = new Date();
+        String month = DateUtils.getEnglishMonth(DateUtils.getMonth(now));
+        String day = DateUtils.getDay(now);
+
         //上传者
         User user = userService.getAdmin();
         film.setUid(user.getId());
@@ -143,7 +149,6 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         //获取中间部分,并进行配置相关属性;返回对应演员
         List<Performer> performatsList = processMiddleContent(film, result);
 
-        Date now = new Date();
         film.setCreateTime(now);
         film.setModifyTime(now);
 
@@ -167,7 +172,9 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         downLoadTorrent(torrentUrl, torrentName);
 
         film.setSeed(torrentName);
-        System.out.println("name is[" + film.getName());
+
+        film.setMonth(month);
+        film.setDay(day);
         filmService.save(film);
 
         //保存关联关系表，方便查询

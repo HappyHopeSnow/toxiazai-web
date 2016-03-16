@@ -44,6 +44,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <input type="hidden" id="id" name="id" value="">
                     <h3>配置首页信息</h3>
                     <div>
+                        <span>推荐Id列表</span>
+                        <input type="text" id="recommendIds" value="" >
+                    </div>
+                    <div class="clearfix"> </div>
+                    <div>
                         <span>排行榜Id列表</span>
                         <input type="text" id="arrayIds" value="" >
                     </div>
@@ -75,6 +80,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         ;(function($){
 
             $("#id").val("${indexConfig.id}");
+            $("#recommendIds").val("${indexConfig.recommend_ids}");
             $("#arrayIds").val("${indexConfig.array_ids}");
             $("#newIds").val("${indexConfig.new_ids}");
             $("#hotIds").val("${indexConfig.hot_ids}");
@@ -82,10 +88,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             function conmitHandler(){
                 var id = $("#id").val();
+                var recommendIds = $("#recommendIds").val();
                 var arrayIds = $("#arrayIds").val();
                 var newIds = $("#newIds").val();
                 var hotIds = $("#hotIds").val();
                 var loveIds = $("#loveIds").val();
+                if (recommendIds == "") {
+                    alert("请填写<<推荐>>ID信息!");
+                    return;
+                }
                 if (arrayIds == "") {
                     alert("请填写<<排行榜>>ID信息!");
                     return;
@@ -106,6 +117,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     url: "/admin/save_index_config.json",
                     data: {
                         id: id,
+                        recommendIds: recommendIds,
                         arrayIds: arrayIds,
                         newIds: newIds,
                         hotIds: hotIds,

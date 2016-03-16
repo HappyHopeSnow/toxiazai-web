@@ -102,6 +102,7 @@ public class AdminController {
             indexConfig = new IndexConfig();
             indexConfig.setId(0l);
             indexConfig.setHot_ids("");
+            indexConfig.setRecommend_ids("");
             indexConfig.setLove_ids("");
             indexConfig.setNew_ids("");
             indexConfig.setArray_ids("");
@@ -122,6 +123,7 @@ public class AdminController {
     @ResponseBody
     public UnifiedResponse saveAdvice(
             @RequestParam(value = "id", required = false, defaultValue = "0") long id,
+            @RequestParam(value = "recommendIds", required = true) String recommendIds,
             @RequestParam(value = "arrayIds", required = true) String arrayIds,
             @RequestParam(value = "newIds", required = true) String newIds,
             @RequestParam(value = "hotIds", required = true) String hotIds,
@@ -133,6 +135,7 @@ public class AdminController {
         if (id == 0) {
             //第一次配置
             indexConfig = new IndexConfig();
+            indexConfig.setRecommend_ids(recommendIds);
             indexConfig.setArray_ids(arrayIds);
             indexConfig.setNew_ids(newIds);
             indexConfig.setHot_ids(hotIds);
@@ -142,6 +145,7 @@ public class AdminController {
             unifiedResponse.setMessage("保存成功");
         }else {
             indexConfig = indexConfigService.queryById(id);
+            indexConfig.setRecommend_ids(recommendIds);
             indexConfig.setArray_ids(arrayIds);
             indexConfig.setNew_ids(newIds);
             indexConfig.setHot_ids(hotIds);

@@ -42,8 +42,8 @@ public class IndexConfigServiceImpl implements IndexConfigService {
     }
 
     public void update(IndexConfig indexConfig) {
-        String hql = "update IndexConfig ic set ic.array_ids=?, ic.new_ids = ?," +
-                "ic.hot_ids=?, ic.love_ids = ?, ic.createTime = ? where ic.id=?";
-        dao.queryHql(hql, new Object[]{indexConfig.getArray_ids(), indexConfig.getNew_ids(), indexConfig.getHot_ids(), indexConfig.getLove_ids(), new Date(), indexConfig.getId()});
+            String hql = "update IndexConfig ic set ic.array_ids=?, ic.new_ids = ?," +
+                    "ic.hot_ids=?, ic.love_ids = ?, ic.createTime = ? where ic.id=?";
+            dao.queryHql(hql, new Object[]{indexConfig.getArray_ids(), indexConfig.getNew_ids(), indexConfig.getHot_ids(), indexConfig.getLove_ids(), new Date(), indexConfig.getId()});
     }
 }
