@@ -23,6 +23,18 @@ import java.util.List;
 @RequestMapping("/")
 public class MainController {
 
+    private static String screenYearIntroduction;//上映年份
+    private static String classTypeIntroduction;//所属类型
+    private static String counttryIntroduction;//所属国家
+    private static String languageIntroduction;//所属语言
+
+    static {
+        screenYearIntroduction = "此处展示了【上映年份】分类相关电影分类详情信息！如果有任何好的意见或者建议，请在【关于】切换页给我们留言，谢谢！";
+        classTypeIntroduction = "此处展示了【类型名称】分类相关电影分类详情信息！如果有任何好的意见或者建议，请在【关于】切换页给我们留言，谢谢！";
+        counttryIntroduction = "此处展示了【所属国家】分类相关的电影详情信息！如果有任何好的意见或者建议，请在【关于】切换页给我们留言，谢谢！";
+        languageIntroduction = "此处展示了【语言】分类相关电影分类详情信息！如果有任何好的意见或者建议，请在【关于】切换页给我们留言，谢谢！";
+    }
+
     @Autowired
     private UserService userService;
 
@@ -291,7 +303,7 @@ public class MainController {
 
             Screen screen = screenService.queryById(screenYearId);
             model.addAttribute("key", screen.getScreen_year());
-            model.addAttribute("message", "这里是一些简介!");
+            model.addAttribute("message", screenYearIntroduction);
 
             model.addAttribute("filmList", filmList);
             return "magazine";
@@ -303,7 +315,7 @@ public class MainController {
 
             ClassType classType = classTypeService.queryById(classTypeId);
             model.addAttribute("key", classType.getClass_name());
-            model.addAttribute("message", "这里是一些简介!");
+            model.addAttribute("message", classTypeIntroduction);
 
             model.addAttribute("filmList", filmList);
             return "magazine";
@@ -314,7 +326,7 @@ public class MainController {
             filmList = filmService.queryByCountryId(countryId);
             Country country = countryService.queryById(countryId);
             model.addAttribute("key", country.getName());
-            model.addAttribute("message", "这里是一些简介!");
+            model.addAttribute("message", counttryIntroduction);
             model.addAttribute("filmList", filmList);
             return "magazine";
         }
@@ -324,7 +336,7 @@ public class MainController {
             filmList = filmService.queryByLanguageId(languageId);
             Language language = languageService.queryById(languageId);
             model.addAttribute("key", language.getLanguage());
-            model.addAttribute("message", "这里是一些简介!");
+            model.addAttribute("message", languageIntroduction);
             model.addAttribute("filmList", filmList);
             return "magazine";
         }
