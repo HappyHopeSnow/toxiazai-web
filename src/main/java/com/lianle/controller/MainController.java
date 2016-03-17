@@ -91,24 +91,19 @@ public class MainController {
 
         if (indexConfig != null) {
             //推荐列表横幅(10个)
-            Long[] recommendIds = StringUtils.stringToLong(indexConfig.getRecommend_ids());
-            List<Film> recommendFilms = filmService.queryInIds(recommendIds);
+            List<Film> recommendFilms = filmService.queryInStringIds(indexConfig.getRecommend_ids());
 
-            Long[] arrayIds = StringUtils.stringToLong(indexConfig.getArray_ids());
             //排行榜v
-            List<Film> arrayFilms = filmService.queryInIds(arrayIds);
+            List<Film> arrayFilms = filmService.queryInStringIds(indexConfig.getArray_ids());
 
-            Long[] newIds = StringUtils.stringToLong(indexConfig.getNew_ids());
             //最新上映v
-            List<Film> newFilms = filmService.queryInIds(newIds);
+            List<Film> newFilms = filmService.queryInStringIds(indexConfig.getNew_ids());
 
-            Long[] hotIds = StringUtils.stringToLong(indexConfig.getHot_ids());
             //最热电影v
-            List<Film> hotFilms = filmService.queryInIds(hotIds);
+            List<Film> hotFilms = filmService.queryInStringIds(indexConfig.getNew_ids());
 
-            Long[] loveIds = StringUtils.stringToLong(indexConfig.getLove_ids());
             //猜你喜欢v
-            List<Film> loveFilms = filmService.queryInIds(loveIds);
+            List<Film> loveFilms = filmService.queryInStringIds(indexConfig.getLove_ids());
 
             //归档分类-暂时不做
 
@@ -144,21 +139,17 @@ public class MainController {
 
         if (indexConfig != null) {
 
-            Long[] arrayIds = StringUtils.stringToLong(indexConfig.getArray_ids());
             //排行榜v
-            List<Film> arrayFilms = filmService.queryInIds(arrayIds);
+            List<Film> arrayFilms = filmService.queryInStringIds(indexConfig.getArray_ids());
 
-            Long[] newIds = StringUtils.stringToLong(indexConfig.getNew_ids());
             //最新上映v
-            List<Film> newFilms = filmService.queryInIds(newIds);
+            List<Film> newFilms = filmService.queryInStringIds(indexConfig.getNew_ids());
 
-            Long[] hotIds = StringUtils.stringToLong(indexConfig.getHot_ids());
             //最热电影v
-            List<Film> hotFilms = filmService.queryInIds(hotIds);
+            List<Film> hotFilms = filmService.queryInStringIds(indexConfig.getHot_ids());
 
-            Long[] loveIds = StringUtils.stringToLong(indexConfig.getLove_ids());
             //猜你喜欢v
-            List<Film> loveFilms = filmService.queryInIds(loveIds);
+            List<Film> loveFilms = filmService.queryInStringIds(indexConfig.getLove_ids());
 
             //归档分类-暂时不做
 

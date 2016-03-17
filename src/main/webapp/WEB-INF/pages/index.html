@@ -60,13 +60,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 #set($URL="http://localhost")
-#set($nextPageNo=$current+1);
+#set($nextPageNo=$current+1)
 
-#if($current == 1) {
-	#set($lastPageNo=1);
-}#else {
-	#set($lastPageNo=$pageNo - 1);
-}
+#if($current == 1)
+	#set($lastPageNo=1)
+#else
+	#set($lastPageNo=$pageNo - 1)
 #end
 <!--header-->
 <div class="back">

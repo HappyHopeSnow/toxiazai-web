@@ -91,8 +91,16 @@ public class FilmServiceImpl implements FilmService {
         return filmPageResults;
     }
 
-    public List<Film> queryInIds(Long[] ids) {
+    public List<Film> queryInStringIds(String ids) {
+        String sql = "FROM Film WHERE id IN ("+ ids +")";
+        System.out.println("sql is[" + sql + "]");
+        List<Film> list = dao.getListByHQL(sql);
+        return list;
+    }
+
+    public List<Film> queryInLongIds(Long[] ids) {
         String sql = "FROM Film WHERE id IN ("+ StringUtils.join(ids, ",")+")";
+        System.out.println("sql is[" + sql + "]");
         List<Film> list = dao.getListByHQL(sql);
         return list;
     }

@@ -71,8 +71,15 @@ public interface FilmService {
 
     /**
      * 查询id在里面的
-     * @param ids
+     * @param ids:字符串组合，逗号分割
      * @return
      */
-    List<Film> queryInIds(Long[] ids);
+    List<Film> queryInStringIds(String ids);
+
+    /**
+     * 查询id在里面的
+     * @param ids Long数组
+     * @return
+     */
+    List<Film> queryInLongIds(Long[] ids);
 }

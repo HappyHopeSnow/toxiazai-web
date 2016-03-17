@@ -584,8 +584,8 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 //		System.out.println("+111..:"+Double.parseDouble("+111.."));
 //		System.out.println("+.:"+Double.parseDouble("+."));
 
-        String param = "2,3,4";
-        Long[] result = StringUtils.stringToLong(param);
+        Long[] ids = new Long[]{1l,2l,3l,4l,5l};
+        String result = StringUtils.join(ids, ",");
         System.out.println(result);
 
     }
