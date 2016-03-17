@@ -100,7 +100,7 @@ public class MainController {
             List<Film> newFilms = filmService.queryInStringIds(indexConfig.getNew_ids());
 
             //最热电影v
-            List<Film> hotFilms = filmService.queryInStringIds(indexConfig.getNew_ids());
+            List<Film> hotFilms = filmService.queryInStringIds(indexConfig.getHot_ids());
 
             //猜你喜欢v
             List<Film> loveFilms = filmService.queryInStringIds(indexConfig.getLove_ids());
