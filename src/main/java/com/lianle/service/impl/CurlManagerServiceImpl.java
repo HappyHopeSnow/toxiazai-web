@@ -34,7 +34,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
             //windows操作系统
             saveResourcePath = "d:\\\\";
         }else {
-            saveResourcePath = "/opt/resource/";
+            saveResourcePath = "/opt/resources/";
         }
     }
 

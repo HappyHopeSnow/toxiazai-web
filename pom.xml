@@ -309,6 +309,6 @@
     </dependencies>
 
     <build>
-        <finalName>toxiazai</finalName>
+        <finalName>ROOT</finalName>
     </build>
 </project>
