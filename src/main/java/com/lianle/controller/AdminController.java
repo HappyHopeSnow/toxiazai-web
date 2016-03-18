@@ -1,9 +1,8 @@
 package com.lianle.controller;
 
-import com.lianle.entity.CurlLog;
-import com.lianle.entity.IndexConfig;
-import com.lianle.entity.UnifiedResponse;
-import com.lianle.entity.UnifiedResponseCode;
+import com.lianle.common.PageResults;
+import com.lianle.entity.*;
+import com.lianle.service.AdviceService;
 import com.lianle.service.CurlLogService;
 import com.lianle.service.CurlManagerService;
 import com.lianle.service.IndexConfigService;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Description: <br>
@@ -42,6 +42,9 @@ public class AdminController {
 
     @Autowired
     IndexConfigService indexConfigService;
+
+    @Autowired
+    AdviceService adviceService;
 
     @RequestMapping(method = RequestMethod.GET, value = "curl")
     @ResponseBody
@@ -158,4 +161,27 @@ public class AdminController {
         unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
         return unifiedResponse;
     }
+
+    /**
+     * 查看建议的url
+     * @param pageSize
+     * @param pageNo
+     * @param model
+     * @return
+     */
+    @RequestMapping("advice")
+    @ResponseBody
+    public UnifiedResponse json(@RequestParam(value = "size", required = false, defaultValue = "10") int pageSize,
+                           @RequestParam(value = "no", required = false, defaultValue = "1") int pageNo,
+                           ModelMap model) {
+
+        UnifiedResponse unifiedResponse = new UnifiedResponse();
+        PageResults<Advice> resultList = adviceService.queryByPage(pageNo, pageSize);
+        unifiedResponse.setAttachment(resultList);
+        unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
+        unifiedResponse.setMessage("查询成功！");
+        return unifiedResponse;
+    }
+
+
 }
