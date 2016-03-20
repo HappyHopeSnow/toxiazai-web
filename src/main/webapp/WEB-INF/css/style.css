@@ -235,7 +235,7 @@ h2.resp-accordion {
 	padding: 0 1em 0 0;
 }
 .comment li a i{
-	background: url(../images/img-sprite.png)no-repeat -77px -101px;
+	background: url(../img-sprite.png)no-repeat -77px -101px;
 	width: 22px;
 	height: 22px;
 	display: inline-block;
@@ -433,7 +433,7 @@ a.more:hover,.comment li a:hover{
 	color:#ec098d;
 }
 .might-top a i{
-	background: url(../images/img-sprite.png)no-repeat -103px -103px;
+	background: url(../img-sprite.png)no-repeat -103px -103px;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
@@ -549,7 +549,7 @@ a.older:hover{
 	color:#00aedb;
 }
 a.older i{
-	background: url(../images/img-sprite.png)no-repeat -148px -103px;
+	background: url(../img-sprite.png)no-repeat -148px -103px;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
@@ -688,7 +688,7 @@ ul.social li a:hover{
 	color:#00aedb;
 }
 ul.social li  i{
-	background: url(../images/img-sprite.png)no-repeat -171px -101px ;
+	background: url(../img-sprite.png)no-repeat -171px -101px ;
 	width: 18px;
 	height: 18px;
 	display: inline-block;
