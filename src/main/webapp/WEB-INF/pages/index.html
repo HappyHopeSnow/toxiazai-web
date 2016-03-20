@@ -177,27 +177,33 @@
 							    <h2 class="resp-accordion " role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span></h2>
 								<div class="tab-1 resp-tab-content " aria-labelledby="tab_item-0">
 									<div class="facts">
-									    <img src="$URL/${film.cover_name}" class="img-responsive" alt="">
+										<a href="single.html?id=${film.id}">
+									    	<img src="$URL/${film.cover_name}" class="img-responsive" alt="">
+											</a>
 							        </div>
 							     </div>
 							      <h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span></h2>
 								  <div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-1" >
 									<div class="facts">
-									    <img src="$URL/${film.cover_name}" class="img-responsive" alt="">
+										<a href="single.html?id=${film.id}">
+									    	<img src="$URL/${film.cover_name}" class="img-responsive" alt="">
+											</a>
 							        </div>
 							     </div>
 							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span></h2>
 								  <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
 									<div class="facts">
-									    <img src="$URL/${film.cover_name}" class="img-responsive" alt="">
+										<a href="single.html?id=${film.id}">
+									    	<img src="$URL/${film.cover_name}" class="img-responsive" alt="">
+											</a>
 							        </div>
 							     </div>
 							</div>
 							  <ul class="resp-tabs-list">
 							    <li class="resp-tab-item " aria-controls="tab_item-1" role="tab">
-									<span><img src="$URL/${film.pic_1}" class="img-responsive" alt=""></span></li>
+									<span><a href="single.html?id=${film.id}"><img src="$URL/${film.pic_1}" class="img-responsive" alt=""></a></span></li>
 							    <li class="resp-tab-item" aria-controls="tab_item-2" role="tab">
-									<span><img src="$URL/${film.pic_2}" class="img-responsive" alt=""></span></li>
+									<span><a href="single.html?id=${film.id}"><img src="$URL/${film.pic_2}" class="img-responsive" alt=""></a></span></li>
 							    <div class="clearfix"> </div>
 							</ul>
 						</div>
@@ -211,7 +217,7 @@
 					<li><span>分类 : <a href="magazine.html?class_type=${film.class_id}">$film.class_name</a> </span></li>
 					<li><span>国家: <a href="magazine.html?country=${film.country_id}">$film.country</a> </span></li>
 					<li><span>语言 : <a href="magazine.html?language=${film.language_id}">$film.language </a> </span></li>
-					<li><a href="single.html?id=${film.id}"><i> </i>最新评论  </a></li>
+					<li><a href="single.html?id=${film.id}#content"><i> </i>最新评论  </a></li>
 				</ul>
 				<a href="single.html?id=${film.id}" class="more">查看详情</a>
 			<div class="clearfix"> </div>
@@ -383,7 +389,7 @@
 	<i class="line-in line-in1"> </i>
 	<i class="line-in line-in2"> </i>
 	</div>
-	<p class="footer-class">Copyright © 2016 www.tuxaizai.com 京ICP备11047534号-3  All Rights Reserved.<br/>
+	<p class="footer-class">Copyright © 2016 www.tuxaizai.com 京ICP备15032831号  All Rights Reserved.<br/>
 		北京兔下载文化有限公司 版权所有
 		<a target="_blank" href="http://www.toxiazai.com/">www.toxiazai.com</a></p>
 <script type="text/javascript">

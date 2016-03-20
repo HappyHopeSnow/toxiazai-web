@@ -134,7 +134,7 @@
 			#end
 				<div class="clearfix"></div>
 			</div>
-			<div class="comment-top">
+			<div id="content" class="comment-top">
 				<div class="story">
 					<h4 class="stories "><span>最新评论($commentsCount)</span></h4>
 				</div>
@@ -147,11 +147,11 @@
 					<div class="top-comment-right">
 						<div class="right-comment">
 							<h5>[${comment.name}][${comment.title}]</h5>
-							<span>05/03/2012 at 13:58</span>
+							<span>${comment.createTime}</span>
 							<div class="clearfix"> </div>
 						</div>
 						<p>${comment.content}</p>
-						<a href="#" class="reply">Reply</a>
+						<!--<a href="#" class="reply">Reply</a>-->
 					</div>
 					<div class="clearfix"> </div>
 				</div>
@@ -164,22 +164,20 @@
 					<h4 class="stories stories-in"><span>您的评论</span></h4>
 				</div>
 				<div class="page-bottom">
-				<form action="/singlepage_save_comment">
-					<input type="hidden" name="film_id" value="${film.id}"/>
+					<input type="hidden" id="id" name="film_id" value="${film.id}"/>
 					<div class="name name-on">
 						<span class="sit-in">姓名:</span>
-						<input type="text" name = "name" value="" >
+						<input type="text" id="name" name = "name" value="" >
 					</div>
 					<div class="name name-on">
 						<span class="sit-in">标题:</span>
-						<input type="text" name="title" value="" >
+						<input type="text" id="title" name="title" value="" >
 					</div>
 					<div class="name name-in">
 						<span class="sit-in">内 容:</span>
-						<textarea name="content"> </textarea>
+						<textarea id="contentText" name="content"></textarea>
 					</div>
-					<input type="submit" value="提交评论">
-				</form>
+					<input type="submit" id="confirm" value="提交评论">
 				</div>
 				<div class="clearfix"> </div>
 			</div>
@@ -193,7 +191,7 @@
 	<i class="line-in line-in1"> </i>
 
 	</div>
-	<p class="footer-class">Copyright © 2016 www.tuxaizai.com 京ICP备11047534号-3  All Rights Reserved.<br/>
+	<p class="footer-class">Copyright © 2016 www.tuxaizai.com 京ICP备15032831号  All Rights Reserved.<br/>
 		北京兔下载文化有限公司 版权所有
 		<a target="_blank" href="http://www.toxiazai.com/">www.toxiazai.com</a></p>
 	<script type="text/javascript">
@@ -211,6 +209,51 @@
 							
 						});
 					</script>
+	<script type="text/javascript">
+		;(function($){
+			function conmitHandler(){
+				var filmId = $("#id").val();
+				var name = $("#name").val();
+				var title = $("#title").val();
+				var content = $("#contentText").val();
+				if (name == "") {
+					alert("请填写您的姓名!");
+					return;
+				}
+				if (title == "") {
+					alert("请填写您的标题!");
+					return;
+				}
+				if (content == "") {
+					alert("请填写您的评论!");
+					return;
+				}
+				jQuery.ajax({
+					url: "/singlepage_save_comment.json",
+					data: {
+						film_id:filmId,
+						name: name,
+						title: title,
+						content: content
+					},
+					dataType: 'json',
+					type:"post",
+					success: function(json) {
+						if(json.status==200){
+							alert("评论成功！");
+							window.location.reload("/singlepage.html?id=" + filmId + "#content");
+						}else{
+							alert("提交失败，请联系管理员！");
+//							window.location.href="/single.html?id=" + filmId + "#content";
+						}
+					}
+				});
+			}
+			$(function(){
+				$(document).on("click", "#confirm", conmitHandler);
+			})
+		})(jQuery);
+	</script>
 				<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 
 

@@ -86,6 +86,7 @@ public class MainController {
         //首页分页数据(8个)
         PageResults<Film> resultList = filmService.queryByPage(pageNo, pageSize);
         List<Film> filmList = resultList.getResults();
+        model.addAttribute("filmList", filmList);
 
         IndexConfig indexConfig = indexConfigService.queryLast();
 
@@ -107,7 +108,6 @@ public class MainController {
 
             //归档分类-暂时不做
 
-            model.addAttribute("filmList", filmList);
             model.addAttribute("recommendFilms", recommendFilms);
             model.addAttribute("arrayFilms", arrayFilms);
             model.addAttribute("newFilms", newFilms);
@@ -363,7 +363,8 @@ public class MainController {
      * @return
      */
     @RequestMapping("single_save_comment")
-    public String saveComment4Single(
+    @ResponseBody
+    public UnifiedResponse saveComment4Single(
                                      @RequestParam(value = "film_id", required = true) long filmId,
                                      @RequestParam(value = "name", required = true) String name,
                                      @RequestParam(value = "title", required = true) String title,
@@ -374,7 +375,8 @@ public class MainController {
         if(filmId == 0 || StringUtils.isBlank(name) || StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
             unifiedResponse.setMessage("参数错误，请重试!");
             unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
-            return "single?id=" + filmId + "&error=参数错误";
+//            return "single?id=" + filmId + "&error=参数错误";
+            return unifiedResponse;
         }
 
         Comment comment = new Comment();
@@ -388,7 +390,8 @@ public class MainController {
 
         unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
         unifiedResponse.setMessage("保存成功");
-        return "redirect:/single?id=" + filmId;
+//        return "redirect:/single?id=" + filmId;
+        return unifiedResponse;
     }
 
     /**
@@ -400,7 +403,8 @@ public class MainController {
      * @return
      */
     @RequestMapping("singlepage_save_comment")
-    public String saveComment4SinglePage(
+    @ResponseBody
+    public UnifiedResponse saveComment4SinglePage(
             @RequestParam(value = "film_id", required = true) long filmId,
             @RequestParam(value = "name", required = true) String name,
             @RequestParam(value = "title", required = true) String title,
@@ -411,7 +415,7 @@ public class MainController {
         if(filmId == 0 || StringUtils.isBlank(name) || StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
             unifiedResponse.setMessage("参数错误，请重试!");
             unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
-            return "single?id=" + filmId + "&error=参数错误";
+            return unifiedResponse;
         }
 
         Comment comment = new Comment();
@@ -425,7 +429,8 @@ public class MainController {
 
         unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
         unifiedResponse.setMessage("保存成功");
-        return "redirect:/singlepage?id=" + filmId;
+        return unifiedResponse;
+//        return "redirect:/singlepage?id=" + filmId;
     }
 
     @RequestMapping("json")

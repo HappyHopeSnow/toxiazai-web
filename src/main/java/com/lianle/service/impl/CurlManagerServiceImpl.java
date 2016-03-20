@@ -229,7 +229,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         keyWord.append(film.getDirector());
         keyWord.append(film.getPerformer());
         keyWord.append(film.getClass_name());
-        keyWord.append(film.getDescription());
+//        keyWord.append(film.getDescription());
 
         film.setKey_word(keyWord.toString());
     }

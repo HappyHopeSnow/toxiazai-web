@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by lianle on 2/13 0013.
  */
 @Repository
-public class UserDaoImplImpl extends BaseDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
 //    @Autowired
 //    private SessionFactory sessionFactory;

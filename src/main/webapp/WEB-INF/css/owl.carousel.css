@@ -23,13 +23,13 @@
 	height: 30px;
 }
 .owl-next{
-	background: url(../images/img-sprite.png) no-repeat -45px -94px;
+	background: url(../images/img-sprite2.png) no-repeat -45px -94px;
 	position: absolute;
 	right: -2%;
 	bottom: 19.5%;
 }
 .owl-prev{
-	background: url(../images/img-sprite.png) no-repeat -21px -94px;
+	background: url(../images/img-sprite2.png) no-repeat -21px -94px;
 	position: absolute;
 	left: -2%;
 	bottom: 19.5%;
