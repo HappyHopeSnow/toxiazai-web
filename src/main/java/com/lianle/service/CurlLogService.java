@@ -17,4 +17,9 @@ public interface CurlLogService {
      */
     CurlLog queryLast();
 
+    /**
+     * 更新数据
+     * @param curlLog
+     */
+    void update(CurlLog curlLog);
 }

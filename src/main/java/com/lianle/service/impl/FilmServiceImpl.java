@@ -105,6 +105,14 @@ public class FilmServiceImpl implements FilmService {
         return list;
     }
 
+    public Film queryByMaxId() {
+//        select * from curl_log order by create_time desc limit 1;
+        String hql = "FROM Film ORDER BY id DESC ";
+        String countHql = "SELECT COUNT(*) FROM Film ";
+        PageResults<Film> filmPageResults = dao.findPageByFetchedHql(hql, countHql, 1, 1, new Object[]{});
+        return filmPageResults.getResults().get(0);
+    }
+
     public List<Film> getAllFilms() {
         String hql = "FROM Film";
         List<Film> list = dao.getListByHQL(hql);

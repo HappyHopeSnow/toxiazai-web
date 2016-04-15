@@ -82,4 +82,11 @@ public interface FilmService {
      * @return
      */
     List<Film> queryInLongIds(Long[] ids);
+
+    /**
+     * 查询最大的id
+     * @return
+     */
+    Film queryByMaxId();
+
 }

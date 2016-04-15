@@ -2,10 +2,7 @@ package com.lianle.controller;
 
 import com.lianle.common.PageResults;
 import com.lianle.entity.*;
-import com.lianle.service.AdviceService;
-import com.lianle.service.CurlLogService;
-import com.lianle.service.CurlManagerService;
-import com.lianle.service.IndexConfigService;
+import com.lianle.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +42,9 @@ public class AdminController {
 
     @Autowired
     AdviceService adviceService;
+
+    @Autowired
+    FilmService filmService;
 
     @RequestMapping(method = RequestMethod.GET, value = "curl")
     @ResponseBody
@@ -180,6 +180,35 @@ public class AdminController {
         unifiedResponse.setAttachment(resultList);
         unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
         unifiedResponse.setMessage("查询成功！");
+        return unifiedResponse;
+    }
+
+    /**
+     * 抓取失败，进行容错
+     * @return
+     */
+    @RequestMapping("check")
+    @ResponseBody
+    public UnifiedResponse check() {
+        LOGGER.info("Start check the dataBase[" + new Date() + "]");
+        Long startTime = System.currentTimeMillis();
+        //从数据库中读取上次抓取的最大的pid
+        UnifiedResponse unifiedResponse = new UnifiedResponse();
+
+        //select * from film order by id desc limit 1;
+        Film film = filmService.queryByMaxId();
+
+        //select * from curl_log order by create_time desc limit 1;
+        CurlLog curlLog = curlLogService.queryLast();
+
+        if (film != null && curlLog != null && Long.parseLong(film.getParent_id()) > curlLog.getEnd_id()) {
+            //有异常需要更新
+            //update curl_log set end_id = film.getId() where id = curl_log.getId();
+            curlLog.setEnd_id(film.getId());
+            curlLogService.update(curlLog);
+        }
+
+        LOGGER.info("End check the dataBase,and it costs [" + (System.currentTimeMillis() - startTime) + "]毫秒!");
         return unifiedResponse;
     }
 

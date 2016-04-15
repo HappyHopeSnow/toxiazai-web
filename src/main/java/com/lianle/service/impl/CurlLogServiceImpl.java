@@ -32,4 +32,8 @@ public class CurlLogServiceImpl implements CurlLogService {
         }
         return list.get(0);
     }
+
+    public void update(CurlLog curlLog) {
+        dao.update(curlLog);
+    }
 }
