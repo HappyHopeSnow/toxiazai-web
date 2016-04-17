@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +35,7 @@ public class CurlLogServiceImpl implements CurlLogService {
     }
 
     public void update(CurlLog curlLog) {
-        dao.update(curlLog);
+        String hql = "update CurlLog set end_id=? where id=?";
+        dao.queryHql(hql, new Object[]{curlLog.getEnd_id(), curlLog.getId()});
     }
 }

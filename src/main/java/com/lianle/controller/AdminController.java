@@ -204,8 +204,9 @@ public class AdminController {
         if (film != null && curlLog != null && Long.parseLong(film.getParent_id()) > curlLog.getEnd_id()) {
             //有异常需要更新
             //update curl_log set end_id = film.getId() where id = curl_log.getId();
-            curlLog.setEnd_id(film.getId());
+            curlLog.setEnd_id(Long.valueOf(film.getParent_id()));
             curlLogService.update(curlLog);
+            unifiedResponse.setAttachment(curlLog);
         }
 
         LOGGER.info("End check the dataBase,and it costs [" + (System.currentTimeMillis() - startTime) + "]毫秒!");

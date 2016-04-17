@@ -45,10 +45,10 @@
 						<a href="index.html"><img src="$URL/logo.png" alt="" ></a>
 					</div>
 					<div class="search">
-						<form action="search.html">
-							<input type="text" name="key" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
-							<input type="submit" value="搜索">
-						</form>
+						<!--	<form action="search">-->
+						<input id="key" name="key" type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}" >
+						<input type="submit" value="搜索" id="search">
+						<!--	</form>-->
 					</div>
 					<div class="clearfix"> </div>
 				</div>
@@ -137,6 +137,21 @@
 						});
 					</script>
 				<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+	<script type="text/javascript">
+		function searchHandler(){
+			var key = $("#key").val();
+			key = encodeURI(key);
+			key = encodeURI(key);
+			if (key == "") {
+				alert("请填写关键字!");
+				return;
+			}
+			window.open("/search.html?key=" + key);
+		}
+		$(function(){
+			$(document).on("click", "#search", searchHandler);
+		})
+	</script>
 </div>
 </body>
 </html>

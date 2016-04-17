@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -348,6 +352,11 @@ public class MainController {
                          @RequestParam(value = "no", required = false, defaultValue = "1") int pageNo,
                          ModelMap model) {
 
+        try {
+            key = URLDecoder.decode(key, "utf8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         PageResults<Film> filmList = filmService.search(key, pageNo, pageSize);
 
         model.addAttribute("filmList", filmList.getResults());

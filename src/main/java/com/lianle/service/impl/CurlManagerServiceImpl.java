@@ -324,7 +324,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
         //获取简介
         String content = pList[2];
-        content = content.substring(0, content.length() - 4);
+        content = content.substring(0, content.length() - 5);
         film.setDescription(content);
 
         return afterSavedPerformers;
