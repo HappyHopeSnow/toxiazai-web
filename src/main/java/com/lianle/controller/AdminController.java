@@ -213,5 +213,33 @@ public class AdminController {
         return unifiedResponse;
     }
 
+    /**
+     * 设置end_id
+     * @return
+     */
+    @RequestMapping("set_end_id")
+    @ResponseBody
+    public UnifiedResponse setEndId(@RequestParam(value = "endId", required = true) long endId,
+                                    @RequestParam(value = "key", required = true) String key) {
+
+        UnifiedResponse unifiedResponse = new UnifiedResponse();
+        if (!"lianle".equals(key)) {
+            unifiedResponse.setMessage("key is not right, please tell the administrator !!");
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
+            return unifiedResponse;
+        }
+        //select * from curl_log order by create_time desc limit 1;
+        CurlLog curlLog = curlLogService.queryLast();
+
+        //update curl_log set end_id = endId where id = curl_log.getId();
+        curlLog.setEnd_id(endId);
+        curlLogService.update(curlLog);
+        unifiedResponse.setMessage("Update Success!!");
+        unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
+        unifiedResponse.setAttachment(curlLog);
+
+        return unifiedResponse;
+    }
+
 
 }
