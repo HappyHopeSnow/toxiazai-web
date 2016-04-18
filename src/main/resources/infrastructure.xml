@@ -59,13 +59,13 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" >
+   <!-- <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" >
         <property name="sessionFactory" ref="sessionFactory"  />
     </bean>
     <tx:advice id="txAdvice" transaction-manager="txManager" >
-        <!-- the transactional semantics... -->
+        &lt;!&ndash; the transactional semantics... &ndash;&gt;
         <tx:attributes >
-            <!-- all methods starting with 'get' are read-only -->
+            &lt;!&ndash; all methods starting with 'get' are read-only &ndash;&gt;
             <tx:method name="approve*" read-only="false"
                        propagation="REQUIRED" rollback-for="java.lang.Exception" />
             <tx:method name="update*" read-only="false"
@@ -74,14 +74,14 @@
                        propagation="REQUIRED" rollback-for="java.lang.Exception"/>
             <tx:method name="delete*" read-only="false"
                        propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <!-- other methods use the default transaction settings (see below) -->
+            &lt;!&ndash; other methods use the default transaction settings (see below) &ndash;&gt;
             <tx:method name="*" read-only="true" propagation="REQUIRED" />
         </tx:attributes>
     </tx:advice>
     <aop:config>
         <aop:pointcut id="allManagerMethod" expression="execution (* com.lianle.*.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod"/>
-    </aop:config>
+    </aop:config>-->
 
 
 

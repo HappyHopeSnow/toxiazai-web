@@ -113,11 +113,27 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         String[] filmResult = filmName.split("]");
 
         //根据标题名称进行分类
-        filmName = filmResult[0].substring(1, filmResult[0].length());
-        String formatName = filmResult[1].substring(1, filmResult[1].length());
-        String size = filmResult[2].substring(1, filmResult[2].length());
-        String downModel = filmResult[3].substring(1, filmResult[3].length());
-        String captionsType = filmResult[4].substring(1, filmResult[4].length());
+
+        String formatName;
+        String size = "";
+        String downModel;
+        String captionsType;
+
+        if (filmResult.length > 0 && filmResult.length > 4) {
+            //[史努比：花生大电影][BluRay-720P.MP4][1.6G][BT下载][中英字幕]
+            filmName = filmResult[0].substring(1, filmResult[0].length());
+            formatName = filmResult[1].substring(1, filmResult[1].length());
+            size = filmResult[2].substring(1, filmResult[2].length());
+            downModel = filmResult[3].substring(1, filmResult[3].length());
+            captionsType = filmResult[4].substring(1, filmResult[4].length());
+        }else {
+            //[帝国陷落][BD-MKV/3.6G][高清种子][中文字幕]
+            filmName = filmResult[0].substring(1, filmResult[0].length());
+            formatName = filmResult[1].substring(1, filmResult[1].length());
+            downModel = filmResult[2].substring(1, filmResult[3].length());
+            captionsType = filmResult[3].substring(1, filmResult[4].length());
+        }
+
 
         //format_id
         processFormat(film, formatName);
