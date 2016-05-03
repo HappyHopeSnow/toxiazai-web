@@ -89,7 +89,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         film.setUid(user.getId());
 
         //调用链接，保存文件
-        String url = "http://5280bt.com/" + 831 + ".html";
+        String url = "http://5280bt.com/" + parentId + ".html";
         LOGGER.info("The URL is [" + url + "]");
 
         //访问url
