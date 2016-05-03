@@ -89,7 +89,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         film.setUid(user.getId());
 
         //调用链接，保存文件
-        String url = "http://5280bt.com/" + parentId + ".html";
+        String url = "http://5280bt.com/" + 831 + ".html";
         LOGGER.info("The URL is [" + url + "]");
 
         //访问url
@@ -114,10 +114,10 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
         //根据标题名称进行分类
 
-        String formatName;
+        String formatName = "";
         String size = "";
-        String downModel;
-        String captionsType;
+        String downModel = "";
+        String captionsType = "";
 
         if (filmResult.length > 0 && filmResult.length > 4) {
             //[史努比：花生大电影][BluRay-720P.MP4][1.6G][BT下载][中英字幕]
@@ -126,12 +126,16 @@ public class CurlManagerServiceImpl implements CurlManagerService {
             size = filmResult[2].substring(1, filmResult[2].length());
             downModel = filmResult[3].substring(1, filmResult[3].length());
             captionsType = filmResult[4].substring(1, filmResult[4].length());
-        }else {
+        }else if (filmResult.length > 0 && filmResult.length == 4){
             //[帝国陷落][BD-MKV/3.6G][高清种子][中文字幕]
             filmName = filmResult[0].substring(1, filmResult[0].length());
             formatName = filmResult[1].substring(1, filmResult[1].length());
-            downModel = filmResult[2].substring(1, filmResult[3].length());
-            captionsType = filmResult[3].substring(1, filmResult[4].length());
+            downModel = filmResult[2].substring(1, filmResult[2].length());
+            captionsType = filmResult[3].substring(1, filmResult[3].length());
+        }else if (filmResult.length > 0 && filmResult.length == 1) {
+            //泰坦尼克号_泰坦尼克号免费灾难电影BT高清种子下载
+            filmName = filmResult[0].substring(1, filmResult[0].length());
+
         }
 
 
@@ -341,6 +345,9 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         //获取简介
         String content = pList[2];
         content = content.substring(0, content.length() - 5);
+        if (content.length() > 2048) {
+            content = content.split("</p>")[0];
+        }
         film.setDescription(content);
 
         return afterSavedPerformers;
