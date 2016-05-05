@@ -134,7 +134,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
             captionsType = filmResult[3].substring(1, filmResult[3].length());
         }else if (filmResult.length > 0 && filmResult.length == 1) {
             //泰坦尼克号_泰坦尼克号免费灾难电影BT高清种子下载
-            filmName = filmResult[0].substring(1, filmResult[0].length());
+            filmName = filmResult[0].substring(0, filmResult[0].length());
 
         }
 
