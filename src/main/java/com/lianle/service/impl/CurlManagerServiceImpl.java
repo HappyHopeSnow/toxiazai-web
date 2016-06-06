@@ -89,7 +89,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         film.setUid(user.getId());
 
         //调用链接，保存文件
-        String url = "http://5280bt.com/" + parentId + ".html";
+       String url = "http://5280bt.com/" + parentId + ".html";
         LOGGER.info("The URL is [" + url + "]");
 
         //访问url
@@ -105,11 +105,11 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         film.setParent_id(parentId);
         saveFile(result, parentId);
 
+
         /**进行存储操作**/
         //正则匹配,并保存电影基本信息
         String filmName = mathFilmName(result);
-        LOGGER.info("********* Film title is[" + parentId + "]");
-        filmName = filmName.split(" ")[8];
+        LOGGER.info("********* Film title is[" + filmName + "]");
         String[] filmResult = filmName.split("]");
 
         //根据标题名称进行分类
@@ -426,7 +426,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
      * @return
      */
     private String getBodyContentByIndex(String[] bodyResult, int index) {
-        return bodyResult[index].substring(4, bodyResult[index].length());
+        return bodyResult[index].substring(3, bodyResult[index].length());
     }
 
     /**
@@ -454,6 +454,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         Matcher m = Pattern.compile("src=\"http://.*?\"").matcher(result);
         int pCount = 0;
         List<String> pList = new ArrayList<String>(3);
+        List<String> resultList = new ArrayList<String>(3);
         while(m.find()){
             String match=m.group();
             //Pattern.CASE_INSENSITIVE忽略'jpg'的大小写
@@ -461,19 +462,25 @@ public class CurlManagerServiceImpl implements CurlManagerService {
             if(k.find()){
                 pList.add(match.substring(5, match.length() -1));
                 pCount ++;
-                if (pCount == 3) {
+                if (pCount == 7) {
                     break;
                 }
             }
         }
-        System.out.println("plist is \n" + pList);
-        return pList;
+        resultList.add(pList.get(pList.size() - 3));
+        resultList.add(pList.get(pList.size() - 2));
+        resultList.add(pList.get(pList.size() - 1));
+        return resultList;
     }
 
     private String mathFilmName(String result) {
         //4.&&&&匹配电影名字
-        String filmNameRegex = "<h1>.*</h1>";
-        return RegexUtils.get(filmNameRegex, result);
+//        String filmNameRegex = "<h1>.*</h1>";
+//        return RegexUtils.get(filmNameRegex, result);
+
+        String filmNameRegex = "<span class=\"the_title\">.*]</span>";
+        result = RegexUtils.get(filmNameRegex, result);
+        return result.substring(24, result.length() - 7);
     }
 
     private void saveFile(String result, String fileName) {

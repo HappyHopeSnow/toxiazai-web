@@ -73,7 +73,7 @@ public class AdminController {
         }
         //每天抓取20个
         UnifiedResponse unifiedResponse = new UnifiedResponse();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 15; i++) {
             startId++;
             //抓取并返回下次的Pid;
             if (notCurlParentIds.contains(startId + "")) {
