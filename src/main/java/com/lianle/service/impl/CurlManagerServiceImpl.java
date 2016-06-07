@@ -108,7 +108,14 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
         /**进行存储操作**/
         //正则匹配,并保存电影基本信息
-        String filmName = mathFilmName(result);
+        String filmName = mathFilmName(result, parentId);
+        //校验是否能够正常访问
+        if (filmName == null) {
+            LOGGER.info("********* Film url of parentId is[" + parentId + "]; is null !please check it !");
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
+            unifiedResponse.setMessage("parentId所在的url链接[" + url + "]未抓取到数据，请检查！");
+            return unifiedResponse;
+        }
         LOGGER.info("********* Film title is[" + filmName + "]");
         String[] filmResult = filmName.split("]");
 
@@ -473,14 +480,21 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         return resultList;
     }
 
-    private String mathFilmName(String result) {
+    private String mathFilmName(String result, String parentId) {
         //4.&&&&匹配电影名字
 //        String filmNameRegex = "<h1>.*</h1>";
 //        return RegexUtils.get(filmNameRegex, result);
 
         String filmNameRegex = "<span class=\"the_title\">.*]</span>";
         result = RegexUtils.get(filmNameRegex, result);
-        return result.substring(24, result.length() - 7);
+        if (result == null) {
+            //错误信息
+            LOGGER.error("This ParentId [" + parentId + "] is null, please check it !");
+            return null;
+        }else {
+            return result.substring(24, result.length() - 7);
+        }
+
     }
 
     private void saveFile(String result, String fileName) {

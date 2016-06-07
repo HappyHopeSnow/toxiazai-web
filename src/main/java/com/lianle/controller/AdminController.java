@@ -71,7 +71,7 @@ public class AdminController {
             newCurlLog.setStart_id(oldCurlLog.getEnd_id());
             startId = oldCurlLog.getEnd_id() + 1;
         }
-        //每天抓取20个
+        //每天抓取15个
         UnifiedResponse unifiedResponse = new UnifiedResponse();
         for (int i = 0; i < 15; i++) {
             startId++;
