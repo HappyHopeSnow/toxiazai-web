@@ -26,6 +26,8 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
     private static final Logger LOGGER = LogManager.getLogger(CurlManagerServiceImpl.class);
 
+    private static final String LOG_PREFIX = "[lianle_toxiazai_**************]";
+
     private static final String saveResourcePath;
     static {
         String osName = System.getProperty("os.name");
@@ -90,7 +92,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
         //调用链接，保存文件
        String url = "http://5280bt.com/" + parentId + ".html";
-        LOGGER.info("The URL is [" + url + "]");
+        LOGGER.info(LOG_PREFIX + "The URL is [" + url + "]");
 
         //访问url
         String result = postUrl(url);
@@ -111,12 +113,12 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         String filmName = mathFilmName(result, parentId);
         //校验是否能够正常访问
         if (filmName == null) {
-            LOGGER.info("********* Film url of parentId is[" + parentId + "]; is null !please check it !");
+            LOGGER.info(LOG_PREFIX + "********* Film url of parentId is[" + parentId + "]; is null !please check it !");
             unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
             unifiedResponse.setMessage("parentId所在的url链接[" + url + "]未抓取到数据，请检查！");
             return unifiedResponse;
         }
-        LOGGER.info("********* Film title is[" + filmName + "]");
+        LOGGER.info(LOG_PREFIX + "********* Film title is[" + filmName + "]");
         String[] filmResult = filmName.split("]");
 
         //根据标题名称进行分类
@@ -188,7 +190,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         //下载种子文件
         //获取种子名字
         if (torrentUrl == null) {
-            LOGGER.info("May Be this torrent Url prefix is not .torrent, continue it!!!!!");
+            LOGGER.info(LOG_PREFIX + "May Be this torrent Url prefix is not .torrent, continue it!!!!!");
             unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
             unifiedResponse.setMessage("May Be this torrent Url prefix is not .torrent, continue it, the url is [" + url + "]！");
             return unifiedResponse;
@@ -485,11 +487,11 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 //        String filmNameRegex = "<h1>.*</h1>";
 //        return RegexUtils.get(filmNameRegex, result);
 
-        String filmNameRegex = "<span class=\"the_title\">.*]</span>";
+        String filmNameRegex = "<span class=\"the_title\">.*?</span>";
         result = RegexUtils.get(filmNameRegex, result);
         if (result == null) {
             //错误信息
-            LOGGER.error("This ParentId [" + parentId + "] is null, please check it !");
+            LOGGER.error(LOG_PREFIX + "This ParentId [" + parentId + "] is null, please check it !");
             return null;
         }else {
             return result.substring(24, result.length() - 7);
@@ -499,15 +501,15 @@ public class CurlManagerServiceImpl implements CurlManagerService {
 
     private void saveFile(String result, String fileName) {
         fileName = saveResourcePath + fileName + ".html";
-        LOGGER.debug("Begin save the url result to the file path [" + fileName + "]!");
+        LOGGER.debug(LOG_PREFIX + "Begin save the url result to the file path [" + fileName + "]!");
         //保存字符串到文件中
         FileUtils.createNewFile(fileName, result);
-        LOGGER.debug("end save the url result to the file path [" + fileName + "]!");
+        LOGGER.debug(LOG_PREFIX + "end save the url result to the file path [" + fileName + "]!");
     }
 
 
     private String postUrl(String url) {
-        LOGGER.debug("start to down file by the link : [" + url + "] !");
+        LOGGER.debug(LOG_PREFIX + "start to down file by the link : [" + url + "] !");
         //简单调用
         String resp = null;
         try {
@@ -515,7 +517,7 @@ public class CurlManagerServiceImpl implements CurlManagerService {
         } catch (HttpProcessException e) {
             e.printStackTrace();
         }
-        LOGGER.debug("end to down file by the link : [" + url + "] !");
+        LOGGER.debug(LOG_PREFIX + "end to down file by the link : [" + url + "] !");
         return resp;
     }
 }
