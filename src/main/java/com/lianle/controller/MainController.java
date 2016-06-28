@@ -66,6 +66,9 @@ public class MainController {
     @Autowired
     IndexConfigService indexConfigService;
 
+    @Autowired
+    StudentService studentService;
+
     /**
      * 默认首页
      * @return
@@ -442,10 +445,76 @@ public class MainController {
 //        return "redirect:/singlepage?id=" + filmId;
     }
 
-    @RequestMapping("json")
+    /*****************************************************************************************************************************/
+    /***********************************            老婆测试代码          *********************************************************/
+    /*****************************************************************************************************************************/
+    /**
+     * 插入学生表
+     * @param name 姓名
+     * @param gender 性别
+     * @param phone 电话
+     * @param age 年龄
+     * @param birthday 生日
+     * @param number 学号
+     * @return
+     */
+    @RequestMapping("insert_student")
     @ResponseBody
-    public List<User> json(){
-        return userService.getAllUsernames();
+    public UnifiedResponse saveStudent(
+            @RequestParam(value = "name", required = false, defaultValue = "") String name,
+            @RequestParam(value = "gender", required = false, defaultValue = "") String gender,
+            @RequestParam(value = "phone", required = false, defaultValue = "") String phone,
+            @RequestParam(value = "age", required = false, defaultValue = "0") int age,
+            @RequestParam(value = "birthday", required = false, defaultValue = "") String birthday,
+            @RequestParam(value = "number", required = false, defaultValue = "") String number){
+
+        UnifiedResponse unifiedResponse = new UnifiedResponse();
+
+        //参数不能为空
+        if ("".equals(name) || "".equals(gender) || "".equals(birthday) || "".equals(number)) {
+            String msg = "请填写正确的参数(name,gender,birthday,number)!";
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
+            unifiedResponse.setMessage(msg);
+            return unifiedResponse;
+        }
+
+        //电话必须是11位；
+        if (null == phone || "".equals(phone) || phone.length() != 11) {
+            String msg = "请填写正确的电话号码(phone),电话号码不为空，且不必须是11位!";
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
+            unifiedResponse.setMessage(msg);
+            return unifiedResponse;
+        }
+
+        //年龄必须在15到30之间
+        if ("".equals(age) || age <15 || age > 30) {
+            String msg = "请填写正确的年龄(age),年龄不为空，并且年龄必须在15到30之间!";
+            unifiedResponse.setStatus(UnifiedResponseCode.RC_ERROR);
+            unifiedResponse.setMessage(msg);
+            return unifiedResponse;
+        }
+
+        Student student = new Student();
+        student.setName(name);
+        student.setGender(gender);
+        student.setPhone(phone);
+        student.setAge(age);
+        student.setBirthday(birthday);
+        student.setNumber(number);
+        student.setStatus(10);
+        Date now = new Date();
+        student.setCreate_time(now);
+        student.setModify_time(now);
+
+        //正常数据，保存
+        studentService.save(student);
+
+        unifiedResponse.setStatus(UnifiedResponseCode.RC_SUCC);
+        unifiedResponse.setMessage("保存成功");
+        return unifiedResponse;
     }
 
+
+
 }
+

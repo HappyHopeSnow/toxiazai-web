@@ -1,7 +1,9 @@
 package com.tgb.ccl.http;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,6 +18,10 @@ import com.lianle.utils.http.httpclient.HttpClientUtil;
 import com.lianle.utils.http.httpclient.builder.HCB;
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.message.BasicHeader;
+
+import javax.servlet.http.Cookie;
 
 
 /** 
@@ -128,8 +134,32 @@ public class HttpClientTest {
 	        //(9564+8250+8038+7604+8401)/5=41 857/5=8 371.4--150
 	        //(9803+8244+8188+8378+8188)/5=42 801/5= 8 560.2---150
 	}
-	
-	 static class GetRunnable implements Runnable {
+
+	public static String getCookies() {
+//		StringBuilder sb = new StringBuilder();
+//		List<Cookie> cookies = (HttpClient).getCookieStore().getCookies();
+//		for(Cookie cookie: cookies)
+//			sb.append(cookie.getName() + "=" + cookie.getValue() + ";");
+
+		// 除了HttpClient自带的Cookie，自己还可以增加自定义的Cookie
+		// 增加代码...
+//		BDTUJIAID	21352e5eda71f0e6204569cd9a9d1f46
+//		CNZZDATA1254127517	1274363549-1459903629-%7C1466488026
+//		Hm_lpvt_9b3769d0fcdb1ca4240f4e7c28ec5e5b	1466488169
+//		Hm_lvt_9b3769d0fcdb1ca4240f4e7c28ec5e5b	1466479345
+//		comment_author_email_f3d2c91610645e7b00d12d43ffa5b343	123%40163.com
+//		comment_author_f3d2c91610645e7b00d12d43ffa5b343	123
+//		wordpress_logged_in_f3d2c91610645e7b00d12d43ffa5b343	anglebluesnow%7C1467697766%7Cf0db0ad47c5fd85084ba99bdf39d1ef3	N/A	N/A	N/A	116
+//		wordpress_test_cookie	WP+Cookie+check
+//		wp-settings-1517	mfold%3Do%26cats%3Dpop
+//		wp-settings-time-1517	1466479696
+//		wp_share_4251	4251
+
+//		return sb.toString();
+		return null;
+	}
+
+	static class GetRunnable implements Runnable {
 	        private CountDownLatch countDownLatch;
 	        private String url;
 	        private Header[] headers;
@@ -166,7 +196,8 @@ public class HttpClientTest {
 	public static void main(String[] args) throws Exception {
 //		testOne();
 //		testMutilTask();
-		testTwo();
+//		testTwo();
+		testThree();
 	}
 
 	private static void testTwo() throws Exception {
@@ -284,6 +315,44 @@ public class HttpClientTest {
 		String torrentName = torrentUrlStr[torrentUrlStr.length - 1];
 		//9.&&&&下载链接种子
 		FileUtils.downloadFile(torrentUrl, "d:\\\\" + torrentName);
+
+	}
+
+	public static void testThree() {
+		System.out.println("start http post...");
+//		Request URL:http://5280bt.com/wp-comments-post.php
+//		comment:这个不错嘛。
+//		submit:提交
+//		comment_post_ID:1566
+//		comment_parent:0
+//		akismet_comment_nonce:85f8935818
+//		ak_js:1466480393564
+
+
+		String url = "http://5280bt.com/wp-comments-post.php";
+
+		Map<String, Object> param = new HashMap();
+		param.put("comment", "哈哈下载看看");
+		param.put("submit", "提交");
+		param.put("comment_post_ID", "1566");
+		param.put("comment_parent", "0");
+		param.put("akismet_comment_nonce", "85f8935818");
+		param.put("ak_js", "1466480393564");
+
+		//cookie
+
+//		Cookie cookie = new Cookie();
+
+		Header[] headers = null;
+		headers[0] = new BasicHeader("Referer", "www.5280bt.com");
+		headers[1] = new BasicHeader("Cookie", getCookies());
+
+		try {
+			String response = HttpClientUtil.post(url, param, headers, "utf-8");
+			System.out.println("response [" + response + "]");
+		} catch (HttpProcessException e) {
+			e.printStackTrace();
+		}
 
 	}
 
